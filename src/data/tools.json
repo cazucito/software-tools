@@ -1,6 +1,31 @@
 {
   "tools": [
     {
+      "name": "IntelliJ IDEA",
+      "slug": "intellij-idea",
+      "year": 2007,
+      "decade": "2000s",
+      "category": "editor",
+      "tags": [
+        "ide",
+        "java",
+        "jetbrains",
+        "refactoring",
+        "productivity"
+      ],
+      "image": null,
+      "context": "El IDE que me hizo dejar Eclipse después de 8 años. Cuando probé el refactoring automático supe que no volvería atrás.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "eclipse",
+        "netbeans-8-2",
+        "vscode"
+      ],
+      "published": true
+    },
+    {
       "name": "Chi Writer",
       "slug": "chi-writer",
       "year": 1995,
@@ -19,17 +44,117 @@
       "successor": "LaTeX",
       "successorSlug": "latex",
       "related": [
-        "dos-6-22",
-        "word-perfect"
+        "ms-dos-5-1",
+        "turbo-c",
+        "bannermania"
+      ],
+      "published": true
+    },
+    {
+      "name": "BannerMania",
+      "slug": "bannermania",
+      "year": 1993,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "ascii-art",
+        "text-graphics",
+        "dos",
+        "banners",
+        "fun"
+      ],
+      "image": null,
+      "context": "El programa para hacer banners ASCII que usaba en todas las impresiones de la facultad. Mi firma digital antes de que existiera la firma digital.",
+      "usedUntil": 1996,
+      "successor": "Figlet",
+      "successorSlug": "figlet",
+      "related": [
+        "ms-dos-5-1",
+        "chi-writer"
+      ],
+      "published": true
+    },
+    {
+      "name": "Turbo C",
+      "slug": "turbo-c",
+      "year": 1992,
+      "decade": "1990s",
+      "category": "lenguaje",
+      "tags": [
+        "c",
+        "dos",
+        "compiler",
+        "borland",
+        "ide"
+      ],
+      "image": null,
+      "context": "Mi primer entorno de desarrollo C. Aprendí punteros, memoria y estructuras en esa pantalla azul con texto amarillo.",
+      "usedUntil": 1996,
+      "successor": "Borland C++",
+      "successorSlug": "borland-cpp",
+      "related": [
+        "ms-dos-5-1",
+        "chi-writer"
+      ],
+      "published": true
+    },
+    {
+      "name": "MS-DOS 5.1",
+      "slug": "ms-dos-5-1",
+      "year": 1991,
+      "decade": "1990s",
+      "category": "os",
+      "tags": [
+        "dos",
+        "os",
+        "command-line",
+        "batch",
+        "memory-management"
+      ],
+      "image": null,
+      "context": "El sistema operativo donde aprendí que la computadora hace exactamente lo que le dices, no lo que quieres.",
+      "usedUntil": 1997,
+      "successor": "Windows 95",
+      "successorSlug": "windows-95",
+      "related": [
+        "turbo-c",
+        "chi-writer"
       ],
       "published": true
     }
   ],
   "tags": {
-    "dos": {
+    "ascii-art": {
       "count": 1,
       "tools": [
-        "chi-writer"
+        "bannermania"
+      ]
+    },
+    "text-graphics": {
+      "count": 1,
+      "tools": [
+        "bannermania"
+      ]
+    },
+    "dos": {
+      "count": 4,
+      "tools": [
+        "bannermania",
+        "chi-writer",
+        "ms-dos-5-1",
+        "turbo-c"
+      ]
+    },
+    "banners": {
+      "count": 1,
+      "tools": [
+        "bannermania"
+      ]
+    },
+    "fun": {
+      "count": 1,
+      "tools": [
+        "bannermania"
       ]
     },
     "scientific-writing": {
@@ -55,21 +180,110 @@
       "tools": [
         "chi-writer"
       ]
+    },
+    "ide": {
+      "count": 2,
+      "tools": [
+        "intellij-idea",
+        "turbo-c"
+      ]
+    },
+    "java": {
+      "count": 1,
+      "tools": [
+        "intellij-idea"
+      ]
+    },
+    "jetbrains": {
+      "count": 1,
+      "tools": [
+        "intellij-idea"
+      ]
+    },
+    "refactoring": {
+      "count": 1,
+      "tools": [
+        "intellij-idea"
+      ]
+    },
+    "productivity": {
+      "count": 1,
+      "tools": [
+        "intellij-idea"
+      ]
+    },
+    "os": {
+      "count": 1,
+      "tools": [
+        "ms-dos-5-1"
+      ]
+    },
+    "command-line": {
+      "count": 1,
+      "tools": [
+        "ms-dos-5-1"
+      ]
+    },
+    "batch": {
+      "count": 1,
+      "tools": [
+        "ms-dos-5-1"
+      ]
+    },
+    "memory-management": {
+      "count": 1,
+      "tools": [
+        "ms-dos-5-1"
+      ]
+    },
+    "c": {
+      "count": 1,
+      "tools": [
+        "turbo-c"
+      ]
+    },
+    "compiler": {
+      "count": 1,
+      "tools": [
+        "turbo-c"
+      ]
+    },
+    "borland": {
+      "count": 1,
+      "tools": [
+        "turbo-c"
+      ]
     }
   },
   "timeline": {
     "1990s": [
-      "chi-writer"
+      "bannermania",
+      "chi-writer",
+      "ms-dos-5-1",
+      "turbo-c"
+    ],
+    "2000s": [
+      "intellij-idea"
     ]
   },
   "categories": {
+    "tool": [
+      "bannermania"
+    ],
     "editor": [
-      "chi-writer"
+      "chi-writer",
+      "intellij-idea"
+    ],
+    "os": [
+      "ms-dos-5-1"
+    ],
+    "lenguaje": [
+      "turbo-c"
     ]
   },
   "meta": {
-    "generatedAt": "2026-04-11T15:54:16.414Z",
-    "totalTools": 1,
-    "totalPublished": 1
+    "generatedAt": "2026-04-11T16:29:34.041Z",
+    "totalTools": 5,
+    "totalPublished": 5
   }
 }
