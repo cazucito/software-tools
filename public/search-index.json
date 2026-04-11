@@ -1,0 +1,77 @@
+[
+  {
+    "name": "IntelliJ IDEA",
+    "slug": "intellij-idea",
+    "year": 2007,
+    "decade": "2000s",
+    "category": "editor",
+    "tags": [
+      "ide",
+      "java",
+      "jetbrains",
+      "refactoring",
+      "productivity"
+    ],
+    "context": "El IDE que me hizo dejar Eclipse después de 8 años. Cuando probé el refactoring automático supe que no volvería atrás."
+  },
+  {
+    "name": "Chi Writer",
+    "slug": "chi-writer",
+    "year": 1995,
+    "decade": "1990s",
+    "category": "editor",
+    "tags": [
+      "dos",
+      "scientific-writing",
+      "thesis",
+      "chinese-characters",
+      "word-processor"
+    ],
+    "context": "Editor científico usado para mi tesis de licenciatura, especialmente valioso por su manejo correcto de caracteres chinos."
+  },
+  {
+    "name": "BannerMania",
+    "slug": "bannermania",
+    "year": 1993,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "ascii-art",
+      "text-graphics",
+      "dos",
+      "banners",
+      "fun"
+    ],
+    "context": "El programa para hacer banners ASCII que usaba en todas las impresiones de la facultad. Mi firma digital antes de que existiera la firma digital."
+  },
+  {
+    "name": "Turbo C",
+    "slug": "turbo-c",
+    "year": 1992,
+    "decade": "1990s",
+    "category": "lenguaje",
+    "tags": [
+      "c",
+      "dos",
+      "compiler",
+      "borland",
+      "ide"
+    ],
+    "context": "Mi primer entorno de desarrollo C. Aprendí punteros, memoria y estructuras en esa pantalla azul con texto amarillo."
+  },
+  {
+    "name": "MS-DOS 5.1",
+    "slug": "ms-dos-5-1",
+    "year": 1991,
+    "decade": "1990s",
+    "category": "os",
+    "tags": [
+      "dos",
+      "os",
+      "command-line",
+      "batch",
+      "memory-management"
+    ],
+    "context": "El sistema operativo donde aprendí que la computadora hace exactamente lo que le dices, no lo que quieres."
+  }
+]
