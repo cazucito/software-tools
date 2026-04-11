@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import toolsData from '../../data/tools.json';
+
+const categoryLabels: Record<string, string> = {
+  editor: 'Editores & IDEs',
+  lenguaje: 'Lenguajes de programación',
+  database: 'Bases de datos',
+  infra: 'Infraestructura & DevOps',
+  framework: 'Frameworks',
+  tool: 'Herramientas',
+  os: 'Sistemas operativos',
+  other: 'Otros',
+};
+
+const categoryIcons: Record<string, string> = {
+  editor: '✏️',
+  lenguaje: '💻',
+  database: '🗄️',
+  infra: '☁️',
+  framework: '🏗️',
+  tool: '🛠️',
+  os: '🖥️',
+  other: '📦',
+};
+
+export function getStaticPaths() {
+  const { categories } = toolsData;
+  
+  return Object.keys(categories).map(category => ({
+    params: { category },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const { categories } = toolsData;
+
+const categoryTools = categories[category]
+  ?.map(slug => toolsData.tools.find(t => t.slug === slug))
+  .filter(Boolean)
+  .sort((a, b) => (b?.year || 0) - (a?.year || 0)) || [];
+---
+
+<Layout title={categoryLabels[category] || category} description={`Herramientas de ${categoryLabels[category] || category}`}>
+  <Header slot="header" />
+  
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-4">
+      <span class="text-4xl">{categoryIcons[category] || '📦'}</span>
+      <h1 class="text-3xl md:text-4xl font-bold text-white">
+        {categoryLabels[category] || category}
+      </h1>
+    </div>
+    
+    <p class="text-slate-400 mb-12">
+      {categoryTools.length} {categoryTools.length === 1 ? 'herramienta' : 'herramientas'} en esta categoría
+    </p>
+
+    <!-- Tools grid -->
+    {categoryTools.length > 0 ? (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categoryTools.map(tool => tool && (
+          <a 
+            href={`/tools/${tool.slug}`}
+            class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 transition-all hover:border-sky-500/50 group"
+          >
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="text-lg font-semibold text-white group-hover:text-sky-400 transition-colors">
+                {tool.name}
+              </h3>
+              <span class="text-sm text-slate-500 bg-slate-900 px-2 py-1 rounded">
+                {tool.year}
+              </span>
+            </div>
+            {tool.context && (
+              <p class="text-slate-400 text-sm line-clamp-3">
+                {tool.context}
+              </p>
+            )}
+            <div class="flex flex-wrap gap-2 mt-4">
+              {tool.tags.slice(0, 3).map(tag => (
+                <span class="text-xs text-slate-500 bg-slate-900 px-2 py-1 rounded">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-16">
+        <p class="text-slate-400">
+          No hay herramientas en esta categoría todavía.
+        </p>
+      </div>
+    )}
+
+    <!-- Otras categorías -->
+    <div class="mt-16 border-t border-slate-800 pt-12">
+      <h2 class="text-xl font-bold text-white mb-6">
+        Otras categorías
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {Object.entries(categoryLabels)
+          .filter(([cat]) => cat !== category && toolsData.categories[cat]?.length > 0)
+          .map(([cat, label]) => (
+            <a 
+              href={`/category/${cat}`}
+              class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-4 text-center transition-all hover:border-sky-500/50"
+            >
+              <span class="text-2xl block mb-2">{categoryIcons[cat]}</span>
+              <span class="text-sm text-slate-300">{label}</span>
+              <span class="text-xs text-slate-500 block mt-1">
+                {toolsData.categories[cat]?.length || 0} herramientas
+              </span>
+            </a>
+          ))}
+      </div>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</Layout>

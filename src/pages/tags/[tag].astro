@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import toolsData from '../../data/tools.json';
+
+export function getStaticPaths() {
+  const { tags } = toolsData;
+  
+  return Object.entries(tags).map(([tag, data]) => ({
+    params: { tag },
+    props: { tag, data },
+  }));
+}
+
+const { tag, data } = Astro.props;
+
+// Obtener detalles de las herramientas
+const toolDetails = data.tools.map(slug => {
+  return toolsData.tools.find(t => t.slug === slug);
+}).filter(Boolean).sort((a, b) => (b?.year || 0) - (a?.year || 0));
+---
+
+<Layout title={`Tag: ${tag}`} description={`Herramientas etiquetadas con ${tag}`}>
+  <Header slot="header" />
+  
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-8">
+      <a 
+        href="/tags"
+        class="text-slate-400 hover:text-sky-400 transition-colors"
+      >
+        Tags
+      </a>
+      <span class="text-slate-600">/</span>
+      <h1 class="text-3xl md:text-4xl font-bold text-white">
+        #{tag}
+      </h1>
+    </div>
+    
+    <p class="text-slate-400 mb-12">
+      {data.count} {data.count === 1 ? 'herramienta' : 'herramientas'} con esta etiqueta
+    </p>
+
+    <!-- Tools grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {toolDetails.map(tool => tool && (
+        <a 
+          href={`/tools/${tool.slug}`}
+          class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 transition-all hover:border-sky-500/50 group"
+        >
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-lg font-semibold text-white group-hover:text-sky-400 transition-colors">
+              {tool.name}
+            </h3>
+            <span class="text-sm text-slate-500 bg-slate-900 px-2 py-1 rounded">
+              {tool.year}
+            </span>
+          </div>
+          {tool.context && (
+            <p class="text-slate-400 text-sm line-clamp-3">
+              {tool.context}
+            </p>
+          )}
+          <div class="flex flex-wrap gap-2 mt-4">
+            {tool.tags
+              .filter(t => t !== tag)
+              .slice(0, 3)
+              .map(t => (
+                <span class="text-xs text-slate-500 bg-slate-900 px-2 py-1 rounded">
+                  #{t}
+                </span>
+              ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Navegación -->
+    <div class="mt-12 flex justify-between items-center border-t border-slate-800 pt-8">
+      <a 
+        href="/tags"
+        class="text-slate-400 hover:text-sky-400 flex items-center gap-2 transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Todos los tags
+      </a>
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</Layout>

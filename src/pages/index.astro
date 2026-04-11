@@ -2,11 +2,33 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getCollection } from '../utils/collection';
+import toolsData from '../data/tools.json';
 
-const tools = await getCollection('tools');
+const { tools, tags, timeline, categories } = toolsData;
 const publishedTools = tools.filter(t => t.published);
-const decades = [...new Set(publishedTools.map(t => t.decade))].sort();
+const decades = Object.keys(timeline).sort();
+
+const categoryLabels: Record<string, string> = {
+  editor: 'Editores & IDEs',
+  lenguaje: 'Lenguajes',
+  database: 'Bases de datos',
+  infra: 'Infraestructura',
+  framework: 'Frameworks',
+  tool: 'Herramientas',
+  os: 'Sistemas operativos',
+  other: 'Otros',
+};
+
+const categoryIcons: Record<string, string> = {
+  editor: '✏️',
+  lenguaje: '💻',
+  database: '🗄️',
+  infra: '☁️',
+  framework: '🏗️',
+  tool: '🛠️',
+  os: '🖥️',
+  other: '📦',
+};
 ---
 
 <Layout title="Inicio" description="Archivo histórico de herramientas utilizadas en 20+ años de docencia e ingeniería de software">
@@ -23,10 +45,13 @@ const decades = [...new Set(publishedTools.map(t => t.decade))].sort();
     </p>
     <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-500">
       <span class="bg-slate-800 px-3 py-1 rounded-full">
-        {publishedTools.length} herramientas documentadas
+        {publishedTools.length} herramientas
       </span>
       <span class="bg-slate-800 px-3 py-1 rounded-full">
         {decades.length} décadas
+      </span>
+      <span class="bg-slate-800 px-3 py-1 rounded-full">
+        {Object.keys(tags).length} tags
       </span>
     </div>
   </section>
@@ -39,6 +64,7 @@ const decades = [...new Set(publishedTools.map(t => t.decade))].sort();
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       {decades.map(decade => {
         const decadeTools = publishedTools.filter(t => t.decade === decade);
+        const startYear = parseInt(decade);
         return (
           <a 
             href={`/decade/${decade}`}
@@ -47,6 +73,9 @@ const decades = [...new Set(publishedTools.map(t => t.decade))].sort();
             <div class="text-3xl font-bold text-sky-400 mb-2">{decade}</div>
             <div class="text-slate-400 text-sm">
               {decadeTools.length} herramientas
+            </div>
+            <div class="text-slate-600 text-xs mt-1">
+              {startYear}-{startYear + 9}
             </div>
           </a>
         );
@@ -60,28 +89,51 @@ const decades = [...new Set(publishedTools.map(t => t.decade))].sort();
       Explorar por categoría
     </h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {['editor', 'lenguaje', 'database', 'infra'].map(cat => {
-        const catTools = publishedTools.filter(t => t.category === cat);
-        const labels: Record<string, string> = {
-          editor: 'Editores & IDEs',
-          lenguaje: 'Lenguajes',
-          database: 'Bases de datos',
-          infra: 'Infraestructura'
-        };
-        return (
+      {Object.entries(categories)
+        .filter(([, tools]) => tools.length > 0)
+        .map(([cat, catTools]) => (
           <a 
             href={`/category/${cat}`}
             class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 text-center transition-all hover:border-sky-500/50"
           >
-            <div class="text-lg font-semibold text-white mb-2">
-              {labels[cat] || cat}
+            <span class="text-3xl block mb-2">{categoryIcons[cat] || '📦'}</span>
+            <div class="text-lg font-semibold text-white mb-1">
+              {categoryLabels[cat] || cat}
             </div>
             <div class="text-slate-400 text-sm">
               {catTools.length} herramientas
             </div>
           </a>
-        );
-      })}
+        ))}
+    </div>
+  </section>
+
+  <!-- Popular Tags -->
+  <section class="py-12">
+    <h2 class="text-2xl font-bold text-white mb-8 text-center">
+      Tags populares
+    </h2>
+    <div class="flex flex-wrap justify-center gap-3">
+      {Object.entries(tags)
+        .sort(([,a], [,b]) => b.count - a.count)
+        .slice(0, 12)
+        .map(([tag, data]) => (
+          <a 
+            href={`/tags/${tag}`}
+            class="bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-sky-400 border border-slate-700 rounded-full px-4 py-2 transition-all hover:border-sky-500/50"
+          >
+            #{tag}
+            <span class="text-slate-500 text-sm ml-1">({data.count})</span>
+          </a>
+        ))}
+    </div>
+    <div class="text-center mt-6">
+      <a 
+        href="/tags" 
+        class="text-sky-400 hover:text-sky-300 text-sm"
+      >
+        Ver todos los tags →
+      </a>
     </div>
   </section>
 
