@@ -1,5 +1,50 @@
 [
   {
+    "name": "Kubernetes",
+    "slug": "kubernetes",
+    "year": 2015,
+    "decade": "2010s",
+    "category": "infra",
+    "tags": [
+      "kubernetes",
+      "k8s",
+      "containers",
+      "orchestration",
+      "devops"
+    ],
+    "context": "El estándar de orquestación de contenedores. Cuando Docker resolvió el empaquetado, Kubernetes resolvió el despliegue a escala. Cambió cómo pienso la infraestructura."
+  },
+  {
+    "name": "Visual Studio Code",
+    "slug": "visual-studio-code",
+    "year": 2015,
+    "decade": "2010s",
+    "category": "editor",
+    "tags": [
+      "vscode",
+      "microsoft",
+      "editor",
+      "open-source",
+      "electron"
+    ],
+    "context": "El editor que conquistó al mundo. Ligero, extensible, y gratuito. Pasó de ser el nuevo chico a ser el estándar de facto en pocos años. Mi editor principal desde entonces."
+  },
+  {
+    "name": "Docker",
+    "slug": "docker",
+    "year": 2013,
+    "decade": "2010s",
+    "category": "infra",
+    "tags": [
+      "docker",
+      "containers",
+      "devops",
+      "microservices",
+      "virtualization"
+    ],
+    "context": "La revolución de los contenedores. Empaquetar aplicaciones con todas sus dependencias y desplegarlas en cualquier lado. Cambió mi forma de desarrollar y desplegar software."
+  },
+  {
     "name": "IntelliJ IDEA",
     "slug": "intellij-idea",
     "year": 2007,
@@ -15,6 +60,96 @@
     "context": "El IDE que me hizo dejar Eclipse después de 8 años. Cuando probé el refactoring automático supe que no volvería atrás."
   },
   {
+    "name": "Oracle SQL Developer",
+    "slug": "oracle-sql-developer",
+    "year": 2006,
+    "decade": "2000s",
+    "category": "database",
+    "tags": [
+      "oracle",
+      "database",
+      "sql",
+      "plsql",
+      "ide"
+    ],
+    "context": "La herramienta oficial de Oracle para trabajar con sus bases de datos. Gratuita, completa, y el estándar durante mis años de docencia Oracle. Reemplazó a SQL*Plus para desarrollo."
+  },
+  {
+    "name": "Mozilla Firefox",
+    "slug": "mozilla-firefox",
+    "year": 2004,
+    "decade": "2000s",
+    "category": "tool",
+    "tags": [
+      "browser",
+      "mozilla",
+      "firefox",
+      "web",
+      "open-source"
+    ],
+    "context": "El navegador que rescató la web del monopolio de Internet Explorer. Extensiones, tabs, y el espíritu open source. Mi navegador principal durante más de una década."
+  },
+  {
+    "name": "Visual Studio",
+    "slug": "visual-studio",
+    "year": 2002,
+    "decade": "2000s",
+    "category": "editor",
+    "tags": [
+      "ide",
+      "microsoft",
+      "dotnet",
+      "c-sharp",
+      "windows"
+    ],
+    "context": "El IDE definitivo para desarrollo Microsoft. Cuando tuve que trabajar con C# y .NET, Visual Studio fue la única opción seria. Potente pero pesado."
+  },
+  {
+    "name": "Eclipse",
+    "slug": "eclipse",
+    "year": 2001,
+    "decade": "2000s",
+    "category": "editor",
+    "tags": [
+      "ide",
+      "java",
+      "ibm",
+      "open-source",
+      "plugins"
+    ],
+    "context": "Mi IDE de Java durante 8 años. De lo mejor del software libre, aunque eventualmente el peso de los plugins y la lentitud me hicieron buscar alternativas."
+  },
+  {
+    "name": "NetBeans",
+    "slug": "netbeans",
+    "year": 2000,
+    "decade": "2000s",
+    "category": "editor",
+    "tags": [
+      "ide",
+      "java",
+      "sun",
+      "oracle",
+      "open-source"
+    ],
+    "context": "El IDE oficial de Sun (luego Oracle). Usado intensivamente durante mis años de docencia de cursos Oracle. Maven integrado y soporte Java EE nativo."
+  },
+  {
+    "name": "VMware Workstation",
+    "slug": "vmware-workstation",
+    "year": 1999,
+    "decade": "1990s",
+    "category": "infra",
+    "tags": [
+      "virtualization",
+      "vmware",
+      "virtual-machine",
+      "x86",
+      "testing"
+    ],
+    "context": "La revolución de la virtualización x86. Correr Windows dentro de Windows, o Linux dentro de Windows, sin reiniciar. Cambió mi forma de probar software y sistemas operativos."
+  },
+  {
     "name": "Visual Basic 6.0",
     "slug": "visual-basic-6",
     "year": 1998,
@@ -28,6 +163,21 @@
       "gui"
     ],
     "context": "RAD (Rapid Application Development) en su máxima expresión. Arrastrar, soltar, y tener una aplicación Windows funcionando en minutos. Revolucionario para la época."
+  },
+  {
+    "name": "Electronic Workbench",
+    "slug": "electronic-workbench",
+    "year": 1996,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "circuit",
+      "simulation",
+      "electronics",
+      "spice",
+      "engineering"
+    ],
+    "context": "El laboratorio de electrónica virtual. Armaba circuitos en la pantalla, conectaba osciloscopios virtuales, y veía el comportamiento antes de soldar componentes reales."
   },
   {
     "name": "Norton Ghost",
@@ -71,6 +221,21 @@
       "word-processor"
     ],
     "context": "Editor científico usado para mi tesis de licenciatura, especialmente valioso por su manejo correcto de caracteres chinos."
+  },
+  {
+    "name": "Mathematica",
+    "slug": "mathematica",
+    "year": 1995,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "mathematica",
+      "symbolic",
+      "math",
+      "wolfram",
+      "algebra"
+    ],
+    "context": "Computación simbólica que parecía magia. Resolver integrales simbólicamente, simplificar expresiones algebraicas complejas, y obtener resultados exactos en lugar de aproximaciones numéricas."
   },
   {
     "name": "Netscape Navigator",
@@ -118,6 +283,21 @@
     "context": "Mi primer cliente de email serio. En tiempos donde Outlook no existía, Eudora era el estándar para gestionar correo electrónico por POP3."
   },
   {
+    "name": "MATLAB",
+    "slug": "matlab",
+    "year": 1994,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "matlab",
+      "math",
+      "engineering",
+      "simulation",
+      "matrix"
+    ],
+    "context": "El estándar para computación numérica en ingeniería. Resolví sistemas de ecuaciones, hice simulaciones y grafiqué funciones complejas sin escribir código de bajo nivel."
+  },
+  {
     "name": "BannerMania",
     "slug": "bannermania",
     "year": 1993,
@@ -147,6 +327,21 @@
       "objects"
     ],
     "context": "La evolución de Turbo Pascal con soporte para objetos. Aprendí programación orientada a objetos con este IDE azul legendaria."
+  },
+  {
+    "name": "Maple V",
+    "slug": "maple-v",
+    "year": 1993,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "maple",
+      "symbolic",
+      "math",
+      "waterloo",
+      "algebra"
+    ],
+    "context": "La alternativa canadiense a Mathematica. Más barata, más accesible, y con capacidades simbólicas comparables. Mi herramienta de matemáticas simbólicas preferida."
   },
   {
     "name": "Lotus 1-2-3",

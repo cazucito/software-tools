@@ -1,6 +1,79 @@
 {
   "tools": [
     {
+      "name": "Kubernetes",
+      "slug": "kubernetes",
+      "year": 2015,
+      "decade": "2010s",
+      "category": "infra",
+      "tags": [
+        "kubernetes",
+        "k8s",
+        "containers",
+        "orchestration",
+        "devops"
+      ],
+      "image": null,
+      "context": "El estándar de orquestación de contenedores. Cuando Docker resolvió el empaquetado, Kubernetes resolvió el despliegue a escala. Cambió cómo pienso la infraestructura.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "docker",
+        "vmware-workstation"
+      ],
+      "published": true
+    },
+    {
+      "name": "Visual Studio Code",
+      "slug": "visual-studio-code",
+      "year": 2015,
+      "decade": "2010s",
+      "category": "editor",
+      "tags": [
+        "vscode",
+        "microsoft",
+        "editor",
+        "open-source",
+        "electron"
+      ],
+      "image": null,
+      "context": "El editor que conquistó al mundo. Ligero, extensible, y gratuito. Pasó de ser el nuevo chico a ser el estándar de facto en pocos años. Mi editor principal desde entonces.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "intellij-idea",
+        "sublime-text",
+        "atom"
+      ],
+      "published": true
+    },
+    {
+      "name": "Docker",
+      "slug": "docker",
+      "year": 2013,
+      "decade": "2010s",
+      "category": "infra",
+      "tags": [
+        "docker",
+        "containers",
+        "devops",
+        "microservices",
+        "virtualization"
+      ],
+      "image": null,
+      "context": "La revolución de los contenedores. Empaquetar aplicaciones con todas sus dependencias y desplegarlas en cualquier lado. Cambió mi forma de desarrollar y desplegar software.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "vmware-workstation",
+        "kubernetes"
+      ],
+      "published": true
+    },
+    {
       "name": "IntelliJ IDEA",
       "slug": "intellij-idea",
       "year": 2007,
@@ -26,6 +99,150 @@
       "published": true
     },
     {
+      "name": "Oracle SQL Developer",
+      "slug": "oracle-sql-developer",
+      "year": 2006,
+      "decade": "2000s",
+      "category": "database",
+      "tags": [
+        "oracle",
+        "database",
+        "sql",
+        "plsql",
+        "ide"
+      ],
+      "image": null,
+      "context": "La herramienta oficial de Oracle para trabajar con sus bases de datos. Gratuita, completa, y el estándar durante mis años de docencia Oracle. Reemplazó a SQL*Plus para desarrollo.",
+      "usedUntil": 2018,
+      "successor": "DataGrip / VS Code extensions",
+      "successorSlug": "datagrip",
+      "related": [
+        "netbeans",
+        "oracle-database"
+      ],
+      "published": true
+    },
+    {
+      "name": "Mozilla Firefox",
+      "slug": "mozilla-firefox",
+      "year": 2004,
+      "decade": "2000s",
+      "category": "tool",
+      "tags": [
+        "browser",
+        "mozilla",
+        "firefox",
+        "web",
+        "open-source"
+      ],
+      "image": null,
+      "context": "El navegador que rescató la web del monopolio de Internet Explorer. Extensiones, tabs, y el espíritu open source. Mi navegador principal durante más de una década.",
+      "usedUntil": 2018,
+      "successor": "Google Chrome / Brave",
+      "successorSlug": "google-chrome",
+      "related": [
+        "netscape-navigator",
+        "internet-explorer"
+      ],
+      "published": true
+    },
+    {
+      "name": "Visual Studio",
+      "slug": "visual-studio",
+      "year": 2002,
+      "decade": "2000s",
+      "category": "editor",
+      "tags": [
+        "ide",
+        "microsoft",
+        "dotnet",
+        "c-sharp",
+        "windows"
+      ],
+      "image": null,
+      "context": "El IDE definitivo para desarrollo Microsoft. Cuando tuve que trabajar con C# y .NET, Visual Studio fue la única opción seria. Potente pero pesado.",
+      "usedUntil": 2010,
+      "successor": "Visual Studio Code",
+      "successorSlug": "visual-studio-code",
+      "related": [
+        "visual-basic-6",
+        "eclipse"
+      ],
+      "published": true
+    },
+    {
+      "name": "Eclipse",
+      "slug": "eclipse",
+      "year": 2001,
+      "decade": "2000s",
+      "category": "editor",
+      "tags": [
+        "ide",
+        "java",
+        "ibm",
+        "open-source",
+        "plugins"
+      ],
+      "image": null,
+      "context": "Mi IDE de Java durante 8 años. De lo mejor del software libre, aunque eventualmente el peso de los plugins y la lentitud me hicieron buscar alternativas.",
+      "usedUntil": 2009,
+      "successor": "IntelliJ IDEA",
+      "successorSlug": "intellij-idea",
+      "related": [
+        "netbeans",
+        "visual-studio"
+      ],
+      "published": true
+    },
+    {
+      "name": "NetBeans",
+      "slug": "netbeans",
+      "year": 2000,
+      "decade": "2000s",
+      "category": "editor",
+      "tags": [
+        "ide",
+        "java",
+        "sun",
+        "oracle",
+        "open-source"
+      ],
+      "image": null,
+      "context": "El IDE oficial de Sun (luego Oracle). Usado intensivamente durante mis años de docencia de cursos Oracle. Maven integrado y soporte Java EE nativo.",
+      "usedUntil": 2018,
+      "successor": "IntelliJ IDEA / VS Code",
+      "successorSlug": "intellij-idea",
+      "related": [
+        "eclipse",
+        "oracle-sql-developer"
+      ],
+      "published": true
+    },
+    {
+      "name": "VMware Workstation",
+      "slug": "vmware-workstation",
+      "year": 1999,
+      "decade": "1990s",
+      "category": "infra",
+      "tags": [
+        "virtualization",
+        "vmware",
+        "virtual-machine",
+        "x86",
+        "testing"
+      ],
+      "image": null,
+      "context": "La revolución de la virtualización x86. Correr Windows dentro de Windows, o Linux dentro de Windows, sin reiniciar. Cambió mi forma de probar software y sistemas operativos.",
+      "usedUntil": 2015,
+      "successor": "VMware Workstation Pro / VirtualBox",
+      "successorSlug": "virtualbox",
+      "related": [
+        "windows-95",
+        "norton-ghost"
+      ],
+      "published": true
+    },
+    {
       "name": "Visual Basic 6.0",
       "slug": "visual-basic-6",
       "year": 1998,
@@ -46,6 +263,30 @@
       "related": [
         "windows-95",
         "ms-access"
+      ],
+      "published": true
+    },
+    {
+      "name": "Electronic Workbench",
+      "slug": "electronic-workbench",
+      "year": 1996,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "circuit",
+        "simulation",
+        "electronics",
+        "spice",
+        "engineering"
+      ],
+      "image": null,
+      "context": "El laboratorio de electrónica virtual. Armaba circuitos en la pantalla, conectaba osciloscopios virtuales, y veía el comportamiento antes de soldar componentes reales.",
+      "usedUntil": 2000,
+      "successor": "Multisim",
+      "successorSlug": "multisim",
+      "related": [
+        "matlab",
+        "mathematica"
       ],
       "published": true
     },
@@ -117,6 +358,30 @@
         "ms-dos-5-1",
         "turbo-c",
         "bannermania"
+      ],
+      "published": true
+    },
+    {
+      "name": "Mathematica",
+      "slug": "mathematica",
+      "year": 1995,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "mathematica",
+        "symbolic",
+        "math",
+        "wolfram",
+        "algebra"
+      ],
+      "image": null,
+      "context": "Computación simbólica que parecía magia. Resolver integrales simbólicamente, simplificar expresiones algebraicas complejas, y obtener resultados exactos en lugar de aproximaciones numéricas.",
+      "usedUntil": 1998,
+      "successor": "Mathematica 3.0",
+      "successorSlug": "mathematica-3",
+      "related": [
+        "matlab",
+        "maple-v"
       ],
       "published": true
     },
@@ -193,6 +458,30 @@
       "published": true
     },
     {
+      "name": "MATLAB",
+      "slug": "matlab",
+      "year": 1994,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "matlab",
+        "math",
+        "engineering",
+        "simulation",
+        "matrix"
+      ],
+      "image": null,
+      "context": "El estándar para computación numérica en ingeniería. Resolví sistemas de ecuaciones, hice simulaciones y grafiqué funciones complejas sin escribir código de bajo nivel.",
+      "usedUntil": 2000,
+      "successor": "MATLAB R14",
+      "successorSlug": "matlab-r14",
+      "related": [
+        "mathematica",
+        "maple-v"
+      ],
+      "published": true
+    },
+    {
       "name": "BannerMania",
       "slug": "bannermania",
       "year": 1993,
@@ -238,6 +527,30 @@
       "related": [
         "turbo-c",
         "ms-dos-5-1"
+      ],
+      "published": true
+    },
+    {
+      "name": "Maple V",
+      "slug": "maple-v",
+      "year": 1993,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "maple",
+        "symbolic",
+        "math",
+        "waterloo",
+        "algebra"
+      ],
+      "image": null,
+      "context": "La alternativa canadiense a Mathematica. Más barata, más accesible, y con capacidades simbólicas comparables. Mi herramienta de matemáticas simbólicas preferida.",
+      "usedUntil": 1997,
+      "successor": "Maple 6",
+      "successorSlug": "maple-6",
+      "related": [
+        "mathematica",
+        "matlab"
       ],
       "published": true
     },
@@ -450,11 +763,15 @@
       ]
     },
     "ide": {
-      "count": 3,
+      "count": 7,
       "tools": [
         "borland-pascal-7",
+        "eclipse",
         "intellij-idea",
-        "turbo-c"
+        "netbeans",
+        "oracle-sql-developer",
+        "turbo-c",
+        "visual-studio"
       ]
     },
     "borland": {
@@ -500,6 +817,100 @@
         "chi-writer"
       ]
     },
+    "docker": {
+      "count": 1,
+      "tools": [
+        "docker"
+      ]
+    },
+    "containers": {
+      "count": 2,
+      "tools": [
+        "docker",
+        "kubernetes"
+      ]
+    },
+    "devops": {
+      "count": 2,
+      "tools": [
+        "docker",
+        "kubernetes"
+      ]
+    },
+    "microservices": {
+      "count": 1,
+      "tools": [
+        "docker"
+      ]
+    },
+    "virtualization": {
+      "count": 2,
+      "tools": [
+        "docker",
+        "vmware-workstation"
+      ]
+    },
+    "java": {
+      "count": 3,
+      "tools": [
+        "eclipse",
+        "intellij-idea",
+        "netbeans"
+      ]
+    },
+    "ibm": {
+      "count": 1,
+      "tools": [
+        "eclipse"
+      ]
+    },
+    "open-source": {
+      "count": 4,
+      "tools": [
+        "eclipse",
+        "mozilla-firefox",
+        "netbeans",
+        "visual-studio-code"
+      ]
+    },
+    "plugins": {
+      "count": 1,
+      "tools": [
+        "eclipse"
+      ]
+    },
+    "circuit": {
+      "count": 1,
+      "tools": [
+        "electronic-workbench"
+      ]
+    },
+    "simulation": {
+      "count": 2,
+      "tools": [
+        "electronic-workbench",
+        "matlab"
+      ]
+    },
+    "electronics": {
+      "count": 1,
+      "tools": [
+        "electronic-workbench"
+      ]
+    },
+    "spice": {
+      "count": 1,
+      "tools": [
+        "electronic-workbench"
+      ]
+    },
+    "engineering": {
+      "count": 2,
+      "tools": [
+        "electronic-workbench",
+        "matlab"
+      ]
+    },
     "email": {
       "count": 1,
       "tools": [
@@ -531,12 +942,6 @@
         "netscape-navigator"
       ]
     },
-    "java": {
-      "count": 1,
-      "tools": [
-        "intellij-idea"
-      ]
-    },
     "jetbrains": {
       "count": 1,
       "tools": [
@@ -553,6 +958,24 @@
       "count": 1,
       "tools": [
         "intellij-idea"
+      ]
+    },
+    "kubernetes": {
+      "count": 1,
+      "tools": [
+        "kubernetes"
+      ]
+    },
+    "k8s": {
+      "count": 1,
+      "tools": [
+        "kubernetes"
+      ]
+    },
+    "orchestration": {
+      "count": 1,
+      "tools": [
+        "kubernetes"
       ]
     },
     "spreadsheet": {
@@ -579,6 +1002,90 @@
         "lotus-1-2-3"
       ]
     },
+    "maple": {
+      "count": 1,
+      "tools": [
+        "maple-v"
+      ]
+    },
+    "symbolic": {
+      "count": 2,
+      "tools": [
+        "maple-v",
+        "mathematica"
+      ]
+    },
+    "math": {
+      "count": 3,
+      "tools": [
+        "maple-v",
+        "mathematica",
+        "matlab"
+      ]
+    },
+    "waterloo": {
+      "count": 1,
+      "tools": [
+        "maple-v"
+      ]
+    },
+    "algebra": {
+      "count": 2,
+      "tools": [
+        "maple-v",
+        "mathematica"
+      ]
+    },
+    "mathematica": {
+      "count": 1,
+      "tools": [
+        "mathematica"
+      ]
+    },
+    "wolfram": {
+      "count": 1,
+      "tools": [
+        "mathematica"
+      ]
+    },
+    "matlab": {
+      "count": 1,
+      "tools": [
+        "matlab"
+      ]
+    },
+    "matrix": {
+      "count": 1,
+      "tools": [
+        "matlab"
+      ]
+    },
+    "browser": {
+      "count": 2,
+      "tools": [
+        "mozilla-firefox",
+        "netscape-navigator"
+      ]
+    },
+    "mozilla": {
+      "count": 1,
+      "tools": [
+        "mozilla-firefox"
+      ]
+    },
+    "firefox": {
+      "count": 1,
+      "tools": [
+        "mozilla-firefox"
+      ]
+    },
+    "web": {
+      "count": 2,
+      "tools": [
+        "mozilla-firefox",
+        "netscape-navigator"
+      ]
+    },
     "os": {
       "count": 1,
       "tools": [
@@ -603,16 +1110,17 @@
         "ms-dos-5-1"
       ]
     },
-    "browser": {
+    "sun": {
       "count": 1,
       "tools": [
-        "netscape-navigator"
+        "netbeans"
       ]
     },
-    "web": {
-      "count": 1,
+    "oracle": {
+      "count": 2,
       "tools": [
-        "netscape-navigator"
+        "netbeans",
+        "oracle-sql-developer"
       ]
     },
     "netscape": {
@@ -676,6 +1184,24 @@
         "norton-ghost"
       ]
     },
+    "database": {
+      "count": 1,
+      "tools": [
+        "oracle-sql-developer"
+      ]
+    },
+    "sql": {
+      "count": 1,
+      "tools": [
+        "oracle-sql-developer"
+      ]
+    },
+    "plsql": {
+      "count": 1,
+      "tools": [
+        "oracle-sql-developer"
+      ]
+    },
     "compression": {
       "count": 1,
       "tools": [
@@ -707,10 +1233,12 @@
       ]
     },
     "microsoft": {
-      "count": 3,
+      "count": 5,
       "tools": [
         "qbasic",
         "visual-basic-6",
+        "visual-studio-code",
+        "visual-studio",
         "windows-95"
       ]
     },
@@ -745,9 +1273,10 @@
       ]
     },
     "windows": {
-      "count": 2,
+      "count": 3,
       "tools": [
         "visual-basic-6",
+        "visual-studio",
         "windows-95"
       ]
     },
@@ -762,6 +1291,60 @@
       "tools": [
         "visual-basic-6",
         "windows-95"
+      ]
+    },
+    "vscode": {
+      "count": 1,
+      "tools": [
+        "visual-studio-code"
+      ]
+    },
+    "editor": {
+      "count": 1,
+      "tools": [
+        "visual-studio-code"
+      ]
+    },
+    "electron": {
+      "count": 1,
+      "tools": [
+        "visual-studio-code"
+      ]
+    },
+    "dotnet": {
+      "count": 1,
+      "tools": [
+        "visual-studio"
+      ]
+    },
+    "c-sharp": {
+      "count": 1,
+      "tools": [
+        "visual-studio"
+      ]
+    },
+    "vmware": {
+      "count": 1,
+      "tools": [
+        "vmware-workstation"
+      ]
+    },
+    "virtual-machine": {
+      "count": 1,
+      "tools": [
+        "vmware-workstation"
+      ]
+    },
+    "x86": {
+      "count": 1,
+      "tools": [
+        "vmware-workstation"
+      ]
+    },
+    "testing": {
+      "count": 1,
+      "tools": [
+        "vmware-workstation"
       ]
     },
     "32-bit": {
@@ -782,8 +1365,12 @@
       "bannermania",
       "borland-pascal-7",
       "chi-writer",
+      "electronic-workbench",
       "eudora",
       "lotus-1-2-3",
+      "maple-v",
+      "mathematica",
+      "matlab",
       "ms-dos-5-1",
       "netscape-navigator",
       "nombre-de-la-herramienta",
@@ -793,22 +1380,42 @@
       "qbasic",
       "turbo-c",
       "visual-basic-6",
+      "vmware-workstation",
       "windows-95"
     ],
+    "2010s": [
+      "docker",
+      "kubernetes",
+      "visual-studio-code"
+    ],
     "2000s": [
-      "intellij-idea"
+      "eclipse",
+      "intellij-idea",
+      "mozilla-firefox",
+      "netbeans",
+      "oracle-sql-developer",
+      "visual-studio"
     ]
   },
   "categories": {
     "editor": [
       "nombre-de-la-herramienta",
       "chi-writer",
-      "intellij-idea"
+      "eclipse",
+      "intellij-idea",
+      "netbeans",
+      "visual-studio-code",
+      "visual-studio"
     ],
     "tool": [
       "bannermania",
+      "electronic-workbench",
       "eudora",
       "lotus-1-2-3",
+      "maple-v",
+      "mathematica",
+      "matlab",
+      "mozilla-firefox",
       "netscape-navigator",
       "norton-commander",
       "norton-ghost",
@@ -820,14 +1427,22 @@
       "turbo-c",
       "visual-basic-6"
     ],
+    "infra": [
+      "docker",
+      "kubernetes",
+      "vmware-workstation"
+    ],
     "os": [
       "ms-dos-5-1",
       "windows-95"
+    ],
+    "database": [
+      "oracle-sql-developer"
     ]
   },
   "meta": {
-    "generatedAt": "2026-04-11T19:26:41.618Z",
-    "totalTools": 16,
-    "totalPublished": 16
+    "generatedAt": "2026-04-11T19:43:22.907Z",
+    "totalTools": 29,
+    "totalPublished": 29
   }
 }
