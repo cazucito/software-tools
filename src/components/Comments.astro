@@ -1,0 +1,76 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<section class="border-t border-slate-800 pt-12">
+  <h2 class="text-2xl font-bold text-white mb-4">
+    Comentarios
+  </h2>
+  <p class="text-slate-400 text-sm mb-6">
+    ¿Usaste {slug}? ¿Tienes recuerdos o experiencias que compartir? 
+    Los comentarios se sincronizan con 
+    <a 
+      href="https://github.com/cazucito/software-tools/discussions" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="text-sky-400 hover:text-sky-300"
+    >
+      GitHub Discussions
+    </a>.
+  </p>
+
+  <div class="giscus">
+    <script
+      src="https://giscus.app/client.js"
+      data-repo="cazucito/software-tools"
+      data-repo-id="PLACEHOLDER_REPO_ID"
+      data-category="Tools"
+      data-category-id="PLACEHOLDER_CATEGORY_ID"
+      data-mapping="specific"
+      data-term={slug}
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="dark"
+      data-lang="es"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async
+    ></script>
+  </div>
+
+  <!-- Fallback / Setup Notice -->
+  <div id="giscus-setup-notice" class="bg-slate-800/50 border border-slate-700 rounded-lg p-6 text-center mt-6">
+    <p class="text-slate-400 mb-4">
+      🚧 Los comentarios requieren configuración inicial
+    </p>
+    <p class="text-sm text-slate-500 mb-4">
+      Para habilitar comentarios, sigue estos pasos:
+    </p>
+    <ol class="text-left text-sm text-slate-400 space-y-2 max-w-lg mx-auto">
+      <li>1. Ve a <a href="https://github.com/cazucito/software-tools" class="text-sky-400">tu repositorio</a></li>
+      <li>2. Settings → General → Discussions → Enable</li>
+      <li>3. Crea una categoría llamada "Tools"</li>
+      <li>4. Ve a <a href="https://giscus.app" class="text-sky-400">giscus.app</a> y configura el widget</li>
+      <li>5. Actualiza <code class="bg-slate-900 px-1 rounded">data-repo-id</code> y <code class="bg-slate-900 px-1 rounded">data-category-id</code> en el componente</li>
+    </ol>
+  </div>
+</section>
+
+<script>
+  // Ocultar el notice si Giscus carga correctamente
+  const observer = new MutationObserver((mutations) => {
+    const giscusFrame = document.querySelector('.giscus-frame');
+    const notice = document.getElementById('giscus-setup-notice');
+    if (giscusFrame && notice) {
+      notice.style.display = 'none';
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+</script>

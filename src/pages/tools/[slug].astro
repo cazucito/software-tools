@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import Comments from '../../components/Comments.astro';
 import { getCollection, getToolBySlug } from '../../utils/collection';
 
 export async function getStaticPaths() {
@@ -15,7 +16,6 @@ export async function getStaticPaths() {
 }
 
 const { tool } = Astro.props;
-const { Content } = { Content: null }; // Will use raw content
 ---
 
 <Layout title={tool.name} description={tool.context}>
@@ -32,9 +32,12 @@ const { Content } = { Content: null }; // Will use raw content
           {tool.category}
         </a>
         <span class="text-slate-600">•</span>
-        <span class="text-sm text-slate-400">
+        <a
+          href={`/decade/${tool.decade}`}
+          class="text-sm text-slate-400 hover:text-slate-300"
+        >
           {tool.decade}
-        </span>
+        </a>
       </div>
       
       <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">
@@ -84,7 +87,26 @@ const { Content } = { Content: null }; // Will use raw content
           {tool.context}
         </p>
       )}
-      <div set:html={tool.content} />
+      <div class="markdown-content">
+        {tool.content.split('\n').map(line => {
+          if (line.startsWith('## ')) {
+            return <h2 class="text-2xl font-bold text-white mt-8 mb-4">{line.replace('## ', '')}</h2>;
+          }
+          if (line.startsWith('### ')) {
+            return <h3 class="text-xl font-bold text-white mt-6 mb-3">{line.replace('### ', '')}</h3>;
+          }
+          if (line.startsWith('- ')) {
+            return <li class="text-slate-300 ml-4">{line.replace('- ', '')}</li>;
+          }
+          if (line.startsWith('```')) {
+            return null;
+          }
+          if (line.trim() === '') {
+            return <br />;
+          }
+          return <p class="text-slate-300 mb-4 leading-relaxed">{line}</p>;
+        })}
+      </div>
     </div>
 
     <!-- Related tools -->
@@ -106,20 +128,29 @@ const { Content } = { Content: null }; // Will use raw content
       </section>
     )}
 
-    <!-- Comments (Giscus placeholder) -->
-    <section class="border-t border-slate-800 pt-8">
-      <h2 class="text-xl font-bold text-white mb-4">
-        Comentarios
-      </h2>
-      <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-8 text-center">
-        <p class="text-slate-400">
-          Los comentarios se habilitarán con Giscus próximamente.
-        </p>
-        <p class="text-slate-500 text-sm mt-2">
-          Discussion: {tool.slug}
-        </p>
+    <!-- Navigation -->
+    <section class="border-t border-slate-800 pt-8 mb-12">
+      <div class="flex justify-between items-center">
+        <a 
+          href="/tools" 
+          class="text-slate-400 hover:text-sky-400 flex items-center gap-2 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Todas las herramientas
+        </a>
+        <a 
+          href={`/decade/${tool.decade}`}
+          class="text-slate-400 hover:text-sky-400 transition-colors"
+        >
+          Década {tool.decade} →
+        </a>
       </div>
     </section>
+
+    <!-- Comments -->
+    <Comments slug={tool.slug} />
   </article>
 
   <Footer slot="footer" />
