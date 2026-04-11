@@ -1,5 +1,19 @@
 ## Welcome to software tools Pages
 
+---
+
+## 🏛️ Estado del sitio
+
+Este sitio se mantuvo activo entre **2005-2018** para apoyar la entrega de cursos Oracle, comenzando en una plataforma Moodle que ya no existe y evolucionando a esta versión en GitHub Pages.
+
+**Los enlaces y software listados están desactualizados** (JDK 8/10, NetBeans 8.2, etc.). Los binarios enlazados pueden tener enlaces rotos o versiones obsoletas.
+
+Se preserva como registro histórico de las herramientas utilizadas en cerca de 13 años de docencia.
+
+---
+
+## SOFTWARE
+
 ***
 
 ## SOFTWARE
