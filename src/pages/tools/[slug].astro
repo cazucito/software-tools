@@ -1,0 +1,126 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, getToolBySlug } from '../../utils/collection';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools
+    .filter(tool => tool.published)
+    .map(tool => ({
+      params: { slug: tool.slug },
+      props: { tool },
+    }));
+}
+
+const { tool } = Astro.props;
+const { Content } = { Content: null }; // Will use raw content
+---
+
+<Layout title={tool.name} description={tool.context}>
+  <Header slot="header" />
+  
+  <article class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <header class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <a 
+          href={`/category/${tool.category}`}
+          class="text-sm text-sky-400 hover:text-sky-300 uppercase tracking-wide"
+        >
+          {tool.category}
+        </a>
+        <span class="text-slate-600">•</span>
+        <span class="text-sm text-slate-400">
+          {tool.decade}
+        </span>
+      </div>
+      
+      <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">
+        {tool.name}
+      </h1>
+      
+      <div class="flex flex-wrap items-center gap-4 text-slate-400">
+        <span class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          {tool.year}{tool.usedUntil ? ` - ${tool.usedUntil}` : ''}
+        </span>
+        
+        {tool.successor && (
+          <>
+            <span class="text-slate-600">→</span>
+            <a 
+              href={`/tools/${tool.successorSlug}`}
+              class="text-sky-400 hover:text-sky-300"
+            >
+              Sucesor: {tool.successor}
+            </a>
+          </>
+        )}
+      </div>
+    </header>
+
+    <!-- Tags -->
+    {tool.tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        {tool.tags.map(tag => (
+          <a 
+            href={`/tags/${tag}`}
+            class="text-sm bg-slate-800 text-slate-300 hover:text-sky-400 hover:bg-slate-700 px-3 py-1 rounded-full transition-colors"
+          >
+            #{tag}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <!-- Content -->
+    <div class="prose prose-invert prose-slate max-w-none mb-12">
+      {tool.context && (
+        <p class="text-xl text-slate-300 italic border-l-4 border-sky-500 pl-4 mb-8">
+          {tool.context}
+        </p>
+      )}
+      <div set:html={tool.content} />
+    </div>
+
+    <!-- Related tools -->
+    {tool.related && tool.related.length > 0 && (
+      <section class="border-t border-slate-800 pt-8 mb-12">
+        <h2 class="text-xl font-bold text-white mb-4">
+          Herramientas relacionadas
+        </h2>
+        <div class="flex flex-wrap gap-3">
+          {tool.related.map(relatedSlug => (
+            <a 
+              href={`/tools/${relatedSlug}`}
+              class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              {relatedSlug}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Comments (Giscus placeholder) -->
+    <section class="border-t border-slate-800 pt-8">
+      <h2 class="text-xl font-bold text-white mb-4">
+        Comentarios
+      </h2>
+      <div class="bg-slate-800/50 border border-slate-700 rounded-lg p-8 text-center">
+        <p class="text-slate-400">
+          Los comentarios se habilitarán con Giscus próximamente.
+        </p>
+        <p class="text-slate-500 text-sm mt-2">
+          Discussion: {tool.slug}
+        </p>
+      </div>
+    </section>
+  </article>
+
+  <Footer slot="footer" />
+</Layout>

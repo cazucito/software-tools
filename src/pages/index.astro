@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from '../utils/collection';
+
+const tools = await getCollection('tools');
+const publishedTools = tools.filter(t => t.published);
+const decades = [...new Set(publishedTools.map(t => t.decade))].sort();
+---
+
+<Layout title="Inicio" description="Archivo histórico de herramientas utilizadas en 20+ años de docencia e ingeniería de software">
+  <Header slot="header" />
+  
+  <!-- Hero -->
+  <section class="text-center py-16 md:py-24">
+    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+      software-tools
+    </h1>
+    <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-8">
+      Archivo histórico de herramientas utilizadas en más de 
+      <span class="text-sky-400 font-semibold">20 años</span> de docencia e ingeniería
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-500">
+      <span class="bg-slate-800 px-3 py-1 rounded-full">
+        {publishedTools.length} herramientas documentadas
+      </span>
+      <span class="bg-slate-800 px-3 py-1 rounded-full">
+        {decades.length} décadas
+      </span>
+    </div>
+  </section>
+
+  <!-- Timeline Preview -->
+  <section id="timeline" class="py-12">
+    <h2 class="text-2xl font-bold text-white mb-8 text-center">
+      Línea de tiempo
+    </h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {decades.map(decade => {
+        const decadeTools = publishedTools.filter(t => t.decade === decade);
+        return (
+          <a 
+            href={`/decade/${decade}`}
+            class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 text-center transition-all hover:border-sky-500/50 hover:scale-105"
+          >
+            <div class="text-3xl font-bold text-sky-400 mb-2">{decade}</div>
+            <div class="text-slate-400 text-sm">
+              {decadeTools.length} herramientas
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Categories Preview -->
+  <section class="py-12">
+    <h2 class="text-2xl font-bold text-white mb-8 text-center">
+      Explorar por categoría
+    </h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {['editor', 'lenguaje', 'database', 'infra'].map(cat => {
+        const catTools = publishedTools.filter(t => t.category === cat);
+        const labels: Record<string, string> = {
+          editor: 'Editores & IDEs',
+          lenguaje: 'Lenguajes',
+          database: 'Bases de datos',
+          infra: 'Infraestructura'
+        };
+        return (
+          <a 
+            href={`/category/${cat}`}
+            class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 text-center transition-all hover:border-sky-500/50"
+          >
+            <div class="text-lg font-semibold text-white mb-2">
+              {labels[cat] || cat}
+            </div>
+            <div class="text-slate-400 text-sm">
+              {catTools.length} herramientas
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Latest Tools -->
+  {publishedTools.length > 0 && (
+    <section class="py-12">
+      <h2 class="text-2xl font-bold text-white mb-8 text-center">
+        Herramientas recientes
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {publishedTools
+          .sort((a, b) => b.year - a.year)
+          .slice(0, 6)
+          .map(tool => (
+            <a 
+              href={`/tools/${tool.slug}`}
+              class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 transition-all hover:border-sky-500/50 group"
+            >
+              <div class="flex items-start justify-between mb-3">
+                <h3 class="text-lg font-semibold text-white group-hover:text-sky-400 transition-colors">
+                  {tool.name}
+                </h3>
+                <span class="text-sm text-slate-500 bg-slate-900 px-2 py-1 rounded">
+                  {tool.year}
+                </span>
+              </div>
+              {tool.context && (
+                <p class="text-slate-400 text-sm line-clamp-2">
+                  {tool.context}
+                </p>
+              )}
+              <div class="flex flex-wrap gap-2 mt-4">
+                {tool.tags.slice(0, 3).map(tag => (
+                  <span class="text-xs text-slate-500 bg-slate-900 px-2 py-1 rounded">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))}
+      </div>
+      <div class="text-center mt-8">
+        <a 
+          href="/tools" 
+          class="inline-flex items-center gap-2 text-sky-400 hover:text-sky-300 font-medium"
+        >
+          Ver todas las herramientas
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <Footer slot="footer" />
+</Layout>

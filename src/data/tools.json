@@ -1,0 +1,75 @@
+{
+  "tools": [
+    {
+      "name": "Chi Writer",
+      "slug": "chi-writer",
+      "year": 1995,
+      "decade": "1990s",
+      "category": "editor",
+      "tags": [
+        "dos",
+        "scientific-writing",
+        "thesis",
+        "chinese-characters",
+        "word-processor"
+      ],
+      "image": "/images/tools/chi-writer.jpg",
+      "context": "Editor científico usado para mi tesis de licenciatura, especialmente valioso por su manejo correcto de caracteres chinos.",
+      "usedUntil": 1998,
+      "successor": "LaTeX",
+      "successorSlug": "latex",
+      "related": [
+        "dos-6-22",
+        "word-perfect"
+      ],
+      "published": true
+    }
+  ],
+  "tags": {
+    "dos": {
+      "count": 1,
+      "tools": [
+        "chi-writer"
+      ]
+    },
+    "scientific-writing": {
+      "count": 1,
+      "tools": [
+        "chi-writer"
+      ]
+    },
+    "thesis": {
+      "count": 1,
+      "tools": [
+        "chi-writer"
+      ]
+    },
+    "chinese-characters": {
+      "count": 1,
+      "tools": [
+        "chi-writer"
+      ]
+    },
+    "word-processor": {
+      "count": 1,
+      "tools": [
+        "chi-writer"
+      ]
+    }
+  },
+  "timeline": {
+    "1990s": [
+      "chi-writer"
+    ]
+  },
+  "categories": {
+    "editor": [
+      "chi-writer"
+    ]
+  },
+  "meta": {
+    "generatedAt": "2026-04-11T15:54:16.414Z",
+    "totalTools": 1,
+    "totalPublished": 1
+  }
+}

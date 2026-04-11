@@ -1,0 +1,50 @@
+---
+const navItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Herramientas', href: '/tools' },
+  { label: 'Timeline', href: '/#timeline' },
+  { label: 'Tags', href: '/tags' },
+  { label: 'Buscar', href: '/search' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 text-xl font-bold text-white hover:text-sky-400 transition-colors">
+        <span class="text-2xl">🛠️</span>
+        <span>software-tools</span>
+      </a>
+
+      <!-- Navigation -->
+      <nav class="hidden md:flex items-center gap-1">
+        {navItems.map(item => {
+          const isActive = currentPath === item.href || currentPath.startsWith(item.href + '/');
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                "px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                isActive 
+                  ? "bg-slate-800 text-sky-400" 
+                  : "text-slate-300 hover:text-white hover:bg-slate-800"
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Mobile menu button (placeholder) -->
+      <button class="md:hidden p-2 text-slate-300 hover:text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
