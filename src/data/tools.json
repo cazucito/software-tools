@@ -26,6 +26,76 @@
       "published": true
     },
     {
+      "name": "Visual Basic 6.0",
+      "slug": "visual-basic-6",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "lenguaje",
+      "tags": [
+        "visual-basic",
+        "microsoft",
+        "windows",
+        "rapid-development",
+        "gui"
+      ],
+      "image": null,
+      "context": "RAD (Rapid Application Development) en su máxima expresión. Arrastrar, soltar, y tener una aplicación Windows funcionando en minutos. Revolucionario para la época.",
+      "usedUntil": 2002,
+      "successor": "Visual Basic .NET",
+      "successorSlug": "visual-basic-net",
+      "related": [
+        "windows-95",
+        "ms-access"
+      ],
+      "published": true
+    },
+    {
+      "name": "Norton Ghost",
+      "slug": "norton-ghost",
+      "year": 1996,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "backup",
+        "imaging",
+        "disk-cloning",
+        "norton",
+        "recovery"
+      ],
+      "image": null,
+      "context": "El salvavidas de los administradores de sistemas. Crear imágenes exactas de discos duros y restaurarlas en minutos era magia en la época.",
+      "usedUntil": 2005,
+      "successor": "Acronis True Image",
+      "successorSlug": "acronis-true-image",
+      "related": [
+        "ms-dos-5-1",
+        "norton-commander"
+      ],
+      "published": true
+    },
+    {
+      "name": "Nombre de la Herramienta",
+      "slug": "nombre-de-la-herramienta",
+      "year": 1995,
+      "decade": "1990s",
+      "category": "editor",
+      "tags": [
+        "tag1",
+        "tag2",
+        "tag3"
+      ],
+      "image": "/images/tools/slug-de-la-herramienta.jpg",
+      "context": "Breve historia personal de por qué y cómo usaste esta herramienta. Esta frase aparece en listados y búsquedas.\n",
+      "usedUntil": 1998,
+      "successor": "Nombre del Sucesor",
+      "successorSlug": "slug-del-sucesor",
+      "related": [
+        "herramienta-relacionada-1",
+        "herramienta-relacionada-2"
+      ],
+      "published": true
+    },
+    {
       "name": "Chi Writer",
       "slug": "chi-writer",
       "year": 1995,
@@ -51,6 +121,78 @@
       "published": true
     },
     {
+      "name": "Netscape Navigator",
+      "slug": "netscape-navigator",
+      "year": 1995,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "browser",
+        "web",
+        "netscape",
+        "internet",
+        "mosaic"
+      ],
+      "image": null,
+      "context": "Mi primer navegador web. La ventana al mundo de Internet en tiempos donde la conexión era por modem y hacías cola para usar la computadora con Internet en la facultad.",
+      "usedUntil": 1998,
+      "successor": "Internet Explorer",
+      "successorSlug": "internet-explorer",
+      "related": [
+        "windows-95",
+        "eudora"
+      ],
+      "published": true
+    },
+    {
+      "name": "Windows 95",
+      "slug": "windows-95",
+      "year": 1995,
+      "decade": "1990s",
+      "category": "os",
+      "tags": [
+        "windows",
+        "microsoft",
+        "gui",
+        "32-bit",
+        "plug-and-play"
+      ],
+      "image": null,
+      "context": "El sistema operativo que mató a DOS. La transición de la línea de comandos a la interfaz gráfica fue traumática y emocionante a la vez.",
+      "usedUntil": 1998,
+      "successor": "Windows 98",
+      "successorSlug": "windows-98",
+      "related": [
+        "ms-dos-5-1",
+        "visual-basic-6"
+      ],
+      "published": true
+    },
+    {
+      "name": "Eudora",
+      "slug": "eudora",
+      "year": 1994,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "email",
+        "pop3",
+        "smtp",
+        "client",
+        "internet"
+      ],
+      "image": null,
+      "context": "Mi primer cliente de email serio. En tiempos donde Outlook no existía, Eudora era el estándar para gestionar correo electrónico por POP3.",
+      "usedUntil": 1998,
+      "successor": "Microsoft Outlook",
+      "successorSlug": "microsoft-outlook",
+      "related": [
+        "netscape-navigator",
+        "windows-95"
+      ],
+      "published": true
+    },
+    {
       "name": "BannerMania",
       "slug": "bannermania",
       "year": 1993,
@@ -71,6 +213,79 @@
       "related": [
         "ms-dos-5-1",
         "chi-writer"
+      ],
+      "published": true
+    },
+    {
+      "name": "Borland Pascal 7.0",
+      "slug": "borland-pascal-7",
+      "year": 1993,
+      "decade": "1990s",
+      "category": "lenguaje",
+      "tags": [
+        "pascal",
+        "dos",
+        "ide",
+        "borland",
+        "oop",
+        "objects"
+      ],
+      "image": null,
+      "context": "La evolución de Turbo Pascal con soporte para objetos. Aprendí programación orientada a objetos con este IDE azul legendaria.",
+      "usedUntil": 1996,
+      "successor": "Delphi",
+      "successorSlug": "delphi",
+      "related": [
+        "turbo-c",
+        "ms-dos-5-1"
+      ],
+      "published": true
+    },
+    {
+      "name": "Lotus 1-2-3",
+      "slug": "lotus-1-2-3",
+      "year": 1992,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "spreadsheet",
+        "dos",
+        "lotus",
+        "business",
+        "calculations"
+      ],
+      "image": null,
+      "context": "La hoja de cálculo dominante antes de Excel. Aprendí a hacer presupuestos y análisis de datos en la interfaz de menús de Lotus.",
+      "usedUntil": 1996,
+      "successor": "Microsoft Excel",
+      "successorSlug": "microsoft-excel",
+      "related": [
+        "ms-dos-5-1",
+        "windows-95"
+      ],
+      "published": true
+    },
+    {
+      "name": "Norton Commander",
+      "slug": "norton-commander",
+      "year": 1992,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "file-manager",
+        "dos",
+        "norton",
+        "dual-pane",
+        "utilities"
+      ],
+      "image": null,
+      "context": "El gestor de archivos que hizo obsoleto el comando DIR. Dos paneles, comandos rápidos, y la interfaz azul legendaria que aún imitan los file managers modernos.",
+      "usedUntil": 1998,
+      "successor": "Windows Explorer",
+      "successorSlug": "windows-explorer",
+      "related": [
+        "ms-dos-5-1",
+        "pkzip"
       ],
       "published": true
     },
@@ -121,9 +336,75 @@
         "chi-writer"
       ],
       "published": true
+    },
+    {
+      "name": "PKZIP",
+      "slug": "pkzip",
+      "year": 1991,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "compression",
+        "zip",
+        "dos",
+        "file-format",
+        "phil-katz"
+      ],
+      "image": null,
+      "context": "El estándar de compresión que definió el formato ZIP. Antes de WinZip, antes de Windows, estaba Phil Katz y su PKZIP en línea de comandos.",
+      "usedUntil": 1998,
+      "successor": "WinZip",
+      "successorSlug": "winzip",
+      "related": [
+        "ms-dos-5-1",
+        "norton-commander"
+      ],
+      "published": true
+    },
+    {
+      "name": "QBasic",
+      "slug": "qbasic",
+      "year": 1991,
+      "decade": "1990s",
+      "category": "lenguaje",
+      "tags": [
+        "basic",
+        "microsoft",
+        "dos",
+        "learning",
+        "beginner"
+      ],
+      "image": null,
+      "context": "Mi primera experiencia con programación. El intérprete incluido en DOS que me enseñó qué era un bucle, una variable, y la satisfacción de hacer que la computadora hiciera lo que yo quería.",
+      "usedUntil": 1993,
+      "successor": "QuickBASIC 4.5",
+      "successorSlug": "quickbasic-4-5",
+      "related": [
+        "ms-dos-5-1",
+        "turbo-c"
+      ],
+      "published": true
     }
   ],
   "tags": {
+    "tag1": {
+      "count": 1,
+      "tools": [
+        "nombre-de-la-herramienta"
+      ]
+    },
+    "tag2": {
+      "count": 1,
+      "tools": [
+        "nombre-de-la-herramienta"
+      ]
+    },
+    "tag3": {
+      "count": 1,
+      "tools": [
+        "nombre-de-la-herramienta"
+      ]
+    },
     "ascii-art": {
       "count": 1,
       "tools": [
@@ -137,11 +418,16 @@
       ]
     },
     "dos": {
-      "count": 4,
+      "count": 9,
       "tools": [
         "bannermania",
+        "borland-pascal-7",
         "chi-writer",
+        "lotus-1-2-3",
         "ms-dos-5-1",
+        "norton-commander",
+        "pkzip",
+        "qbasic",
         "turbo-c"
       ]
     },
@@ -155,6 +441,39 @@
       "count": 1,
       "tools": [
         "bannermania"
+      ]
+    },
+    "pascal": {
+      "count": 1,
+      "tools": [
+        "borland-pascal-7"
+      ]
+    },
+    "ide": {
+      "count": 3,
+      "tools": [
+        "borland-pascal-7",
+        "intellij-idea",
+        "turbo-c"
+      ]
+    },
+    "borland": {
+      "count": 2,
+      "tools": [
+        "borland-pascal-7",
+        "turbo-c"
+      ]
+    },
+    "oop": {
+      "count": 1,
+      "tools": [
+        "borland-pascal-7"
+      ]
+    },
+    "objects": {
+      "count": 1,
+      "tools": [
+        "borland-pascal-7"
       ]
     },
     "scientific-writing": {
@@ -181,11 +500,35 @@
         "chi-writer"
       ]
     },
-    "ide": {
+    "email": {
+      "count": 1,
+      "tools": [
+        "eudora"
+      ]
+    },
+    "pop3": {
+      "count": 1,
+      "tools": [
+        "eudora"
+      ]
+    },
+    "smtp": {
+      "count": 1,
+      "tools": [
+        "eudora"
+      ]
+    },
+    "client": {
+      "count": 1,
+      "tools": [
+        "eudora"
+      ]
+    },
+    "internet": {
       "count": 2,
       "tools": [
-        "intellij-idea",
-        "turbo-c"
+        "eudora",
+        "netscape-navigator"
       ]
     },
     "java": {
@@ -212,6 +555,30 @@
         "intellij-idea"
       ]
     },
+    "spreadsheet": {
+      "count": 1,
+      "tools": [
+        "lotus-1-2-3"
+      ]
+    },
+    "lotus": {
+      "count": 1,
+      "tools": [
+        "lotus-1-2-3"
+      ]
+    },
+    "business": {
+      "count": 1,
+      "tools": [
+        "lotus-1-2-3"
+      ]
+    },
+    "calculations": {
+      "count": 1,
+      "tools": [
+        "lotus-1-2-3"
+      ]
+    },
     "os": {
       "count": 1,
       "tools": [
@@ -236,6 +603,129 @@
         "ms-dos-5-1"
       ]
     },
+    "browser": {
+      "count": 1,
+      "tools": [
+        "netscape-navigator"
+      ]
+    },
+    "web": {
+      "count": 1,
+      "tools": [
+        "netscape-navigator"
+      ]
+    },
+    "netscape": {
+      "count": 1,
+      "tools": [
+        "netscape-navigator"
+      ]
+    },
+    "mosaic": {
+      "count": 1,
+      "tools": [
+        "netscape-navigator"
+      ]
+    },
+    "file-manager": {
+      "count": 1,
+      "tools": [
+        "norton-commander"
+      ]
+    },
+    "norton": {
+      "count": 2,
+      "tools": [
+        "norton-commander",
+        "norton-ghost"
+      ]
+    },
+    "dual-pane": {
+      "count": 1,
+      "tools": [
+        "norton-commander"
+      ]
+    },
+    "utilities": {
+      "count": 1,
+      "tools": [
+        "norton-commander"
+      ]
+    },
+    "backup": {
+      "count": 1,
+      "tools": [
+        "norton-ghost"
+      ]
+    },
+    "imaging": {
+      "count": 1,
+      "tools": [
+        "norton-ghost"
+      ]
+    },
+    "disk-cloning": {
+      "count": 1,
+      "tools": [
+        "norton-ghost"
+      ]
+    },
+    "recovery": {
+      "count": 1,
+      "tools": [
+        "norton-ghost"
+      ]
+    },
+    "compression": {
+      "count": 1,
+      "tools": [
+        "pkzip"
+      ]
+    },
+    "zip": {
+      "count": 1,
+      "tools": [
+        "pkzip"
+      ]
+    },
+    "file-format": {
+      "count": 1,
+      "tools": [
+        "pkzip"
+      ]
+    },
+    "phil-katz": {
+      "count": 1,
+      "tools": [
+        "pkzip"
+      ]
+    },
+    "basic": {
+      "count": 1,
+      "tools": [
+        "qbasic"
+      ]
+    },
+    "microsoft": {
+      "count": 3,
+      "tools": [
+        "qbasic",
+        "visual-basic-6",
+        "windows-95"
+      ]
+    },
+    "learning": {
+      "count": 1,
+      "tools": [
+        "qbasic"
+      ]
+    },
+    "beginner": {
+      "count": 1,
+      "tools": [
+        "qbasic"
+      ]
+    },
     "c": {
       "count": 1,
       "tools": [
@@ -248,42 +738,96 @@
         "turbo-c"
       ]
     },
-    "borland": {
+    "visual-basic": {
       "count": 1,
       "tools": [
-        "turbo-c"
+        "visual-basic-6"
+      ]
+    },
+    "windows": {
+      "count": 2,
+      "tools": [
+        "visual-basic-6",
+        "windows-95"
+      ]
+    },
+    "rapid-development": {
+      "count": 1,
+      "tools": [
+        "visual-basic-6"
+      ]
+    },
+    "gui": {
+      "count": 2,
+      "tools": [
+        "visual-basic-6",
+        "windows-95"
+      ]
+    },
+    "32-bit": {
+      "count": 1,
+      "tools": [
+        "windows-95"
+      ]
+    },
+    "plug-and-play": {
+      "count": 1,
+      "tools": [
+        "windows-95"
       ]
     }
   },
   "timeline": {
     "1990s": [
       "bannermania",
+      "borland-pascal-7",
       "chi-writer",
+      "eudora",
+      "lotus-1-2-3",
       "ms-dos-5-1",
-      "turbo-c"
+      "netscape-navigator",
+      "nombre-de-la-herramienta",
+      "norton-commander",
+      "norton-ghost",
+      "pkzip",
+      "qbasic",
+      "turbo-c",
+      "visual-basic-6",
+      "windows-95"
     ],
     "2000s": [
       "intellij-idea"
     ]
   },
   "categories": {
-    "tool": [
-      "bannermania"
-    ],
     "editor": [
+      "nombre-de-la-herramienta",
       "chi-writer",
       "intellij-idea"
     ],
-    "os": [
-      "ms-dos-5-1"
+    "tool": [
+      "bannermania",
+      "eudora",
+      "lotus-1-2-3",
+      "netscape-navigator",
+      "norton-commander",
+      "norton-ghost",
+      "pkzip"
     ],
     "lenguaje": [
-      "turbo-c"
+      "borland-pascal-7",
+      "qbasic",
+      "turbo-c",
+      "visual-basic-6"
+    ],
+    "os": [
+      "ms-dos-5-1",
+      "windows-95"
     ]
   },
   "meta": {
-    "generatedAt": "2026-04-11T16:43:51.996Z",
-    "totalTools": 5,
-    "totalPublished": 5
+    "generatedAt": "2026-04-11T19:26:41.618Z",
+    "totalTools": 16,
+    "totalPublished": 16
   }
 }
