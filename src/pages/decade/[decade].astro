@@ -14,6 +14,8 @@ export async function getStaticPaths() {
   }));
 }
 
+const baseUrl = import.meta.env.BASE_URL;
+
 const { decade } = Astro.params;
 const tools = await getCollection('tools');
 const decadeTools = tools
@@ -56,7 +58,7 @@ const decadeLabel = `${startYear}-${endYear}`;
               <!-- Contenido -->
               <div class={`ml-12 md:ml-0 md:w-1/2 ${isEven ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
                 <a 
-                  href={`/tools/${tool.slug}`}
+                  href={`${baseUrl}tools/${tool.slug}`}
                   class="block bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 transition-all hover:border-sky-500/50 group"
                 >
                   <div class={`flex items-center gap-2 mb-2 ${isEven ? 'md:justify-end' : ''}`}>
@@ -90,7 +92,7 @@ const decadeLabel = `${startYear}-${endYear}`;
     <div class="flex justify-between items-center border-t border-slate-800 pt-8">
       {startYear > 1990 && (
         <a 
-          href={`/decade/${startYear - 10}s`}
+          href={`${baseUrl}decade/${startYear - 10}s`}
           class="text-slate-400 hover:text-sky-400 flex items-center gap-2 transition-colors"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,14 +102,14 @@ const decadeLabel = `${startYear}-${endYear}`;
         </a>
       )}
       <a 
-        href="/"
+        href={baseUrl}
         class="text-slate-400 hover:text-sky-400 mx-auto"
       >
         ← Inicio
       </a>
       {endYear < 2025 && (
         <a 
-          href={`/decade/${startYear + 10}s`}
+          href={`${baseUrl}decade/${startYear + 10}s`}
           class="text-slate-400 hover:text-sky-400 flex items-center gap-2 transition-colors"
         >
           {startYear + 10}s

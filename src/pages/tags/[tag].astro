@@ -13,6 +13,7 @@ export function getStaticPaths() {
   }));
 }
 
+const baseUrl = import.meta.env.BASE_URL;
 const { tag, data } = Astro.props;
 
 // Obtener detalles de las herramientas
@@ -28,7 +29,7 @@ const toolDetails = data.tools.map(slug => {
     <!-- Header -->
     <div class="flex items-center gap-4 mb-8">
       <a 
-        href="/tags"
+        href={`${baseUrl}tags`}
         class="text-slate-400 hover:text-sky-400 transition-colors"
       >
         Tags
@@ -47,7 +48,7 @@ const toolDetails = data.tools.map(slug => {
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {toolDetails.map(tool => tool && (
         <a 
-          href={`/tools/${tool.slug}`}
+          href={`${baseUrl}tools/${tool.slug}`}
           class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 transition-all hover:border-sky-500/50 group"
         >
           <div class="flex items-start justify-between mb-3">
@@ -80,7 +81,7 @@ const toolDetails = data.tools.map(slug => {
     <!-- Navegación -->
     <div class="mt-12 flex justify-between items-center border-t border-slate-800 pt-8">
       <a 
-        href="/tags"
+        href={`${baseUrl}tags`}
         class="text-slate-400 hover:text-sky-400 flex items-center gap-2 transition-colors"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

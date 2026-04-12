@@ -1,11 +1,13 @@
 ---
 import SearchBox from './SearchBox.astro';
 
+const baseUrl = import.meta.env.BASE_URL;
+
 const navItems = [
-  { label: 'Inicio', href: '/' },
-  { label: 'Herramientas', href: '/tools' },
-  { label: 'Timeline', href: '/#timeline' },
-  { label: 'Tags', href: '/tags' },
+  { label: 'Inicio', href: baseUrl },
+  { label: 'Herramientas', href: `${baseUrl}tools` },
+  { label: 'Timeline', href: `${baseUrl}#timeline` },
+  { label: 'Tags', href: `${baseUrl}tags` },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -15,7 +17,7 @@ const currentPath = Astro.url.pathname;
   <div class="container mx-auto px-4 max-w-6xl">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 text-xl font-bold text-white hover:text-sky-400 transition-colors shrink-0">
+      <a href={baseUrl} class="flex items-center gap-2 text-xl font-bold text-white hover:text-sky-400 transition-colors shrink-0">
         <span class="text-2xl">🛠️</span>
         <span class="hidden sm:inline">software-tools</span>
       </a>
@@ -48,7 +50,7 @@ const currentPath = Astro.url.pathname;
       <!-- Mobile menu button -->
       <div class="flex items-center gap-2 md:hidden">
         <a 
-          href="/search" 
+          href={`${baseUrl}search`}
           class="p-2 text-slate-300 hover:text-white"
           aria-label="Buscar"
         >

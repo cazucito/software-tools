@@ -4,6 +4,8 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from '../../utils/collection';
 
+const baseUrl = import.meta.env.BASE_URL;
+
 const tools = await getCollection('tools');
 const publishedTools = tools.filter(t => t.published);
 ---
@@ -33,7 +35,7 @@ const publishedTools = tools.filter(t => t.published);
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {publishedTools.map(tool => (
           <a 
-            href={`/tools/${tool.slug}`}
+            href={`${baseUrl}tools/${tool.slug}`}
             class="bg-slate-800 hover:bg-slate-750 border border-slate-700 rounded-lg p-6 transition-all hover:border-sky-500/50 group"
           >
             <div class="flex items-start justify-between mb-3">

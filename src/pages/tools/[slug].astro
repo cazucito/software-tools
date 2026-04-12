@@ -15,6 +15,7 @@ export async function getStaticPaths() {
     }));
 }
 
+const baseUrl = import.meta.env.BASE_URL;
 const { tool } = Astro.props;
 ---
 
@@ -26,14 +27,14 @@ const { tool } = Astro.props;
     <header class="mb-8">
       <div class="flex flex-wrap items-center gap-2 mb-4">
         <a 
-          href={`/category/${tool.category}`}
+          href={`${baseUrl}category/${tool.category}`}
           class="text-sm text-sky-400 hover:text-sky-300 uppercase tracking-wide"
         >
           {tool.category}
         </a>
         <span class="text-slate-600">•</span>
         <a
-          href={`/decade/${tool.decade}`}
+          href={`${baseUrl}decade/${tool.decade}`}
           class="text-sm text-slate-400 hover:text-slate-300"
         >
           {tool.decade}
@@ -56,7 +57,7 @@ const { tool } = Astro.props;
           <>
             <span class="text-slate-600">→</span>
             <a 
-              href={`/tools/${tool.successorSlug}`}
+              href={`${baseUrl}tools/${tool.successorSlug}`}
               class="text-sky-400 hover:text-sky-300"
             >
               Sucesor: {tool.successor}
@@ -71,7 +72,7 @@ const { tool } = Astro.props;
       <div class="flex flex-wrap gap-2 mb-8">
         {tool.tags.map(tag => (
           <a 
-            href={`/tags/${tag}`}
+            href={`${baseUrl}tags/${tag}`}
             class="text-sm bg-slate-800 text-slate-300 hover:text-sky-400 hover:bg-slate-700 px-3 py-1 rounded-full transition-colors"
           >
             #{tag}
@@ -118,7 +119,7 @@ const { tool } = Astro.props;
         <div class="flex flex-wrap gap-3">
           {tool.related.map(relatedSlug => (
             <a 
-              href={`/tools/${relatedSlug}`}
+              href={`${baseUrl}tools/${relatedSlug}`}
               class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors"
             >
               {relatedSlug}
@@ -132,7 +133,7 @@ const { tool } = Astro.props;
     <section class="border-t border-slate-800 pt-8 mb-12">
       <div class="flex justify-between items-center">
         <a 
-          href="/tools" 
+          href={`${baseUrl}tools`}
           class="text-slate-400 hover:text-sky-400 flex items-center gap-2 transition-colors"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +142,7 @@ const { tool } = Astro.props;
           Todas las herramientas
         </a>
         <a 
-          href={`/decade/${tool.decade}`}
+          href={`${baseUrl}decade/${tool.decade}`}
           class="text-slate-400 hover:text-sky-400 transition-colors"
         >
           Década {tool.decade} →
