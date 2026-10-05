@@ -8,7 +8,7 @@ context: "El IDE definitivo para desarrollo Microsoft. Cuando tuve que trabajar 
 usedUntil: 2010
 successor: "Visual Studio Code"
 successorSlug: "visual-studio-code"
-related: ["visual-basic-6", "eclipse"]
+related: ["visual-basic-6", "eclipse", "visual-basic-net"]
 published: true
 ---
 

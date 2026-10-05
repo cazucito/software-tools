@@ -8,7 +8,7 @@ context: "El estándar para computación numérica en ingeniería. Resolví sist
 usedUntil: 2000
 successor: "MATLAB R14"
 successorSlug: "matlab-r14"
-related: ["mathematica", "maple-v"]
+related: ["mathematica", "maple-v", "electronic-workbench", "latex", "multisim"]
 published: true
 ---
 

@@ -8,7 +8,7 @@ context: "La revolución de la virtualización x86. Correr Windows dentro de Win
 usedUntil: 2015
 successor: "VMware Workstation Pro / VirtualBox"
 successorSlug: "virtualbox"
-related: ["windows-95", "norton-ghost"]
+related: ["windows-95", "norton-ghost", "acronis-true-image", "docker", "kubernetes", "virtualbox", "windows-98"]
 published: true
 ---
 

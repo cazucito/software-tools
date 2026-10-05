@@ -9,7 +9,7 @@ context: "Editor científico usado para mi tesis de licenciatura, especialmente 
 usedUntil: 1998
 successor: "LaTeX"
 successorSlug: "latex"
-related: ["ms-dos-5-1", "turbo-c", "bannermania"]
+related: ["ms-dos-5-1", "turbo-c", "bannermania", "latex"]
 published: true
 ---
 

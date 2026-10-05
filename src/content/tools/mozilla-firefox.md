@@ -8,7 +8,7 @@ context: "El navegador que rescató la web del monopolio de Internet Explorer. E
 usedUntil: 2018
 successor: "Google Chrome / Brave"
 successorSlug: "google-chrome"
-related: ["netscape-navigator", "internet-explorer"]
+related: ["netscape-navigator", "internet-explorer", "google-chrome"]
 published: true
 ---
 

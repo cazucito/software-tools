@@ -8,7 +8,7 @@ context: "Mi primer navegador web. La ventana al mundo de Internet en tiempos do
 usedUntil: 1998
 successor: "Internet Explorer"
 successorSlug: "internet-explorer"
-related: ["windows-95", "eudora"]
+related: ["windows-95", "eudora", "internet-explorer", "mozilla-firefox"]
 published: true
 ---
 

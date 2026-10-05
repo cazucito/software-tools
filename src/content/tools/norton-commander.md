@@ -8,7 +8,7 @@ context: "El gestor de archivos que hizo obsoleto el comando DIR. Dos paneles, c
 usedUntil: 1998
 successor: "Windows Explorer"
 successorSlug: "windows-explorer"
-related: ["ms-dos-5-1", "pkzip"]
+related: ["ms-dos-5-1", "pkzip", "norton-ghost", "windows-explorer"]
 published: true
 ---
 

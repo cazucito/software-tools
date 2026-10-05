@@ -8,7 +8,7 @@ context: "El estándar de compresión que definió el formato ZIP. Antes de WinZ
 usedUntil: 1998
 successor: "WinZip"
 successorSlug: "winzip"
-related: ["ms-dos-5-1", "norton-commander"]
+related: ["ms-dos-5-1", "norton-commander", "winzip"]
 published: true
 ---
 

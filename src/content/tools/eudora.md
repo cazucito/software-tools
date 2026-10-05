@@ -8,7 +8,7 @@ context: "Mi primer cliente de email serio. En tiempos donde Outlook no existía
 usedUntil: 1998
 successor: "Microsoft Outlook"
 successorSlug: "microsoft-outlook"
-related: ["netscape-navigator", "windows-95"]
+related: ["netscape-navigator", "windows-95", "microsoft-outlook"]
 published: true
 ---
 

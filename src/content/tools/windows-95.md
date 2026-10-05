@@ -8,7 +8,7 @@ context: "El sistema operativo que mató a DOS. La transición de la línea de c
 usedUntil: 1998
 successor: "Windows 98"
 successorSlug: "windows-98"
-related: ["ms-dos-5-1", "visual-basic-6"]
+related: ["ms-dos-5-1", "visual-basic-6", "eudora", "internet-explorer", "lotus-1-2-3", "netscape-navigator", "vmware-workstation", "windows-98"]
 published: true
 ---
 

@@ -8,7 +8,7 @@ context: "Computación simbólica que parecía magia. Resolver integrales simbó
 usedUntil: 1998
 successor: "Mathematica 3.0"
 successorSlug: "mathematica-3"
-related: ["matlab", "maple-v"]
+related: ["matlab", "maple-v", "electronic-workbench", "latex"]
 published: true
 ---
 

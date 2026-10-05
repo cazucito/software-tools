@@ -8,7 +8,7 @@ context: "Mi IDE de Java durante 8 años. De lo mejor del software libre, aunque
 usedUntil: 2009
 successor: "IntelliJ IDEA"
 successorSlug: "intellij-idea"
-related: ["netbeans", "visual-studio"]
+related: ["netbeans", "visual-studio", "intellij-idea"]
 published: true
 ---
 

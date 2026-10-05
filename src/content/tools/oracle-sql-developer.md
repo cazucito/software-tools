@@ -8,7 +8,7 @@ context: "La herramienta oficial de Oracle para trabajar con sus bases de datos.
 usedUntil: 2018
 successor: "DataGrip / VS Code extensions"
 successorSlug: "datagrip"
-related: ["netbeans", "oracle-database"]
+related: ["netbeans", "oracle-database", "datagrip"]
 published: true
 ---
 

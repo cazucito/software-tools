@@ -8,7 +8,7 @@ context: "El sistema operativo donde aprendí que la computadora hace exactament
 usedUntil: 1997
 successor: "Windows 95"
 successorSlug: "windows-95"
-related: ["turbo-c", "chi-writer"]
+related: ["turbo-c", "chi-writer", "bannermania", "borland-pascal-7", "figlet", "lotus-1-2-3", "norton-commander", "norton-ghost", "pkzip", "qbasic", "windows-95", "windows-98"]
 published: true
 ---
 

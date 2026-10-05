@@ -8,7 +8,7 @@ context: "RAD (Rapid Application Development) en su máxima expresión. Arrastra
 usedUntil: 2002
 successor: "Visual Basic .NET"
 successorSlug: "visual-basic-net"
-related: ["windows-95", "ms-access"]
+related: ["windows-95", "ms-access", "delphi", "visual-basic-net", "visual-studio"]
 published: true
 ---
 

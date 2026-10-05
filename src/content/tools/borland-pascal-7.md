@@ -8,7 +8,7 @@ context: "La evolución de Turbo Pascal con soporte para objetos. Aprendí progr
 usedUntil: 1996
 successor: "Delphi"
 successorSlug: "delphi"
-related: ["turbo-c", "ms-dos-5-1"]
+related: ["turbo-c", "ms-dos-5-1", "borland-cpp", "delphi"]
 published: true
 ---
 

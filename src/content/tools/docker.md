@@ -8,7 +8,7 @@ context: "La revolución de los contenedores. Empaquetar aplicaciones con todas 
 usedUntil: null
 successor: null
 successorSlug: null
-related: ["vmware-workstation", "kubernetes"]
+related: ["vmware-workstation", "kubernetes", "virtualbox"]
 published: true
 ---
 

@@ -8,7 +8,7 @@ context: "El programa para hacer banners ASCII que usaba en todas las impresione
 usedUntil: 1996
 successor: "Figlet"
 successorSlug: "figlet"
-related: ["ms-dos-5-1", "chi-writer"]
+related: ["ms-dos-5-1", "chi-writer", "figlet"]
 published: true
 ---
 

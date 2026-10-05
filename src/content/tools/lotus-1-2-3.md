@@ -8,7 +8,7 @@ context: "La hoja de cálculo dominante antes de Excel. Aprendí a hacer presupu
 usedUntil: 1996
 successor: "Microsoft Excel"
 successorSlug: "microsoft-excel"
-related: ["ms-dos-5-1", "windows-95"]
+related: ["ms-dos-5-1", "windows-95", "microsoft-excel"]
 published: true
 ---
 

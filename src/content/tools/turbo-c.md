@@ -8,7 +8,7 @@ context: "Mi primer entorno de desarrollo C. Aprendí punteros, memoria y estruc
 usedUntil: 1996
 successor: "Borland C++"
 successorSlug: "borland-cpp"
-related: ["ms-dos-5-1", "chi-writer"]
+related: ["ms-dos-5-1", "chi-writer", "borland-cpp", "borland-pascal-7", "delphi", "qbasic"]
 published: true
 ---
 

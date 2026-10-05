@@ -8,7 +8,7 @@ context: "El salvavidas de los administradores de sistemas. Crear imágenes exac
 usedUntil: 2005
 successor: "Acronis True Image"
 successorSlug: "acronis-true-image"
-related: ["ms-dos-5-1", "norton-commander"]
+related: ["ms-dos-5-1", "norton-commander", "acronis-true-image", "vmware-workstation", "windows-98"]
 published: true
 ---
 
