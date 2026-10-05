@@ -1,99 +1,146 @@
 # Plan de acción — software-tools v3 (propuesta)
 
-**Estado:** Propuesta · borrador para revisión — 2026-10-05 · *pendiente de tu aprobación antes de escribir SPEC v3 y código*
-**Cambio de arquitectura:** salir de GitHub Pages → aplicación con base de datos en `software-tools.pcabrera.com`, con el **timeline** como eje del producto.
+**Versión:** v1.1 · 2026-10-05 *(v1.0: propuesta inicial · v1.1: decisiones del dueño incorporadas + Fase 0 completada)*
+**Estado:** borrador para revisión — pendiente tu OK final antes de SPEC v3 y código.
+**Objetivo:** cambio de arquitectura — de sitio estático (Astro, GitHub Pages) a **aplicación PHP + SQLite en `software-tools.pcabrera.com`**, con un **timeline scroll-driven** como corazón del producto.
 
 ---
 
-## 1. Objetivo
+## 0. Decisiones registradas (2026-10-05)
 
-1. Migrar el catálogo a una arquitectura con **base de datos (SQLite)** servida dinámicamente desde hosting compartido.
-2. Reorientar la experiencia completa alrededor de un **timeline**: la línea de 20+ años de software usado como navegación principal y metáfora del sitio.
-3. Mantener paridad de contenido (28 fichas) y ganar capacidades: búsqueda real (SQLite FTS5), consultas por épocas, relaciones entre herramientas, futura edición.
+| # | Tema | Decisión |
+|---|------|----------|
+| 1 | Stack | **PHP 8 + SQLite** ✔ (confirmado por Fase 0) |
+| 2 | Experiencia | **Scroll narrativo estilo páginas de producto de Apple**; se autoriza proponer librerías JS para riqueza visual |
+| 3 | Carácter | **Más dinamismo, tipo webapp** (interacciones, transiciones, búsqueda instantánea) |
+| 4 | Comentarios | **Sí** — infraestructura propia propuesta (ver §2.5) |
+| 5 | Repo | **Repositorio tradicional**; **no existirá GitHub Pages** (se retira el workflow; sin página de aviso) |
+| 6 | Idiomas + SEO | **Internacionalizable desde el inicio (es + en)**, con SEO cuidado |
+| — | Regla dura | **No se pierde información** del contenido actual (ver §3) |
 
-## 2. Estado de partida (ya verificado)
+## 1. Fase 0 — Resultados (COMPLETADA ✔)
 
-- **v2.0.0 congelada** como punto de restauración (tag en el repo; sitio actual en https://cazucito.github.io/software-tools/).
-- **Subdominio `software-tools.pcabrera.com`** ya resuelve al hosting compartido (nginx; 403 mientras el docroot esté vacío — comportamiento esperado).
-- **Credenciales FTP listas en BWS**: `software-tools_FTP_SERVER / PORT / USERNAME / PASSWORD`.
-- Fuente de contenido actual: Markdown + frontmatter en `src/content/tools/` → `tools.json` ([ADR-003](../adr/003-modelo-de-datos.md)).
-- Documentos vigentes: [SPEC v2](../SPEC.md) · [ADR-002](../adr/002-stack-tecnologico.md) · [ADR-003](../adr/003-modelo-de-datos.md) · [ADR-004](../adr/004-búsqueda-y-comentarios.md).
+Sonda subida, leída y eliminada desde `software-tools.pcabrera.com` (verificado). Docroot real confirmado.
 
-## 3. Arquitectura propuesta (a aprobar)
+| Elemento | Resultado |
+|---|---|
+| PHP | **8.1.34** (LiteSpeed, compat Apache) |
+| pdo_sqlite / sqlite3 | **SÍ** (SQLite lib **3.53.4**) |
+| **FTS5** | **SÍ** — probado con tabla virtual + match real |
+| Extensiones | intl, gd, zip, curl, mbstring, openssl, dom, iconv ✔ |
+| Escritura en docroot / SQLite | **SÍ** (creación, escritura y borrado de archivos) |
+| HTTPS | Activo |
+| Límites | upload 2 MB · post 8 MB · ejecución **30 s** · memoria 512 MB |
+| Docroot | `/home/coraz6/public_html/software-tools` |
 
-**Stack:** PHP 8 + SQLite (mismo patrón probado del ecosistema: kofro, glunoto). Sin frameworks: render server-side + JavaScript progresivo mínimo.
+**Implicaciones:** programar con compatibilidad **PHP 8.1**; búsqueda **FTS5 confirmada** (plan A, sin fallback); requests ligeros (<30 s); assets estáticos optimizados. *Si el cPanel ofrece selector de PHP ≥8.2 conviene evaluarlo (opcional); 8.1 basta para este diseño.*
 
-- **Datos — evolución de ADR-003 (dual-source → triple):** el Markdown sigue siendo la **fuente de verdad por autoría** (versionado en git, editable por agentes); un **importador** (`ops/import/`) genera **`catalog.sqlite`** (artefacto derivado, no se commitea); la app PHP lo consume en vivo.
-  - Búsqueda con **FTS5** si el hosting lo permite (se confirma en Fase 0); fallback: búsqueda simple sobre SQLite.
-- **Frontend:** se conserva la identidad (tema oscuro slate, Inter) construida con **Tailwind 4** (build local → assets estáticos; ya migramos la toolchain). Interactividad del timeline con JS vanilla (sin librerías pesadas; se evalúa en concepto).
-- **Estructura del repo (patrón kofro):** `app/` (bundle desplegable: PHP + assets compilados + `data/`), `ops/` (importador, `deploy.py`, sondas, tests), `docs/` (esta carpeta). El código Astro de v2 queda accesible en el tag `v2.0.0`.
-- **Despliegue:** FTP con `ops/deploy.py` propio (resuelve `software-tools_FTP_*` vía BWS — patrón estándar del ecosistema; verificación por tamaños + sha). GitHub sigue siendo la fuente del **código**; ya no publica el sitio.
-- **Retiro de GitHub Pages:** se reemplaza por una página final de aviso/enlace al nuevo dominio y se desactiva el workflow (decisión abierta #5).
+## 2. Arquitectura propuesta
 
-### Esquema SQLite propuesto (se refina en SPEC v3)
+### 2.1 Estructura del repo (calcada de kofro)
 
-```sql
--- Núcleo (espejo del frontmatter actual)
-tools(id PK, slug UNIQUE, name, year, used_until, category, context, image,
-      successor_slug, published, updated_at)
--- Clasificación
-categories(id PK, slug UNIQUE, name)
-tags(id PK, name UNIQUE)
-tool_tags(tool_id FK, tag_id FK, PK(tool_id, tag_id))
-tool_relations(tool_id FK, related_tool_id FK, PK(...))
--- Búsqueda
-tools_fts(FTS5: name, context, tags)  -- contentless/linked table
--- Timeline (derivable de year/used_until; "eras" solo si se aprueban)
-eras(id PK, label, start_year, end_year, sort)   -- ej. "MS-DOS", "Docencia", "Web" (opcional)
+```
+software-tools/
+├── app/
+│   ├── public/          # lo desplegable (docroot): index.php, assets/, locales/, js/
+│   ├── server/          # PHP: front controllers + lib/ (módulos namespaced) + config
+│   └── data/            # catalog.sqlite (+comments), no se commitea (se genera/despliega)
+├── ops/
+│   ├── deploy/          # deploy.py (lftp, creds BWS en runtime; jamás en argv)
+│   ├── tests/           # e2e/smoke + contrato de datos
+│   └── tools/           # importador md→sqlite · verificador de paridad · sondas
+├── docs/                # SPEC, ADRs, plans/ (este documento), guías
+├── .agents/             # continuidad para agentes (CONTEXT/HANDOFF/STATE…)
+├── AGENTS.md · SPEC.md · PLAN.md · README.md
+└── (el sitio Astro v2 se retira de main; queda íntegro en el tag v2.0.0 y en la historia de git)
 ```
 
-## 4. El timeline como eje (requiere decisión de concepto)
+### 2.2 Stack y módulos
 
-El sitio dejará de ser "catálogo con un timeline" para ser **el timeline**. Antes de diseñar detalles se define **una metáfora visual fuerte** (acuerdo explícito). Direcciones a explorar (2–3 maquetas desechables):
+- **Servidor:** PHP 8.1, render server-side; `lib/` con módulos namespaced (Catalog, Timeline, Search, I18n, Comments, Seo). Sin framework ni dependencias PHP externas.
+- **Datos:** un SQLite (`catalog.sqlite`) generado por el importador; la app solo lee para el contenido público; escribe únicamente en comentarios/moderación.
+- **Cliente:** HTML renderizado por PHP (SEO primero) + capa JS progresiva (la experiencia).
 
-- **A — "Línea de vida":** el timeline como biografía profesional; scroll horizontal por décadas, cada herramienta un tramo inicio→fin; hitos.
-- **B — "Sucesiones":** visualizar las cadenas de reemplazo (Eudora → Outlook, …) como ríos/linajes que se bifurcan.
-- **C — "Estratos / archivo":** épocas como capas sedimentarias; tono museo-arqueológico, encaja con el "archivo histórico".
+### 2.3 Experiencia visual (dirección: scroll estilo Apple)
 
-Y una pieza de interacción sugerida: un **scrubber de años** ("en 1997 usabas: …").
+- **GSAP + ScrollTrigger** (pin, scrub, reveals) + **Lenis** (scroll inercial). Librerías **fijadas por versión y servidas localmente** (sin CDN — ethos del ecosistema).
+- **View Transitions API** nativa para transiciones entre vistas (sensación webapp).
+- Módulos ES organizados (no SPA): timeline, buscador, comentarios… un módulo por pieza.
+- `prefers-reduced-motion` respetado; degradación elegante sin JS (el sitio funciona).
+- **Boceto inicial de narrativa del home** (se evoluciona en Fase 1 con maquetas):
+  1. **Hero** — "20+ años de software" con contador animado.
+  2. **La línea** — recorrido 1985→hoy con pin por décadas y scrub.
+  3. **Eras / spotlights** — escenas pegadas con las herramientas clave de cada época y su contexto personal.
+  4. **Sucesiones** — el "río de reemplazos" (Eudora→Outlook, …) como visualización de linajes.
+  5. **Cierre** — entrada al catálogo y buscador.
+- Riqueza extra a evaluar en Fase 1 según el concepto ganador: micro-interacciones, tipografía cinética, canvas puntual — **nada que hipoteque performance** en hosting compartido.
 
-## 5. Fases del plan de acción
+### 2.4 i18n (es + en desde el inicio)
 
-| # | Fase | Entregable | Criterio de salida |
-|---|------|-----------|--------------------|
-| 0 | **Verificación del hosting** | sonda PHP subida por FTP (versión PHP, `pdo_sqlite`, FTS5, límites); docroot confirmado; SSL activo | Informe de sonda ✔ |
-| 1 | **Concepto y metáfora** (con el usuario) | 2–3 maquetas de concepto + dirección elegida | **Tu OK** |
-| 2 | **SPEC v3 + ADR-005** | esquema de BD definitivo, rutas, contratos, criterios de aceptación | **Tu OK** |
-| 3 | **Migración de datos** | importador markdown → `catalog.sqlite` + validación (28 fichas, integridad, duplicados) | Script + DB de prueba ✔ |
-| 4 | **Prototipo local** (Docker php + sqlite) | home-timeline + ficha + búsqueda con datos reales | **Tu revisión del prototipo** |
-| 5 | **Implementación completa** | app v3 completa (todas las secciones) | Tests + paridad de contenido ✔ |
-| 6 | **Despliegue y verificación en vivo** | sitio en `software-tools.pcabrera.com` + retiro de GitHub Pages | Deploy verificado (FTP + tu navegador) ✔ |
-| 7 | **Cierre** | tag `v3.0.0` bien documentado + docs-as-built + actualización de registros (_index) | Tag publicado ✔ |
+- **URLs:** español en la raíz (`/`, `/tool/eudora`), inglés bajo `/en/…`; `hreflang` + `x-default`; canonical por idioma.
+- **UI:** cadenas en `app/public/locales/{es,en}.json` (patrón kofro; cero strings hardcodeados).
+- **Contenido:** tabla `tool_i18n(tool_id, lang, context, …)`; el importador carga ES; las traducciones EN se producen en Fase 6 (borrador asistido + tu revisión) sin bloquear el desarrollo.
+- Idioma por defecto: **es**; detección de navegador con recordado (patrón kofro).
 
-**Nota de verificación:** el hosting de `pcabrera.com` responde a clientes automáticos con una página anti-bot; la verificación en vivo combinará comprobaciones por FTP + tu confirmación visual en un navegador real.
+### 2.5 Comentarios (propuesta de infraestructura propia)
 
-## 6. Decisiones abiertas (necesito tu respuesta)
+Se propone **construirlos sobre el SQLite del proyecto** (coherente con "integral y autónomo"; Giscus queda descartado: ata al ecosistema GitHub y pierde control de los datos).
 
-1. ¿Stack **PHP 8 + SQLite** en el hosting — de acuerdo? (se confirma en Fase 0).
-2. Timeline: ¿desarrollo **2–3 direcciones de concepto con maquetas** para elegir, o tienes una idea/metáfora en mente?
-3. Autoría de contenido en v3: ¿seguimos en **Markdown + git** (recomendado) o quieres **edición directa en la BD**? ¿Panel de administración ahora o después?
-4. ¿Se mantienen los **comentarios (Giscus)** en v3? (depende de GitHub; alternativas: quitarlos o sistema propio).
-5. ¿Qué hacemos con `cazucito.github.io/software-tools`? Opciones: **(a)** página final de aviso/enlace + retirar workflow (recomendado), **(b)** dejarlo congelado tal cual, **(c)** redirección.
-6. ¿El sitio sigue **solo en español**? ¿Incluimos analytics/SEO desde el inicio?
+- Tabla `comments(id, tool_id, lang, author, body, created_at, status[pending|approved|spam], ip_hash)`.
+- **Anti-spam sin cuentas:** honeypot + time-trap + rate-limit por `ip_hash` + longitud máxima + escape estricto (formato mínimo seguro, nunca HTML libre).
+- **Moderación:** mini-panel `admin.php` con pass en BWS (`software-tools_ADMIN_PASS` — la creas tú); lista/borra/aprueba.
+- **Respaldo:** snapshot periódico del `.sqlite` (script en `ops/tools/`) — los comentarios son datos vivos, a diferencia del catálogo.
+- Plantilla HTML server-side (SEO neutro); sin notificaciones por correo en v1.
 
-## 7. Riesgos y mitigaciones
+### 2.6 SEO
 
-- **Sin FTS5 o sin PDO_SQLite en el hosting** → fallback de búsqueda simple; confirmar en Fase 0 antes de decidir el diseño de búsqueda.
-- **Bot-check del hosting** dificulta la verificación automática → verificación por FTP + navegador humano (ya contemplado).
-- **Retiro de GitHub Pages** deja la URL vieja sin contenido → mitigar con página de aviso y conservar `v2.0.0` restaurable.
-- **Espejo de validación md↔BD** puede desincronizarse → el importador valida esquema y falla ruidosamente; la BD nunca se edita a mano en v3.0.
+Título/descripción por página e idioma · `hreflang`/canonical · **sitemap.xml bilingüe** · `robots.txt` · Open Graph/Twitter · **JSON-LD** (WebSite; timeline como `ItemList`; fichas como `SoftwareApplication`/`CreativeWork`) · slugs estables · performance (JS diferido, fuentes optimizadas, caché de assets).
 
-## 8. Lo que NO cambia
+## 3. Preservación del contenido (regla dura)
 
-- Contenido e idioma (español), slugs estables, tema oscuro y tono del catálogo.
-- El repo en GitHub como fuente del código; el flujo de agentes (AGENTS.md, docs/).
-- ADR-003: Markdown como fuente de autoría (el importador es su evolución natural).
+1. **Inventario de partida:** 28 fichas reales + plantilla `_template.md` (la plantilla no se publica en v3; se conserva en el repo — *decisión menor B*). Sin imágenes asociadas hoy (el esquema v3 mantiene soporte de imagen para futuro).
+2. **Importador con verificación campo por campo** (name, slug, year, usedUntil, category, tags[], context, successor, successorSlug, related[], published) → filas SQLite + **reporte automático md↔BD**.
+3. **Checksums de contenido:** conteo de palabras + hash normalizado de cada `context` — cualquier pérdida falla ruidosamente.
+4. **Verificación página vieja ↔ nueva:** para cada slug, el texto normalizado de la ficha v2 debe aparecer íntegro en la v3 (caza de frases perdidas en el rediseño).
+5. **Respaldos permanentes:** tag `v2.0.0`, bundle local y `tools.json` histórico; el Markdown sigue versionado como fuente de autoría.
+6. **Nada se edita "de paso" durante la migración:** mejoras editoriales van en commits separados y revisables DESPUÉS de probar la paridad 1:1.
+
+## 4. Fases del plan de acción
+
+| # | Fase | Entregable | Gate |
+|---|------|-----------|------|
+| 0 | Verificación de hosting | ✅ Completada (§1) | ✔ |
+| 1 | **Concepto y dirección visual** | 2–3 maquetas de concepto (scroll Apple-like) + dirección elegida + librerías confirmadas | **Tu OK** |
+| 2 | **SPEC v3 + ADR-005 (arquitectura) + esquema SQLite definitivo + plan de reestructura del repo** | Documentos | **Tu OK** |
+| 3 | Importación + verificación de paridad | Importador + `catalog.sqlite` + reporte | ✔ automático |
+| 4 | **Prototipo local** (Docker php:8.1 + SQLite): home-timeline, ficha, búsqueda FTS | Prototipo navegable | **Tu revisión** |
+| 5 | Implementación completa (vistas, comentarios, admin mínimo, i18n UI, SEO) | App v3 | Tests ✔ |
+| 6 | Contenido EN: traducción asistida + revisión | Fichas bilingües | **Tu revisión** |
+| 7 | **Deploy a producción** + verificación (FTP + navegador) + retiro de GitHub Pages (workflow eliminado) | Sitio en vivo | ✔ verificado |
+| 8 | Cierre: tag `v3.0.0` (bien documentado), docs-as-built, registros | Repo completo | ✔ |
+
+## 5. Decisiones menores pendientes (para Fase 2)
+
+- **A.** Comentarios: ¿publicación directa con moderación retroactiva (recomendado para empezar; tráfico bajo) o cola previa a publicación?
+- **B.** ¿Confirmas excluir `_template.md` de la publicación? (recomendado)
+- **C.** *(Opcional)* ¿revisas en cPanel si hay selector de PHP ≥8.2?
+- **D.** Libs definitivas (GSAP/Lenis/…) — se cierran con las maquetas de la Fase 1.
+
+## 6. Riesgos y mitigaciones
+
+- **PHP 8.1** → compatibilidad 8.1 en todo el código (ya previsto).
+- **Límite de 30 s por request** → consultas simples; cache de fragmentos solo si hiciera falta (dataset diminuto: riesgo bajo).
+- **Ambición visual** → gates de concepto (F1) y prototipo (F4) antes de la implementación completa; performance budget explícito.
+- **Verificación HTTP en pcabrera.com** (histórico de bot-check) → la sonda respondió bien con UA de navegador; si estorba: verificación por FTP + confirmación visual tuya.
+- **Traducción EN** → borrador por agente + tu revisión explícita antes de publicar nada.
+
+## 7. Lo que NO cambia
+
+- Contenido, tono personal, slugs y el español como idioma base (el inglés es capa nueva).
+- Identidad (tema oscuro, tipografía display coherente) — evoluciona en F1, no se pierde.
+- [ADR-003](../adr/003-modelo-de-datos.md): Markdown como fuente de autoría (el importador es su evolución natural).
+- El repo en GitHub como fuente del código y de la historia (el tag `v2.0.0` conserva el pasado íntegro).
 
 ---
 
-*Siguiente paso al aprobar: Fase 0 (sonda de hosting) + Fase 1 (concepto).*
+*Siguiente paso propuesto: **Fase 1** — 2–3 maquetas de concepto del scroll narrativo para elegir la dirección visual.*
