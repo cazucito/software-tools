@@ -1,6 +1,8 @@
 ---
 const currentYear = new Date().getFullYear();
-const baseUrl = import.meta.env.BASE_URL;
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <footer class="bg-slate-900 border-t border-slate-800 py-8">
