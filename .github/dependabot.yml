@@ -1,0 +1,20 @@
+# Dependabot configuration — grouped updates.
+#
+# Context: security updates used to arrive as one PR (and one branch) per alert,
+# piling up when unattended. Now:
+#   - security updates are grouped into a single PR
+#   - version updates run monthly, with minor+patch grouped; majors stay individual
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      security:
+        applies-to: "security-updates"
+        patterns: ["*"]
+      minor-patch:
+        applies-to: "version-updates"
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
