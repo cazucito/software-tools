@@ -20,6 +20,7 @@
 | 8 | Placeholder | Página «en construcción» **ya desplegada** en la raíz del subdominio |
 | 9 | Descargas | Uso **personal primero** + redistribuible público; **clave individual por software**; **sin subidas** de usuarios; rutas y streamer por PHP (§2.8) |
 | 10 | Íconos/imágenes | **Sí** — assets por herramienta (ícono/logo/imagen), reales y trazables (§2.9) |
+| 11 | Panel admin | **Sí (propuesto)** — catálogo + descargas + comentarios; edita en BD y **exporta a Markdown** para el repo; subidas solo admin (chunked estilo kofro); ADR-006 en Fase 2 |
 | — | Regla dura | **No se pierde información** del contenido actual (ver §3) |
 
 ## 1. Fase 0 — Resultados (COMPLETADA ✔)
@@ -150,7 +151,7 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 | 2 | **SPEC v3 + ADR-005 (arquitectura) + esquema SQLite definitivo + sistema de modalidades + descargas (clave por software) + assets (íconos/imágenes) + reestructura del repo** | Documentos | **Tu OK** |
 | 3 | Importación + verificación de paridad | Importador + `catalog.sqlite` + reporte | ✔ automático |
 | 4 | **Prototipo local** (Docker php:8.1 + SQLite): home-timeline, ficha, búsqueda FTS | Prototipo navegable | **Tu revisión** |
-| 5 | Implementación completa (vistas, comentarios, admin mínimo, i18n UI, **modalidades seleccionables**, descargas con clave, **assets**, SEO) | App v3 | Tests ✔ |
+| 5 | Implementación completa (vistas, comentarios, **admin: catálogo/descargas/comentarios**, i18n UI, **modalidades seleccionables**, descargas con clave, **assets**, SEO) | App v3 | Tests ✔ |
 | 6 | Contenido EN: traducción asistida + revisión | Fichas bilingües | **Tu revisión** |
 | 7 | **Deploy a producción** + verificación (FTP + navegador) + retiro de GitHub Pages (workflow eliminado) | Sitio en vivo | ✔ verificado |
 | 8 | Cierre: tag `v3.0.0` (bien documentado), docs-as-built, registros | Repo completo | ✔ |

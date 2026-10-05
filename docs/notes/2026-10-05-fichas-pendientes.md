@@ -1,6 +1,8 @@
 # Fichas pendientes — auditoría del estado actual (28 fichas)
 
-**Fecha:** 2026-10-05 · **Contexto:** indicación del dueño — «la v3 trabaja primero con lo ya registrado; incluso trata de localizar la información faltante». Esta auditoría cubre lo registrado y cataloga lo que falta. Es referencia de [la propuesta v3](../plans/2026-10-05-v3-propuesta-arquitectura.md) (§3, punto 7).
+> **Actualización (post-ejecución, 2026-10-05):** las **20 herramientas colgantes fueron registradas** como fichas nuevas (28 → 48 herramientas), la **reciprocidad de `related` quedó completa** (60 enlaces agregados, 0 asimetrías) y los **2 typos de slugs** se corrigieron. Solo quedan las **4 «versiones siguientes»** (`maple-6`, `mathematica-3`, `matlab-r14`, `quickbasic-4-5`) — se resolverán en v3 como `next_version` de su ficha base. Lo pendiente de assets (imágenes/íconos) y del inventario de descargas sigue en pie. Ver también [descargas-estado](2026-10-05-descargas-estado.md).
+
+**Fecha original:** 2026-10-05 · **Contexto:** indicación del dueño — «la v3 trabaja primero con lo ya registrado; incluso trata de localizar la información faltante». Esta auditoría cubre lo registrado y cataloga lo que falta. Es referencia de [la propuesta v3](../plans/2026-10-05-v3-propuesta-arquitectura.md) (§3, punto 7).
 
 ## 1. Resumen
 
