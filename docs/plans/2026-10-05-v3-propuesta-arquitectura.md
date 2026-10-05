@@ -16,7 +16,7 @@
 | 4 | Comentarios | **Sí** — infraestructura propia propuesta (ver §2.5) |
 | 5 | Repo | **Repositorio tradicional**; **no existirá GitHub Pages** (se retira el workflow; sin página de aviso) |
 | 6 | Idiomas + SEO | **Internacionalizable desde el inicio (es + en)**, con SEO cuidado |
-| 7 | Modalidades | **Las tres direcciones conviven como modos seleccionables** («al gusto») — detalle en §2.7 |
+| 7 | Modalidades | **Las tres direcciones conviven como modos seleccionables** («al gusto»; default **Línea**) — detalle en §2.7 |
 | 8 | Placeholder | Página «en construcción» **ya desplegada** en la raíz del subdominio |
 | 9 | Descargas | Uso **personal primero** + redistribuible público; **clave individual por software**; **sin subidas** de usuarios; rutas y streamer por PHP (§2.8) |
 | 10 | Íconos/imágenes | **Sí** — assets por herramienta (ícono/logo/imagen), reales y trazables (§2.9) |
@@ -107,7 +107,7 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 - **Selector de modo** visible y discreto; la preferencia se recuerda (`localStorage`) y es compartible por URL (`?modo=linea`); los modos pueden activarse/desactivarse desde configuración (el dueño decide cuáles están disponibles).
 - **Un solo contenido:** los modos no duplican información ni SEO (canonical única, mismo HTML semántico); solo se descarga el código del modo activo (code-splitting).
 - **Alcance:** la experiencia-home (el timeline) es la firma de cada modo; las páginas internas comparten estructura y reciben los *tokens* del modo activo (paleta, tipografía, acabado).
-- **Default:** por decidir (propuesta inicial: **Línea**, la más neutra).
+- **Default:** **Línea** (decidido 2026-10-05). El visitante puede cambiarlo al gusto en todo momento.
 
 ### 2.8 Descargas — archivos por herramienta (ajustado 2026-10-05)
 
@@ -139,6 +139,7 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 4. **Verificación página vieja ↔ nueva:** para cada slug, el texto normalizado de la ficha v2 debe aparecer íntegro en la v3 (caza de frases perdidas en el rediseño).
 5. **Respaldos permanentes:** tag `v2.0.0`, bundle local y `tools.json` histórico; el Markdown sigue versionado como fuente de autoría.
 6. **Nada se edita "de paso" durante la migración:** mejoras editoriales van en commits separados y revisables DESPUÉS de probar la paridad 1:1.
+7. **Punto de partida (indicación del dueño, 2026-10-05):** la v3 se construye primero con **lo ya registrado** (las 28 fichas); en paralelo se **localiza la información faltante** (auditoría en [../notes/2026-10-05-fichas-pendientes.md](../notes/2026-10-05-fichas-pendientes.md)).
 
 ## 4. Fases del plan de acción
 
