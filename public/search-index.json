@@ -1,5 +1,33 @@
 [
   {
+    "name": "DataGrip",
+    "slug": "datagrip",
+    "year": 2018,
+    "decade": "2010s",
+    "category": "database",
+    "tags": [
+      "database",
+      "jetbrains",
+      "sql",
+      "ide"
+    ],
+    "context": "El IDE de bases de datos de JetBrains. Consistencia total con IntelliJ y refactorización de SQL de verdad."
+  },
+  {
+    "name": "Google Chrome",
+    "slug": "google-chrome",
+    "year": 2018,
+    "decade": "2010s",
+    "category": "tool",
+    "tags": [
+      "browser",
+      "google",
+      "internet",
+      "web"
+    ],
+    "context": "El navegador de la madurez. Cuando Firefox cedió terreno, Chrome ya era la infraestructura silenciosa de la web."
+  },
+  {
     "name": "Kubernetes",
     "slug": "kubernetes",
     "year": 2015,
@@ -13,6 +41,20 @@
       "devops"
     ],
     "context": "El estándar de orquestación de contenedores. Cuando Docker resolvió el empaquetado, Kubernetes resolvió el despliegue a escala. Cambió cómo pienso la infraestructura."
+  },
+  {
+    "name": "Oracle VM VirtualBox",
+    "slug": "virtualbox",
+    "year": 2015,
+    "decade": "2010s",
+    "category": "infra",
+    "tags": [
+      "virtualization",
+      "oracle",
+      "vm",
+      "x86"
+    ],
+    "context": "La virtualización que sobrevive a todo. Cuando VMware se volvió corporativo, VirtualBox siguió siendo el laboratorio gratuito en cualquier máquina."
   },
   {
     "name": "Visual Studio Code",
@@ -30,6 +72,20 @@
     "context": "El editor que conquistó al mundo. Ligero, extensible, y gratuito. Pasó de ser el nuevo chico a ser el estándar de facto en pocos años. Mi editor principal desde entonces."
   },
   {
+    "name": "Atom",
+    "slug": "atom",
+    "year": 2014,
+    "decade": "2010s",
+    "category": "editor",
+    "tags": [
+      "editor",
+      "github",
+      "electron",
+      "open-source"
+    ],
+    "context": "El editor hackeable de GitHub. Intentó ser todo para todos, con tecnologías web dentro de un editor."
+  },
+  {
     "name": "Docker",
     "slug": "docker",
     "year": 2013,
@@ -43,6 +99,20 @@
       "virtualization"
     ],
     "context": "La revolución de los contenedores. Empaquetar aplicaciones con todas sus dependencias y desplegarlas en cualquier lado. Cambió mi forma de desarrollar y desplegar software."
+  },
+  {
+    "name": "Sublime Text",
+    "slug": "sublime-text",
+    "year": 2012,
+    "decade": "2010s",
+    "category": "editor",
+    "tags": [
+      "editor",
+      "sublime",
+      "proprietary",
+      "fast"
+    ],
+    "context": "El editor que demostró que la velocidad vuelve a importar. Antes de VS Code, fue el estándar de facto de los editores modernos."
   },
   {
     "name": "IntelliJ IDEA",
@@ -75,6 +145,20 @@
     "context": "La herramienta oficial de Oracle para trabajar con sus bases de datos. Gratuita, completa, y el estándar durante mis años de docencia Oracle. Reemplazó a SQL*Plus para desarrollo."
   },
   {
+    "name": "Acronis True Image",
+    "slug": "acronis-true-image",
+    "year": 2005,
+    "decade": "2000s",
+    "category": "tool",
+    "tags": [
+      "backup",
+      "imaging",
+      "acronis",
+      "disaster-recovery"
+    ],
+    "context": "El heredero de Norton Ghost en mis rutinas de respaldo. Imágenes de disco y restauración confiable, con interfaz moderna."
+  },
+  {
     "name": "Mozilla Firefox",
     "slug": "mozilla-firefox",
     "year": 2004,
@@ -88,6 +172,20 @@
       "open-source"
     ],
     "context": "El navegador que rescató la web del monopolio de Internet Explorer. Extensiones, tabs, y el espíritu open source. Mi navegador principal durante más de una década."
+  },
+  {
+    "name": "Visual Basic .NET",
+    "slug": "visual-basic-net",
+    "year": 2002,
+    "decade": "2000s",
+    "category": "lenguaje",
+    "tags": [
+      "vbnet",
+      "microsoft",
+      "dotnet",
+      "ide"
+    ],
+    "context": "El heredero de VB6 en el mundo .NET. Mismo sabor de BASIC, pero sobre una plataforma moderna de verdad."
   },
   {
     "name": "Visual Studio",
@@ -120,6 +218,20 @@
     "context": "Mi IDE de Java durante 8 años. De lo mejor del software libre, aunque eventualmente el peso de los plugins y la lentitud me hicieron buscar alternativas."
   },
   {
+    "name": "Multisim",
+    "slug": "multisim",
+    "year": 2000,
+    "decade": "2000s",
+    "category": "tool",
+    "tags": [
+      "electronics",
+      "simulation",
+      "spice",
+      "circuit-design"
+    ],
+    "context": "La continuación de Electronics Workbench tras su integración a National Instruments. El mismo laboratorio virtual, en otra casa."
+  },
+  {
     "name": "NetBeans",
     "slug": "netbeans",
     "year": 2000,
@@ -133,6 +245,20 @@
       "open-source"
     ],
     "context": "El IDE oficial de Sun (luego Oracle). Usado intensivamente durante mis años de docencia de cursos Oracle. Maven integrado y soporte Java EE nativo."
+  },
+  {
+    "name": "Oracle Database",
+    "slug": "oracle-database",
+    "year": 2000,
+    "decade": "2000s",
+    "category": "database",
+    "tags": [
+      "database",
+      "oracle",
+      "sql",
+      "enterprise"
+    ],
+    "context": "El estándar empresarial que estudié y enseñé durante mis años de docencia Oracle. La referencia de las bases de datos relacionales."
   },
   {
     "name": "VMware Workstation",
@@ -150,6 +276,63 @@
     "context": "La revolución de la virtualización x86. Correr Windows dentro de Windows, o Linux dentro de Windows, sin reiniciar. Cambió mi forma de probar software y sistemas operativos."
   },
   {
+    "name": "Internet Explorer",
+    "slug": "internet-explorer",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "browser",
+      "microsoft",
+      "internet",
+      "web"
+    ],
+    "context": "El navegador que venía con Windows y dominó los primeros años de la web masiva. Llegó cuando Netscape empezó a ceder."
+  },
+  {
+    "name": "LaTeX",
+    "slug": "latex",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "editor",
+    "tags": [
+      "latex",
+      "tex",
+      "scientific-writing",
+      "typesetting"
+    ],
+    "context": "El sistema de composición con el que escribir ciencia dejó de ser un problema de formato. Sucesor natural de Chi Writer en mi camino académico."
+  },
+  {
+    "name": "Microsoft Outlook",
+    "slug": "microsoft-outlook",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "email",
+      "microsoft",
+      "office",
+      "exchange",
+      "client"
+    ],
+    "context": "El relevo de Eudora en mi escritorio. Outlook juntó correo, calendario y contactos en una sola aplicación."
+  },
+  {
+    "name": "Microsoft Access",
+    "slug": "ms-access",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "database",
+    "tags": [
+      "database",
+      "microsoft",
+      "office",
+      "desktop"
+    ],
+    "context": "La base de datos de escritorio de Office. Rápida para prototipos y formularios, compañera natural de Visual Basic."
+  },
+  {
     "name": "Visual Basic 6.0",
     "slug": "visual-basic-6",
     "year": 1998,
@@ -165,6 +348,79 @@
     "context": "RAD (Rapid Application Development) en su máxima expresión. Arrastrar, soltar, y tener una aplicación Windows funcionando en minutos. Revolucionario para la época."
   },
   {
+    "name": "Windows 98",
+    "slug": "windows-98",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "os",
+    "tags": [
+      "windows",
+      "os",
+      "microsoft",
+      "desktop",
+      "usb"
+    ],
+    "context": "El Windows de la transición. Con USB y FAT32, fue la base donde vivieron mis herramientas de finales de los 90."
+  },
+  {
+    "name": "Windows Explorer",
+    "slug": "windows-explorer",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "file-manager",
+      "windows",
+      "microsoft",
+      "shell"
+    ],
+    "context": "El gestor de archivos que vino con Windows y jubiló a Norton Commander. Menos comandos, más clics — y estaba en todas partes."
+  },
+  {
+    "name": "WinZip",
+    "slug": "winzip",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "zip",
+      "compression",
+      "windows",
+      "utility"
+    ],
+    "context": "El ZIP con ventanas. Cuando dejé el DOS atrás, WinZip hizo cómodo comprimir y descomprimir sin memorizar comandos."
+  },
+  {
+    "name": "Borland C++",
+    "slug": "borland-cpp",
+    "year": 1996,
+    "decade": "1990s",
+    "category": "lenguaje",
+    "tags": [
+      "c",
+      "cpp",
+      "borland",
+      "ide",
+      "programming"
+    ],
+    "context": "El siguiente paso de Turbo C. Un C++ completo de Borland para cuando los proyectos crecieron más allá del C puro."
+  },
+  {
+    "name": "Delphi",
+    "slug": "delphi",
+    "year": 1996,
+    "decade": "1990s",
+    "category": "lenguaje",
+    "tags": [
+      "pascal",
+      "borland",
+      "ide",
+      "windows",
+      "rapid"
+    ],
+    "context": "La evolución de Borland Pascal hacia RAD. El mismo Pascal que aprendí, ahora con componentes visuales y compilador nativo."
+  },
+  {
     "name": "Electronic Workbench",
     "slug": "electronic-workbench",
     "year": 1996,
@@ -178,6 +434,34 @@
       "engineering"
     ],
     "context": "El laboratorio de electrónica virtual. Armaba circuitos en la pantalla, conectaba osciloscopios virtuales, y veía el comportamiento antes de soldar componentes reales."
+  },
+  {
+    "name": "FIGlet",
+    "slug": "figlet",
+    "year": 1996,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "ascii-art",
+      "terminal",
+      "unix",
+      "banners"
+    ],
+    "context": "El arte ASCII hecho programa. En el mundo Unix encontré lo que Bannermania hacía en DOS: letras grandes desde la terminal."
+  },
+  {
+    "name": "Microsoft Excel",
+    "slug": "microsoft-excel",
+    "year": 1996,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "spreadsheet",
+      "microsoft",
+      "office",
+      "business"
+    ],
+    "context": "La hoja de cálculo que reemplazó a Lotus 1-2-3 en mi trabajo. Cuando la industria migró a Windows, mis presupuestos migraron con ella."
   },
   {
     "name": "Norton Ghost",

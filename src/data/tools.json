@@ -1,6 +1,53 @@
 {
   "tools": [
     {
+      "name": "DataGrip",
+      "slug": "datagrip",
+      "year": 2018,
+      "decade": "2010s",
+      "category": "database",
+      "tags": [
+        "database",
+        "jetbrains",
+        "sql",
+        "ide"
+      ],
+      "image": null,
+      "context": "El IDE de bases de datos de JetBrains. Consistencia total con IntelliJ y refactorización de SQL de verdad.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "oracle-sql-developer",
+        "intellij-idea",
+        "oracle-database"
+      ],
+      "published": true
+    },
+    {
+      "name": "Google Chrome",
+      "slug": "google-chrome",
+      "year": 2018,
+      "decade": "2010s",
+      "category": "tool",
+      "tags": [
+        "browser",
+        "google",
+        "internet",
+        "web"
+      ],
+      "image": null,
+      "context": "El navegador de la madurez. Cuando Firefox cedió terreno, Chrome ya era la infraestructura silenciosa de la web.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "mozilla-firefox",
+        "internet-explorer"
+      ],
+      "published": true
+    },
+    {
       "name": "Kubernetes",
       "slug": "kubernetes",
       "year": 2015,
@@ -21,6 +68,29 @@
       "related": [
         "docker",
         "vmware-workstation"
+      ],
+      "published": true
+    },
+    {
+      "name": "Oracle VM VirtualBox",
+      "slug": "virtualbox",
+      "year": 2015,
+      "decade": "2010s",
+      "category": "infra",
+      "tags": [
+        "virtualization",
+        "oracle",
+        "vm",
+        "x86"
+      ],
+      "image": null,
+      "context": "La virtualización que sobrevive a todo. Cuando VMware se volvió corporativo, VirtualBox siguió siendo el laboratorio gratuito en cualquier máquina.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "vmware-workstation",
+        "docker"
       ],
       "published": true
     },
@@ -50,6 +120,29 @@
       "published": true
     },
     {
+      "name": "Atom",
+      "slug": "atom",
+      "year": 2014,
+      "decade": "2010s",
+      "category": "editor",
+      "tags": [
+        "editor",
+        "github",
+        "electron",
+        "open-source"
+      ],
+      "image": null,
+      "context": "El editor hackeable de GitHub. Intentó ser todo para todos, con tecnologías web dentro de un editor.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "visual-studio-code",
+        "sublime-text"
+      ],
+      "published": true
+    },
+    {
       "name": "Docker",
       "slug": "docker",
       "year": 2013,
@@ -69,7 +162,31 @@
       "successorSlug": null,
       "related": [
         "vmware-workstation",
-        "kubernetes"
+        "kubernetes",
+        "virtualbox"
+      ],
+      "published": true
+    },
+    {
+      "name": "Sublime Text",
+      "slug": "sublime-text",
+      "year": 2012,
+      "decade": "2010s",
+      "category": "editor",
+      "tags": [
+        "editor",
+        "sublime",
+        "proprietary",
+        "fast"
+      ],
+      "image": null,
+      "context": "El editor que demostró que la velocidad vuelve a importar. Antes de VS Code, fue el estándar de facto de los editores modernos.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "visual-studio-code",
+        "atom"
       ],
       "published": true
     },
@@ -93,8 +210,9 @@
       "successorSlug": null,
       "related": [
         "eclipse",
-        "netbeans-8-2",
-        "vscode"
+        "netbeans",
+        "visual-studio-code",
+        "datagrip"
       ],
       "published": true
     },
@@ -118,7 +236,31 @@
       "successorSlug": "datagrip",
       "related": [
         "netbeans",
-        "oracle-database"
+        "oracle-database",
+        "datagrip"
+      ],
+      "published": true
+    },
+    {
+      "name": "Acronis True Image",
+      "slug": "acronis-true-image",
+      "year": 2005,
+      "decade": "2000s",
+      "category": "tool",
+      "tags": [
+        "backup",
+        "imaging",
+        "acronis",
+        "disaster-recovery"
+      ],
+      "image": null,
+      "context": "El heredero de Norton Ghost en mis rutinas de respaldo. Imágenes de disco y restauración confiable, con interfaz moderna.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "norton-ghost",
+        "vmware-workstation"
       ],
       "published": true
     },
@@ -142,7 +284,31 @@
       "successorSlug": "google-chrome",
       "related": [
         "netscape-navigator",
-        "internet-explorer"
+        "internet-explorer",
+        "google-chrome"
+      ],
+      "published": true
+    },
+    {
+      "name": "Visual Basic .NET",
+      "slug": "visual-basic-net",
+      "year": 2002,
+      "decade": "2000s",
+      "category": "lenguaje",
+      "tags": [
+        "vbnet",
+        "microsoft",
+        "dotnet",
+        "ide"
+      ],
+      "image": null,
+      "context": "El heredero de VB6 en el mundo .NET. Mismo sabor de BASIC, pero sobre una plataforma moderna de verdad.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "visual-basic-6",
+        "visual-studio"
       ],
       "published": true
     },
@@ -166,7 +332,8 @@
       "successorSlug": "visual-studio-code",
       "related": [
         "visual-basic-6",
-        "eclipse"
+        "eclipse",
+        "visual-basic-net"
       ],
       "published": true
     },
@@ -190,7 +357,31 @@
       "successorSlug": "intellij-idea",
       "related": [
         "netbeans",
-        "visual-studio"
+        "visual-studio",
+        "intellij-idea"
+      ],
+      "published": true
+    },
+    {
+      "name": "Multisim",
+      "slug": "multisim",
+      "year": 2000,
+      "decade": "2000s",
+      "category": "tool",
+      "tags": [
+        "electronics",
+        "simulation",
+        "spice",
+        "circuit-design"
+      ],
+      "image": null,
+      "context": "La continuación de Electronics Workbench tras su integración a National Instruments. El mismo laboratorio virtual, en otra casa.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "electronic-workbench",
+        "matlab"
       ],
       "published": true
     },
@@ -214,7 +405,34 @@
       "successorSlug": "intellij-idea",
       "related": [
         "eclipse",
-        "oracle-sql-developer"
+        "oracle-sql-developer",
+        "intellij-idea",
+        "oracle-database"
+      ],
+      "published": true
+    },
+    {
+      "name": "Oracle Database",
+      "slug": "oracle-database",
+      "year": 2000,
+      "decade": "2000s",
+      "category": "database",
+      "tags": [
+        "database",
+        "oracle",
+        "sql",
+        "enterprise"
+      ],
+      "image": null,
+      "context": "El estándar empresarial que estudié y enseñé durante mis años de docencia Oracle. La referencia de las bases de datos relacionales.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "oracle-sql-developer",
+        "netbeans",
+        "datagrip",
+        "ms-access"
       ],
       "published": true
     },
@@ -238,7 +456,110 @@
       "successorSlug": "virtualbox",
       "related": [
         "windows-95",
-        "norton-ghost"
+        "norton-ghost",
+        "acronis-true-image",
+        "docker",
+        "kubernetes",
+        "virtualbox",
+        "windows-98"
+      ],
+      "published": true
+    },
+    {
+      "name": "Internet Explorer",
+      "slug": "internet-explorer",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "browser",
+        "microsoft",
+        "internet",
+        "web"
+      ],
+      "image": null,
+      "context": "El navegador que venía con Windows y dominó los primeros años de la web masiva. Llegó cuando Netscape empezó a ceder.",
+      "usedUntil": 2004,
+      "successor": "Mozilla Firefox",
+      "successorSlug": "mozilla-firefox",
+      "related": [
+        "netscape-navigator",
+        "mozilla-firefox",
+        "windows-95",
+        "windows-98",
+        "google-chrome"
+      ],
+      "published": true
+    },
+    {
+      "name": "LaTeX",
+      "slug": "latex",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "editor",
+      "tags": [
+        "latex",
+        "tex",
+        "scientific-writing",
+        "typesetting"
+      ],
+      "image": null,
+      "context": "El sistema de composición con el que escribir ciencia dejó de ser un problema de formato. Sucesor natural de Chi Writer en mi camino académico.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "chi-writer",
+        "mathematica",
+        "matlab"
+      ],
+      "published": true
+    },
+    {
+      "name": "Microsoft Outlook",
+      "slug": "microsoft-outlook",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "email",
+        "microsoft",
+        "office",
+        "exchange",
+        "client"
+      ],
+      "image": null,
+      "context": "El relevo de Eudora en mi escritorio. Outlook juntó correo, calendario y contactos en una sola aplicación.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "eudora",
+        "microsoft-excel"
+      ],
+      "published": true
+    },
+    {
+      "name": "Microsoft Access",
+      "slug": "ms-access",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "database",
+      "tags": [
+        "database",
+        "microsoft",
+        "office",
+        "desktop"
+      ],
+      "image": null,
+      "context": "La base de datos de escritorio de Office. Rápida para prototipos y formularios, compañera natural de Visual Basic.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "visual-basic-6",
+        "microsoft-excel",
+        "oracle-database"
       ],
       "published": true
     },
@@ -262,7 +583,134 @@
       "successorSlug": "visual-basic-net",
       "related": [
         "windows-95",
-        "ms-access"
+        "ms-access",
+        "delphi",
+        "visual-basic-net",
+        "visual-studio"
+      ],
+      "published": true
+    },
+    {
+      "name": "Windows 98",
+      "slug": "windows-98",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "os",
+      "tags": [
+        "windows",
+        "os",
+        "microsoft",
+        "desktop",
+        "usb"
+      ],
+      "image": null,
+      "context": "El Windows de la transición. Con USB y FAT32, fue la base donde vivieron mis herramientas de finales de los 90.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "windows-95",
+        "norton-ghost",
+        "vmware-workstation",
+        "ms-dos-5-1",
+        "internet-explorer",
+        "windows-explorer",
+        "winzip"
+      ],
+      "published": true
+    },
+    {
+      "name": "Windows Explorer",
+      "slug": "windows-explorer",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "file-manager",
+        "windows",
+        "microsoft",
+        "shell"
+      ],
+      "image": null,
+      "context": "El gestor de archivos que vino con Windows y jubiló a Norton Commander. Menos comandos, más clics — y estaba en todas partes.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "norton-commander",
+        "windows-98"
+      ],
+      "published": true
+    },
+    {
+      "name": "WinZip",
+      "slug": "winzip",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "zip",
+        "compression",
+        "windows",
+        "utility"
+      ],
+      "image": null,
+      "context": "El ZIP con ventanas. Cuando dejé el DOS atrás, WinZip hizo cómodo comprimir y descomprimir sin memorizar comandos.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "pkzip",
+        "windows-98"
+      ],
+      "published": true
+    },
+    {
+      "name": "Borland C++",
+      "slug": "borland-cpp",
+      "year": 1996,
+      "decade": "1990s",
+      "category": "lenguaje",
+      "tags": [
+        "c",
+        "cpp",
+        "borland",
+        "ide",
+        "programming"
+      ],
+      "image": null,
+      "context": "El siguiente paso de Turbo C. Un C++ completo de Borland para cuando los proyectos crecieron más allá del C puro.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "turbo-c",
+        "borland-pascal-7"
+      ],
+      "published": true
+    },
+    {
+      "name": "Delphi",
+      "slug": "delphi",
+      "year": 1996,
+      "decade": "1990s",
+      "category": "lenguaje",
+      "tags": [
+        "pascal",
+        "borland",
+        "ide",
+        "windows",
+        "rapid"
+      ],
+      "image": null,
+      "context": "La evolución de Borland Pascal hacia RAD. El mismo Pascal que aprendí, ahora con componentes visuales y compilador nativo.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "borland-pascal-7",
+        "turbo-c",
+        "visual-basic-6"
       ],
       "published": true
     },
@@ -286,7 +734,55 @@
       "successorSlug": "multisim",
       "related": [
         "matlab",
-        "mathematica"
+        "mathematica",
+        "multisim"
+      ],
+      "published": true
+    },
+    {
+      "name": "FIGlet",
+      "slug": "figlet",
+      "year": 1996,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "ascii-art",
+        "terminal",
+        "unix",
+        "banners"
+      ],
+      "image": null,
+      "context": "El arte ASCII hecho programa. En el mundo Unix encontré lo que Bannermania hacía en DOS: letras grandes desde la terminal.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "bannermania",
+        "ms-dos-5-1"
+      ],
+      "published": true
+    },
+    {
+      "name": "Microsoft Excel",
+      "slug": "microsoft-excel",
+      "year": 1996,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "spreadsheet",
+        "microsoft",
+        "office",
+        "business"
+      ],
+      "image": null,
+      "context": "La hoja de cálculo que reemplazó a Lotus 1-2-3 en mi trabajo. Cuando la industria migró a Windows, mis presupuestos migraron con ella.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "lotus-1-2-3",
+        "microsoft-outlook",
+        "ms-access"
       ],
       "published": true
     },
@@ -310,7 +806,10 @@
       "successorSlug": "acronis-true-image",
       "related": [
         "ms-dos-5-1",
-        "norton-commander"
+        "norton-commander",
+        "acronis-true-image",
+        "vmware-workstation",
+        "windows-98"
       ],
       "published": true
     },
@@ -357,7 +856,8 @@
       "related": [
         "ms-dos-5-1",
         "turbo-c",
-        "bannermania"
+        "bannermania",
+        "latex"
       ],
       "published": true
     },
@@ -381,7 +881,9 @@
       "successorSlug": "mathematica-3",
       "related": [
         "matlab",
-        "maple-v"
+        "maple-v",
+        "electronic-workbench",
+        "latex"
       ],
       "published": true
     },
@@ -405,7 +907,9 @@
       "successorSlug": "internet-explorer",
       "related": [
         "windows-95",
-        "eudora"
+        "eudora",
+        "internet-explorer",
+        "mozilla-firefox"
       ],
       "published": true
     },
@@ -429,7 +933,13 @@
       "successorSlug": "windows-98",
       "related": [
         "ms-dos-5-1",
-        "visual-basic-6"
+        "visual-basic-6",
+        "eudora",
+        "internet-explorer",
+        "lotus-1-2-3",
+        "netscape-navigator",
+        "vmware-workstation",
+        "windows-98"
       ],
       "published": true
     },
@@ -453,7 +963,8 @@
       "successorSlug": "microsoft-outlook",
       "related": [
         "netscape-navigator",
-        "windows-95"
+        "windows-95",
+        "microsoft-outlook"
       ],
       "published": true
     },
@@ -477,7 +988,10 @@
       "successorSlug": "matlab-r14",
       "related": [
         "mathematica",
-        "maple-v"
+        "maple-v",
+        "electronic-workbench",
+        "latex",
+        "multisim"
       ],
       "published": true
     },
@@ -501,7 +1015,8 @@
       "successorSlug": "figlet",
       "related": [
         "ms-dos-5-1",
-        "chi-writer"
+        "chi-writer",
+        "figlet"
       ],
       "published": true
     },
@@ -526,7 +1041,9 @@
       "successorSlug": "delphi",
       "related": [
         "turbo-c",
-        "ms-dos-5-1"
+        "ms-dos-5-1",
+        "borland-cpp",
+        "delphi"
       ],
       "published": true
     },
@@ -574,7 +1091,8 @@
       "successorSlug": "microsoft-excel",
       "related": [
         "ms-dos-5-1",
-        "windows-95"
+        "windows-95",
+        "microsoft-excel"
       ],
       "published": true
     },
@@ -598,7 +1116,9 @@
       "successorSlug": "windows-explorer",
       "related": [
         "ms-dos-5-1",
-        "pkzip"
+        "pkzip",
+        "norton-ghost",
+        "windows-explorer"
       ],
       "published": true
     },
@@ -622,7 +1142,11 @@
       "successorSlug": "borland-cpp",
       "related": [
         "ms-dos-5-1",
-        "chi-writer"
+        "chi-writer",
+        "borland-cpp",
+        "borland-pascal-7",
+        "delphi",
+        "qbasic"
       ],
       "published": true
     },
@@ -646,7 +1170,17 @@
       "successorSlug": "windows-95",
       "related": [
         "turbo-c",
-        "chi-writer"
+        "chi-writer",
+        "bannermania",
+        "borland-pascal-7",
+        "figlet",
+        "lotus-1-2-3",
+        "norton-commander",
+        "norton-ghost",
+        "pkzip",
+        "qbasic",
+        "windows-95",
+        "windows-98"
       ],
       "published": true
     },
@@ -670,7 +1204,8 @@
       "successorSlug": "winzip",
       "related": [
         "ms-dos-5-1",
-        "norton-commander"
+        "norton-commander",
+        "winzip"
       ],
       "published": true
     },
@@ -718,10 +1253,68 @@
         "nombre-de-la-herramienta"
       ]
     },
-    "ascii-art": {
+    "backup": {
+      "count": 2,
+      "tools": [
+        "acronis-true-image",
+        "norton-ghost"
+      ]
+    },
+    "imaging": {
+      "count": 2,
+      "tools": [
+        "acronis-true-image",
+        "norton-ghost"
+      ]
+    },
+    "acronis": {
       "count": 1,
       "tools": [
-        "bannermania"
+        "acronis-true-image"
+      ]
+    },
+    "disaster-recovery": {
+      "count": 1,
+      "tools": [
+        "acronis-true-image"
+      ]
+    },
+    "editor": {
+      "count": 3,
+      "tools": [
+        "atom",
+        "sublime-text",
+        "visual-studio-code"
+      ]
+    },
+    "github": {
+      "count": 1,
+      "tools": [
+        "atom"
+      ]
+    },
+    "electron": {
+      "count": 2,
+      "tools": [
+        "atom",
+        "visual-studio-code"
+      ]
+    },
+    "open-source": {
+      "count": 5,
+      "tools": [
+        "atom",
+        "eclipse",
+        "mozilla-firefox",
+        "netbeans",
+        "visual-studio-code"
+      ]
+    },
+    "ascii-art": {
+      "count": 2,
+      "tools": [
+        "bannermania",
+        "figlet"
       ]
     },
     "text-graphics": {
@@ -745,9 +1338,10 @@
       ]
     },
     "banners": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "bannermania"
+        "bannermania",
+        "figlet"
       ]
     },
     "fun": {
@@ -756,29 +1350,55 @@
         "bannermania"
       ]
     },
-    "pascal": {
+    "c": {
+      "count": 2,
+      "tools": [
+        "borland-cpp",
+        "turbo-c"
+      ]
+    },
+    "cpp": {
       "count": 1,
       "tools": [
-        "borland-pascal-7"
+        "borland-cpp"
+      ]
+    },
+    "borland": {
+      "count": 4,
+      "tools": [
+        "borland-cpp",
+        "borland-pascal-7",
+        "delphi",
+        "turbo-c"
       ]
     },
     "ide": {
-      "count": 7,
+      "count": 11,
       "tools": [
+        "borland-cpp",
         "borland-pascal-7",
+        "datagrip",
+        "delphi",
         "eclipse",
         "intellij-idea",
         "netbeans",
         "oracle-sql-developer",
         "turbo-c",
+        "visual-basic-net",
         "visual-studio"
       ]
     },
-    "borland": {
+    "programming": {
+      "count": 1,
+      "tools": [
+        "borland-cpp"
+      ]
+    },
+    "pascal": {
       "count": 2,
       "tools": [
         "borland-pascal-7",
-        "turbo-c"
+        "delphi"
       ]
     },
     "oop": {
@@ -794,9 +1414,10 @@
       ]
     },
     "scientific-writing": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "chi-writer"
+        "chi-writer",
+        "latex"
       ]
     },
     "thesis": {
@@ -815,6 +1436,48 @@
       "count": 1,
       "tools": [
         "chi-writer"
+      ]
+    },
+    "database": {
+      "count": 4,
+      "tools": [
+        "datagrip",
+        "ms-access",
+        "oracle-database",
+        "oracle-sql-developer"
+      ]
+    },
+    "jetbrains": {
+      "count": 2,
+      "tools": [
+        "datagrip",
+        "intellij-idea"
+      ]
+    },
+    "sql": {
+      "count": 3,
+      "tools": [
+        "datagrip",
+        "oracle-database",
+        "oracle-sql-developer"
+      ]
+    },
+    "windows": {
+      "count": 7,
+      "tools": [
+        "delphi",
+        "visual-basic-6",
+        "visual-studio",
+        "windows-95",
+        "windows-98",
+        "windows-explorer",
+        "winzip"
+      ]
+    },
+    "rapid": {
+      "count": 1,
+      "tools": [
+        "delphi"
       ]
     },
     "docker": {
@@ -844,9 +1507,10 @@
       ]
     },
     "virtualization": {
-      "count": 2,
+      "count": 3,
       "tools": [
         "docker",
+        "virtualbox",
         "vmware-workstation"
       ]
     },
@@ -864,15 +1528,6 @@
         "eclipse"
       ]
     },
-    "open-source": {
-      "count": 4,
-      "tools": [
-        "eclipse",
-        "mozilla-firefox",
-        "netbeans",
-        "visual-studio-code"
-      ]
-    },
     "plugins": {
       "count": 1,
       "tools": [
@@ -886,22 +1541,25 @@
       ]
     },
     "simulation": {
-      "count": 2,
+      "count": 3,
       "tools": [
         "electronic-workbench",
-        "matlab"
+        "matlab",
+        "multisim"
       ]
     },
     "electronics": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "electronic-workbench"
+        "electronic-workbench",
+        "multisim"
       ]
     },
     "spice": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "electronic-workbench"
+        "electronic-workbench",
+        "multisim"
       ]
     },
     "engineering": {
@@ -912,9 +1570,10 @@
       ]
     },
     "email": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "eudora"
+        "eudora",
+        "microsoft-outlook"
       ]
     },
     "pop3": {
@@ -930,22 +1589,55 @@
       ]
     },
     "client": {
-      "count": 1,
-      "tools": [
-        "eudora"
-      ]
-    },
-    "internet": {
       "count": 2,
       "tools": [
         "eudora",
+        "microsoft-outlook"
+      ]
+    },
+    "internet": {
+      "count": 4,
+      "tools": [
+        "eudora",
+        "google-chrome",
+        "internet-explorer",
         "netscape-navigator"
       ]
     },
-    "jetbrains": {
+    "terminal": {
       "count": 1,
       "tools": [
-        "intellij-idea"
+        "figlet"
+      ]
+    },
+    "unix": {
+      "count": 1,
+      "tools": [
+        "figlet"
+      ]
+    },
+    "browser": {
+      "count": 4,
+      "tools": [
+        "google-chrome",
+        "internet-explorer",
+        "mozilla-firefox",
+        "netscape-navigator"
+      ]
+    },
+    "google": {
+      "count": 1,
+      "tools": [
+        "google-chrome"
+      ]
+    },
+    "web": {
+      "count": 4,
+      "tools": [
+        "google-chrome",
+        "internet-explorer",
+        "mozilla-firefox",
+        "netscape-navigator"
       ]
     },
     "refactoring": {
@@ -958,6 +1650,23 @@
       "count": 1,
       "tools": [
         "intellij-idea"
+      ]
+    },
+    "microsoft": {
+      "count": 12,
+      "tools": [
+        "internet-explorer",
+        "microsoft-excel",
+        "microsoft-outlook",
+        "ms-access",
+        "qbasic",
+        "visual-basic-6",
+        "visual-basic-net",
+        "visual-studio-code",
+        "visual-studio",
+        "windows-95",
+        "windows-98",
+        "windows-explorer"
       ]
     },
     "kubernetes": {
@@ -978,10 +1687,29 @@
         "kubernetes"
       ]
     },
-    "spreadsheet": {
+    "latex": {
       "count": 1,
       "tools": [
-        "lotus-1-2-3"
+        "latex"
+      ]
+    },
+    "tex": {
+      "count": 1,
+      "tools": [
+        "latex"
+      ]
+    },
+    "typesetting": {
+      "count": 1,
+      "tools": [
+        "latex"
+      ]
+    },
+    "spreadsheet": {
+      "count": 2,
+      "tools": [
+        "lotus-1-2-3",
+        "microsoft-excel"
       ]
     },
     "lotus": {
@@ -991,9 +1719,10 @@
       ]
     },
     "business": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "lotus-1-2-3"
+        "lotus-1-2-3",
+        "microsoft-excel"
       ]
     },
     "calculations": {
@@ -1060,11 +1789,18 @@
         "matlab"
       ]
     },
-    "browser": {
-      "count": 2,
+    "office": {
+      "count": 3,
       "tools": [
-        "mozilla-firefox",
-        "netscape-navigator"
+        "microsoft-excel",
+        "microsoft-outlook",
+        "ms-access"
+      ]
+    },
+    "exchange": {
+      "count": 1,
+      "tools": [
+        "microsoft-outlook"
       ]
     },
     "mozilla": {
@@ -1079,17 +1815,18 @@
         "mozilla-firefox"
       ]
     },
-    "web": {
+    "desktop": {
       "count": 2,
       "tools": [
-        "mozilla-firefox",
-        "netscape-navigator"
+        "ms-access",
+        "windows-98"
       ]
     },
     "os": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "ms-dos-5-1"
+        "ms-dos-5-1",
+        "windows-98"
       ]
     },
     "command-line": {
@@ -1110,6 +1847,12 @@
         "ms-dos-5-1"
       ]
     },
+    "circuit-design": {
+      "count": 1,
+      "tools": [
+        "multisim"
+      ]
+    },
     "sun": {
       "count": 1,
       "tools": [
@@ -1117,10 +1860,12 @@
       ]
     },
     "oracle": {
-      "count": 2,
+      "count": 4,
       "tools": [
         "netbeans",
-        "oracle-sql-developer"
+        "oracle-database",
+        "oracle-sql-developer",
+        "virtualbox"
       ]
     },
     "netscape": {
@@ -1136,9 +1881,10 @@
       ]
     },
     "file-manager": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "norton-commander"
+        "norton-commander",
+        "windows-explorer"
       ]
     },
     "norton": {
@@ -1160,18 +1906,6 @@
         "norton-commander"
       ]
     },
-    "backup": {
-      "count": 1,
-      "tools": [
-        "norton-ghost"
-      ]
-    },
-    "imaging": {
-      "count": 1,
-      "tools": [
-        "norton-ghost"
-      ]
-    },
     "disk-cloning": {
       "count": 1,
       "tools": [
@@ -1184,16 +1918,10 @@
         "norton-ghost"
       ]
     },
-    "database": {
+    "enterprise": {
       "count": 1,
       "tools": [
-        "oracle-sql-developer"
-      ]
-    },
-    "sql": {
-      "count": 1,
-      "tools": [
-        "oracle-sql-developer"
+        "oracle-database"
       ]
     },
     "plsql": {
@@ -1203,15 +1931,17 @@
       ]
     },
     "compression": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "pkzip"
+        "pkzip",
+        "winzip"
       ]
     },
     "zip": {
-      "count": 1,
+      "count": 2,
       "tools": [
-        "pkzip"
+        "pkzip",
+        "winzip"
       ]
     },
     "file-format": {
@@ -1232,16 +1962,6 @@
         "qbasic"
       ]
     },
-    "microsoft": {
-      "count": 5,
-      "tools": [
-        "qbasic",
-        "visual-basic-6",
-        "visual-studio-code",
-        "visual-studio",
-        "windows-95"
-      ]
-    },
     "learning": {
       "count": 1,
       "tools": [
@@ -1254,10 +1974,22 @@
         "qbasic"
       ]
     },
-    "c": {
+    "sublime": {
       "count": 1,
       "tools": [
-        "turbo-c"
+        "sublime-text"
+      ]
+    },
+    "proprietary": {
+      "count": 1,
+      "tools": [
+        "sublime-text"
+      ]
+    },
+    "fast": {
+      "count": 1,
+      "tools": [
+        "sublime-text"
       ]
     },
     "compiler": {
@@ -1266,18 +1998,23 @@
         "turbo-c"
       ]
     },
+    "vm": {
+      "count": 1,
+      "tools": [
+        "virtualbox"
+      ]
+    },
+    "x86": {
+      "count": 2,
+      "tools": [
+        "virtualbox",
+        "vmware-workstation"
+      ]
+    },
     "visual-basic": {
       "count": 1,
       "tools": [
         "visual-basic-6"
-      ]
-    },
-    "windows": {
-      "count": 3,
-      "tools": [
-        "visual-basic-6",
-        "visual-studio",
-        "windows-95"
       ]
     },
     "rapid-development": {
@@ -1293,28 +2030,23 @@
         "windows-95"
       ]
     },
+    "vbnet": {
+      "count": 1,
+      "tools": [
+        "visual-basic-net"
+      ]
+    },
+    "dotnet": {
+      "count": 2,
+      "tools": [
+        "visual-basic-net",
+        "visual-studio"
+      ]
+    },
     "vscode": {
       "count": 1,
       "tools": [
         "visual-studio-code"
-      ]
-    },
-    "editor": {
-      "count": 1,
-      "tools": [
-        "visual-studio-code"
-      ]
-    },
-    "electron": {
-      "count": 1,
-      "tools": [
-        "visual-studio-code"
-      ]
-    },
-    "dotnet": {
-      "count": 1,
-      "tools": [
-        "visual-studio"
       ]
     },
     "c-sharp": {
@@ -1330,12 +2062,6 @@
       ]
     },
     "virtual-machine": {
-      "count": 1,
-      "tools": [
-        "vmware-workstation"
-      ]
-    },
-    "x86": {
       "count": 1,
       "tools": [
         "vmware-workstation"
@@ -1358,19 +2084,45 @@
       "tools": [
         "windows-95"
       ]
+    },
+    "usb": {
+      "count": 1,
+      "tools": [
+        "windows-98"
+      ]
+    },
+    "shell": {
+      "count": 1,
+      "tools": [
+        "windows-explorer"
+      ]
+    },
+    "utility": {
+      "count": 1,
+      "tools": [
+        "winzip"
+      ]
     }
   },
   "timeline": {
     "1990s": [
       "bannermania",
+      "borland-cpp",
       "borland-pascal-7",
       "chi-writer",
+      "delphi",
       "electronic-workbench",
       "eudora",
+      "figlet",
+      "internet-explorer",
+      "latex",
       "lotus-1-2-3",
       "maple-v",
       "mathematica",
       "matlab",
+      "microsoft-excel",
+      "microsoft-outlook",
+      "ms-access",
       "ms-dos-5-1",
       "netscape-navigator",
       "nombre-de-la-herramienta",
@@ -1381,68 +2133,100 @@
       "turbo-c",
       "visual-basic-6",
       "vmware-workstation",
-      "windows-95"
-    ],
-    "2010s": [
-      "docker",
-      "kubernetes",
-      "visual-studio-code"
+      "windows-95",
+      "windows-98",
+      "windows-explorer",
+      "winzip"
     ],
     "2000s": [
+      "acronis-true-image",
       "eclipse",
       "intellij-idea",
       "mozilla-firefox",
+      "multisim",
       "netbeans",
+      "oracle-database",
       "oracle-sql-developer",
+      "visual-basic-net",
       "visual-studio"
+    ],
+    "2010s": [
+      "atom",
+      "datagrip",
+      "docker",
+      "google-chrome",
+      "kubernetes",
+      "sublime-text",
+      "virtualbox",
+      "visual-studio-code"
     ]
   },
   "categories": {
     "editor": [
       "nombre-de-la-herramienta",
+      "atom",
       "chi-writer",
       "eclipse",
       "intellij-idea",
+      "latex",
       "netbeans",
+      "sublime-text",
       "visual-studio-code",
       "visual-studio"
     ],
     "tool": [
+      "acronis-true-image",
       "bannermania",
       "electronic-workbench",
       "eudora",
+      "figlet",
+      "google-chrome",
+      "internet-explorer",
       "lotus-1-2-3",
       "maple-v",
       "mathematica",
       "matlab",
+      "microsoft-excel",
+      "microsoft-outlook",
       "mozilla-firefox",
+      "multisim",
       "netscape-navigator",
       "norton-commander",
       "norton-ghost",
-      "pkzip"
+      "pkzip",
+      "windows-explorer",
+      "winzip"
     ],
     "lenguaje": [
+      "borland-cpp",
       "borland-pascal-7",
+      "delphi",
       "qbasic",
       "turbo-c",
-      "visual-basic-6"
+      "visual-basic-6",
+      "visual-basic-net"
+    ],
+    "database": [
+      "datagrip",
+      "ms-access",
+      "oracle-database",
+      "oracle-sql-developer"
     ],
     "infra": [
       "docker",
       "kubernetes",
+      "virtualbox",
       "vmware-workstation"
     ],
     "os": [
       "ms-dos-5-1",
-      "windows-95"
-    ],
-    "database": [
-      "oracle-sql-developer"
+      "windows-95",
+      "windows-98"
     ]
   },
   "meta": {
-    "generatedAt": "2026-04-12T14:48:10.293Z",
-    "totalTools": 29,
-    "totalPublished": 29
+    "generatedAt": "2026-10-05T23:43:23.854Z",
+    "totalTools": 49,
+    "totalPublished": 49
   }
 }
