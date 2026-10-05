@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>software-tools · maqueta B — La Línea</title>
+<link rel="icon" href="data:,">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../libs/lenis.css">
+<style>
+/* ============ DIRECCIÓN B — «LA LÍNEA» ============
+   Editorial, scrollytelling. Una línea se dibuja de 1991 a hoy;
+   cada herramienta es una estación. Paleta: slate profundo + sky. */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#020617; --ink:#e2e8f0; --muted:#94a3b8; --faint:#334155;
+  --sky:#38bdf8; --line:rgba(148,163,184,.18);
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+
+/* ---------- HERO ---------- */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:5rem 1.4rem;position:relative}
+.eyebrow{font-size:.72rem;letter-spacing:.32em;color:var(--muted);text-transform:uppercase;margin-bottom:2rem}
+#hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.8rem,8vw,6.4rem);line-height:1.04;letter-spacing:-.015em;max-width:18ch}
+#hero h1 em{font-style:italic;color:var(--sky);font-weight:500}
+.sub{margin-top:1.6rem;color:var(--muted);max-width:44ch;font-size:1.05rem}
+.cue{margin-top:4rem;display:flex;flex-direction:column;align-items:center;gap:.7rem;color:var(--muted);
+  font-size:.74rem;letter-spacing:.3em;text-transform:uppercase}
+.cue .thread{width:1px;height:84px;background:linear-gradient(var(--sky),transparent);animation:thread 2.4s infinite}
+@keyframes thread{0%{transform:scaleY(.3);transform-origin:top;opacity:.4}55%{transform:scaleY(1);opacity:1}100%{transform:scaleY(.3);transform-origin:bottom;opacity:.4}}
+
+/* ---------- EL CAMINO ---------- */
+#camino{position:relative;height:560vh;overflow:hidden}
+#camino .camino-head{position:absolute;top:3.4rem;left:50%;transform:translateX(-50%);font-size:.68rem;
+  letter-spacing:.3em;color:var(--muted);text-transform:uppercase;z-index:5}
+#line-svg{position:absolute;top:0;left:0;display:block}
+.station{position:absolute;width:min(300px,44vw);pointer-events:none;opacity:.18;transition:opacity .7s ease;z-index:2}
+.station .st-year,.station .st-name,.station .st-line{text-shadow:0 1px 6px #020617,0 0 16px #020617}
+.station.lit{opacity:1;pointer-events:auto}
+.station .st-year{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--sky);display:block;line-height:1.1}
+.station .st-name{font-weight:600;font-size:1.05rem;display:block;margin-top:.15rem}
+.station .st-line{color:var(--muted);font-size:.86rem;margin-top:.25rem;display:block;overflow-wrap:break-word}
+.station.l-left{text-align:right;transform:translate(calc(-100% - 42px),-50%)}
+.station.l-right{transform:translate(42px,-50%)}
+.station.l-left .st-line{margin-left:auto}
+.st-dot{transition:fill .5s ease}
+.st-dot.lit{fill:#38bdf8}
+#journey-dot{filter:drop-shadow(0 0 8px #38bdf8)}
+
+/* ---------- ESTACIÓN (spotlight) ---------- */
+#estacion{padding:16vh 1.4rem;display:flex;justify-content:center}
+.editorial{max-width:820px;width:100%;border-top:1px solid var(--line);padding-top:3.4rem}
+.ed-kicker{font-size:.7rem;letter-spacing:.3em;color:var(--sky);text-transform:uppercase}
+.ed-title{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.05;margin-top:1.2rem}
+.ed-quote{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(1.35rem,3vw,2rem);
+  line-height:1.45;color:var(--ink);margin-top:2.2rem;max-width:30ch}
+.ed-meta{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;align-items:baseline;
+  font-size:.78rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.ed-meta .chipline{color:var(--muted)}
+.ed-link{display:inline-block;margin-top:2.6rem;color:var(--sky);text-decoration:none;font-size:.85rem;
+  letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid transparent;transition:border-color .25s}
+.ed-link:hover{border-color:var(--sky)}
+
+/* ---------- HOY ---------- */
+#hoy{padding:14vh 1.4rem 10vh;text-align:center;position:relative}
+.hoy-kicker{font-size:.7rem;letter-spacing:.34em;color:var(--sky);text-transform:uppercase}
+#hoy h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,5vw,3.6rem);margin-top:1rem}
+.constel{display:flex;justify-content:center;align-items:flex-start;gap:clamp(.8rem,4vw,3rem);margin-top:4rem;position:relative}
+.constel::before{content:"";position:absolute;top:9px;left:8%;right:8%;height:1px;background:var(--line)}
+.node{display:flex;flex-direction:column;align-items:center;gap:.6rem;position:relative;z-index:1;flex:0 1 140px}
+.node .dot{width:18px;height:18px;border-radius:50%;border:1px solid var(--sky);background:var(--bg);
+  box-shadow:0 0 14px #38bdf855}
+.node .n-name{font-size:.8rem;font-weight:500}
+.node .n-year{font-size:.66rem;color:var(--muted)}
+.hoy-line{margin-top:3.6rem;color:var(--muted);font-size:1rem}
+.cta{display:inline-block;margin-top:2.4rem;background:var(--sky);color:#020617;font-weight:600;
+  font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:1rem 1.9rem;
+  border-radius:999px;transition:transform .25s,box-shadow .25s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px #38bdf844}
+footer{padding:3rem 1.2rem;text-align:center;font-size:.62rem;color:var(--faint);letter-spacing:.18em;text-transform:uppercase}
+
+/* reduced / fallback */
+.reduced .cue .thread{animation:none}
+.reduced #camino{height:auto;padding:8rem 0}
+.reduced .station{opacity:1;position:relative!important;left:auto!important;top:auto!important;transform:none!important;
+  width:auto;margin:1.4rem auto;text-align:center!important;max-width:520px}
+.reduced #line-svg{display:none}
+@media (max-width:720px){
+  #camino{height:480vh}
+  .station .st-line{display:none}
+  .station{width:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <div class="eyebrow">SOFTWARE-TOOLS · ARCHIVO PERSONAL</div>
+  <h1>Una línea de <em><span data-num="spann"></span> años</em>.</h1>
+  <p class="sub"><span data-num="count"></span> herramientas, de <span data-num="minYear"></span> a hoy.
+  Cada una, una estación en el camino.</p>
+  <div class="cue"><span class="thread"></span>DESLIZA</div>
+</section>
+
+<!-- ================= EL CAMINO ================= -->
+<section id="camino">
+  <div class="camino-head">EL CAMINO · <span data-num="minYear"></span> → HOY</div>
+  <!-- svg y estaciones generados por JS con datos reales -->
+</section>
+
+<!-- ================= ESTACIÓN DESTACADA ================= -->
+<section id="estacion">
+  <article class="editorial">
+    <div class="ed-kicker rev">ESTACIÓN 1992 · FOTOGRAMA DEL CAMINO</div>
+    <h2 class="ed-title rev">Turbo C</h2>
+    <blockquote class="ed-quote rev">«Aprendí punteros, memoria y estructuras en esa pantalla azul con texto amarillo.»</blockquote>
+    <div class="ed-meta rev">
+      <span>1992 — 1996</span><span>lenguaje</span><span class="chipline">c · dos · compiler · borland · ide</span>
+    </div>
+    <a class="ed-link rev" href="#">Ver la ficha completa →</a>
+  </article>
+</section>
+
+<!-- ================= HOY ================= -->
+<section id="hoy">
+  <div class="hoy-kicker rev">LA LÍNEA LLEGA A HOY</div>
+  <h2 class="rev">Y el camino continúa.</h2>
+  <div class="constel">
+    <div class="node rev"><span class="dot"></span><span class="n-name">Docker</span><span class="n-year">2013</span></div>
+    <div class="node rev"><span class="dot"></span><span class="n-name">IntelliJ IDEA</span><span class="n-year">2007</span></div>
+    <div class="node rev"><span class="dot"></span><span class="n-name">Kubernetes</span><span class="n-year">2015</span></div>
+    <div class="node rev"><span class="dot"></span><span class="n-name">VS Code</span><span class="n-year">2015</span></div>
+  </div>
+  <p class="hoy-line rev">Estas cuatro siguen en uso. La línea no se detiene.</p>
+  <div class="rev"><a class="cta" href="#">Recorrer la línea completa</a></div>
+</section>
+
+<footer>MAQUETA DE CONCEPTO · v3 — DIRECCIÓN B «LA LÍNEA» · DATOS REALES DEL CATÁLOGO · NO ES EL SITIO FINAL</footer>
+
+<script src="../libs/gsap.min.js"></script>
+<script src="../libs/ScrollTrigger.min.js"></script>
+<script src="../libs/lenis.min.js"></script>
+<script src="../data.js"></script>
+<script>
+(function(){
+  window.__st = {errors:[], notes:[]};
+  window.addEventListener('error', function(e){ window.__st.errors.push(String(e.message || e)); });
+
+  var D = window.ST_DATA, S = D.stats, TOOLS = D.tools;
+  var byslug = {}; TOOLS.forEach(function(t){ byslug[t.slug] = t; });
+  function firstSentence(s){ var m = String(s).match(/^[^.!?]*[.!?]/); return m ? m[0] : s; }
+
+  document.querySelectorAll('[data-num]').forEach(function(n){
+    var k = n.getAttribute('data-num');
+    n.textContent = k === 'count' ? S.count : k === 'minYear' ? S.minYear : k === 'spann' ? (S.today - S.minYear) : '';
+  });
+
+  /* ---------- estaciones (herramientas reales, cronológicas) ---------- */
+  var STATION_SLUGS = ['ms-dos-5-1','turbo-c','eudora','windows-95','vmware-workstation',
+                       'eclipse','mozilla-firefox','intellij-idea','docker','visual-studio-code'];
+  var stations = STATION_SLUGS.map(function(slug){ return byslug[slug]; }).filter(Boolean);
+  window.__st.stations = stations.length;
+
+  var NS = 'http://www.w3.org/2000/svg';
+  var camino = document.getElementById('camino');
+  var svg, glowPath, mainPath, dot, stDots = [];
+  var L = 0, pts = [];
+
+  function buildLine(){
+    var W = camino.clientWidth, H = camino.clientHeight;
+    var cfg = []; /* geometry config */
+    var A = Math.min(W * 0.30, 420);            /* amplitud del meandro */
+    var cx = W / 2, n = stations.length;
+    var padTop = H * 0.045, padBot = H * 0.07;
+    var segH = (H - padTop - padBot) / n;
+    var d = '', x = cx, y0 = padTop;
+    d += 'M ' + x.toFixed(1) + ' ' + y0.toFixed(1);
+    for (var i = 0; i < n; i++){
+      var y1 = y0 + segH;
+      var tx = (i % 2 === 0) ? cx + A : cx - A;
+      var c1y = y0 + segH * 0.35, c2y = y1 - segH * 0.35;
+      d += ' C ' + x.toFixed(1) + ' ' + c1y.toFixed(1) + ', ' + tx.toFixed(1) + ' ' + c2y.toFixed(1) + ', ' + tx.toFixed(1) + ' ' + y1.toFixed(1);
+      x = tx; y0 = y1;
+    }
+    svg.setAttribute('width', W); svg.setAttribute('height', H);
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    glowPath.setAttribute('d', d); mainPath.setAttribute('d', d);
+    L = mainPath.getTotalLength();
+    var arr = String(L); mainPath.style.strokeDasharray = arr; glowPath.style.strokeDasharray = arr;
+    pts = stations.map(function(_, i){ return mainPath.getPointAtLength(L * (0.035 + i * (0.93 / (stations.length - 1)))); });
+  }
+
+  function buildDOM(){
+    svg = document.createElementNS(NS, 'svg'); svg.id = 'line-svg';
+    glowPath = document.createElementNS(NS, 'path');
+    glowPath.setAttribute('fill', 'none'); glowPath.setAttribute('stroke', '#38bdf8');
+    glowPath.setAttribute('stroke-width', '7'); glowPath.setAttribute('stroke-opacity', '0.10');
+    glowPath.setAttribute('stroke-linecap', 'round');
+    mainPath = document.createElementNS(NS, 'path'); mainPath.id = 'journey';
+    mainPath.setAttribute('fill', 'none'); mainPath.setAttribute('stroke', '#38bdf8');
+    mainPath.setAttribute('stroke-width', '2'); mainPath.setAttribute('stroke-linecap', 'round');
+    dot = document.createElementNS(NS, 'circle'); dot.id = 'journey-dot';
+    dot.setAttribute('r', '4'); dot.setAttribute('fill', '#38bdf8');
+    svg.appendChild(glowPath); svg.appendChild(mainPath); svg.appendChild(dot);
+    camino.appendChild(svg);
+
+    stDots = [];
+    stations.forEach(function(t, i){
+      var s = document.createElement('div');
+      s.className = 'station'; s.setAttribute('data-i', i);
+      s.innerHTML = '<span class="st-year">' + t.year + '</span>' +
+                    '<span class="st-name">' + t.name + '</span>' +
+                    '<span class="st-line">' + firstSentence(t.context) + '</span>';
+      camino.appendChild(s);
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('class', 'st-dot'); c.setAttribute('r', '4');
+      c.setAttribute('fill', '#020617'); c.setAttribute('stroke', '#38bdf8'); c.setAttribute('stroke-width', '1.5');
+      svg.appendChild(c); stDots.push(c);
+    });
+  }
+
+  function placeStations(){
+    var W = camino.clientWidth;
+    stations.forEach(function(_, i){
+      var s = camino.querySelector('.station[data-i="' + i + '"]');
+      var p = pts[i];
+      s.style.left = p.x + 'px'; s.style.top = p.y + 'px';
+      var left = p.x < W / 2;
+      var avail = left ? (p.x - 42) : (W - p.x - 42);
+      if (avail < 140){ left = !left; avail = left ? (p.x - 42) : (W - p.x - 42); }
+      s.classList.toggle('l-left', left);
+      s.classList.toggle('l-right', !left);
+      s.style.maxWidth = Math.max(120, Math.min(300, avail)) + 'px';
+      if (stDots[i]){ stDots[i].setAttribute('cx', p.x); stDots[i].setAttribute('cy', p.y); }
+    });
+  }
+
+  buildDOM();
+  buildLine();
+  placeStations();
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced){
+    document.documentElement.classList.add('reduced');
+    mainPath.style.strokeDashoffset = 0; glowPath.style.strokeDashoffset = 0;
+    var endp = mainPath.getPointAtLength(L);
+    dot.setAttribute('cx', endp.x); dot.setAttribute('cy', endp.y);
+    camino.querySelectorAll('.station').forEach(function(s){ s.classList.add('lit'); });
+    stDots.forEach(function(c){ c.classList.add('lit'); });
+    window.__st.notes.push('reduced-motion');
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+  var lenis = new Lenis({ autoRaf: false });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(function(time){ lenis.raf(time * 1000); });
+  gsap.ticker.lagSmoothing(0);
+  window.__st.notes.push('lenis ok');
+
+  /* dibujo de la línea + estaciones encendidas */
+  var stationEls = [], drawTl = null;
+  function initDraw(){
+    stationEls = Array.prototype.slice.call(camino.querySelectorAll('.station'));
+    drawTl = gsap.fromTo([mainPath, glowPath], { strokeDashoffset: function(i, t){ return L; } },
+      { strokeDashoffset: 0, ease: 'none',
+        scrollTrigger: {
+          trigger: '#camino', start: 'top 62%', end: 'bottom 75%', scrub: 0.5,
+          onUpdate: function(self){
+            var p = self.progress;
+            var pt = mainPath.getPointAtLength(L * p);
+            dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+            var step = 0.93 / (stations.length - 1);
+            stationEls.forEach(function(s, i){
+              var lit = p >= (0.035 + i * step) - 0.004;
+              s.classList.toggle('lit', lit);
+              if (stDots[i]) stDots[i].classList.toggle('lit', lit);
+            });
+          }
+        }
+      });
+  }
+  initDraw();
+  window.__st.notes.push('line draw ok');
+
+  /* re-build en resize (limpio, sin recargar) */
+  var rT;
+  window.addEventListener('resize', function(){
+    clearTimeout(rT);
+    rT = setTimeout(function(){
+      if (drawTl){ if (drawTl.scrollTrigger) drawTl.scrollTrigger.kill(); drawTl.kill(); }
+      svg.remove();
+      camino.querySelectorAll('.station').forEach(function(s){ s.remove(); });
+      buildDOM(); buildLine(); placeStations();
+      initDraw();
+      ScrollTrigger.refresh();
+    }, 350);
+  });
+
+  /* hero + editorial + hoy */
+  gsap.from('#hero h1, #hero .eyebrow, #hero .sub, #hero .cue', { opacity: 0, y: 30, duration: 1, stagger: .14, ease: 'power2.out' });
+  gsap.from('#estacion .rev', { opacity: 0, y: 34, duration: .9, stagger: .14, ease: 'power2.out',
+    scrollTrigger: { trigger: '#estacion', start: 'top 70%' } });
+  gsap.from('#hoy .rev', { opacity: 0, y: 30, duration: .8, stagger: .12, ease: 'power2.out',
+    scrollTrigger: { trigger: '#hoy', start: 'top 72%' } });
+
+  /* deep-link para capturas/depuración: ?y=0.5 salta a esa fracción del scroll */
+  var PP = new URLSearchParams(location.search);
+  if (PP.has('y')){
+    setTimeout(function(){
+      var m = document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo(0, m * parseFloat(PP.get('y')));
+      ScrollTrigger.update();
+    }, 900);
+  }
+
+  window.__st.ready = true;
+  window.__st.triggers = ScrollTrigger.getAll().length;
+  window.__st.lineLength = Math.round(L);
+})();
+</script>
+</body>
+</html>
