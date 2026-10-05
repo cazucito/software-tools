@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://cazucito.github.io',
   base: '/software-tools',
-  integrations: [tailwind()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   output: 'static',
   markdown: {
     shikiConfig: {

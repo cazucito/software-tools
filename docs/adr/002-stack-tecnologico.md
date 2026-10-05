@@ -44,3 +44,6 @@ Usar **Astro 4.x** como framework principal.
 - Migración completa desde Jekyll (tema slate)
 - Nuevo flujo de build con GitHub Actions
 - Reestructuración total del repositorio
+
+## Actualización (2026-10-05)
+El stack evolucionó con el mantenimiento del repositorio: **Astro 7.3.5**, **Tailwind CSS 4.3.3** vía `@tailwindcss/vite` (el integrador `@astrojs/tailwind` quedó deprecado), fuse.js 7.5.0 y typescript 7.x. La decisión base (Astro estático + GitHub Pages) sigue vigente.

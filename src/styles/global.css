@@ -1,0 +1,6 @@
+/*
+ * Global styles — Tailwind CSS 4.
+ * The legacy config (custom slate shades + Inter font) is loaded via @config.
+ */
+@config "../../tailwind.config.mjs";
+@import "tailwindcss";
