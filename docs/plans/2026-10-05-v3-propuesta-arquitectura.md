@@ -1,6 +1,6 @@
 # Plan de acción — software-tools v3 (propuesta)
 
-**Versión:** v1.1 · 2026-10-05 *(v1.0: propuesta inicial · v1.1: decisiones del dueño incorporadas + Fase 0 completada)*
+**Versión:** v1.2 · 2026-10-05 *(v1.1: decisiones del dueño + Fase 0 · v1.2: modalidades seleccionables + placeholder público + análisis de descargas)*
 **Estado:** borrador para revisión — pendiente tu OK final antes de SPEC v3 y código.
 **Objetivo:** cambio de arquitectura — de sitio estático (Astro, GitHub Pages) a **aplicación PHP + SQLite en `software-tools.pcabrera.com`**, con un **timeline scroll-driven** como corazón del producto.
 
@@ -16,6 +16,9 @@
 | 4 | Comentarios | **Sí** — infraestructura propia propuesta (ver §2.5) |
 | 5 | Repo | **Repositorio tradicional**; **no existirá GitHub Pages** (se retira el workflow; sin página de aviso) |
 | 6 | Idiomas + SEO | **Internacionalizable desde el inicio (es + en)**, con SEO cuidado |
+| 7 | Modalidades | **Las tres direcciones conviven como modos seleccionables** («al gusto») — detalle en §2.7 |
+| 8 | Placeholder | Página «en construcción» **ya desplegada** en la raíz del subdominio |
+| 9 | Descargas | Archivos por herramienta; política por niveles propuesta en §2.8 |
 | — | Regla dura | **No se pierde información** del contenido actual (ver §3) |
 
 ## 1. Fase 0 — Resultados (COMPLETADA ✔)
@@ -96,6 +99,27 @@ Se propone **construirlos sobre el SQLite del proyecto** (coherente con "integra
 
 Título/descripción por página e idioma · `hreflang`/canonical · **sitemap.xml bilingüe** · `robots.txt` · Open Graph/Twitter · **JSON-LD** (WebSite; timeline como `ItemList`; fichas como `SoftwareApplication`/`CreativeWork`) · slugs estables · performance (JS diferido, fuentes optimizadas, caché de assets).
 
+### 2.7 Modalidades — «tres lenguajes, un archivo» (aprobado 2026-10-05)
+
+Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **modos de presentación** del mismo sitio: una sola estructura y una sola base de datos; tres lenguajes visuales y de interacción que el visitante puede cambiar **al gusto**.
+
+- **Selector de modo** visible y discreto; la preferencia se recuerda (`localStorage`) y es compartible por URL (`?modo=linea`); los modos pueden activarse/desactivarse desde configuración (el dueño decide cuáles están disponibles).
+- **Un solo contenido:** los modos no duplican información ni SEO (canonical única, mismo HTML semántico); solo se descarga el código del modo activo (code-splitting).
+- **Alcance:** la experiencia-home (el timeline) es la firma de cada modo; las páginas internas comparten estructura y reciben los *tokens* del modo activo (paleta, tipografía, acabado).
+- **Default:** por decidir (propuesta inicial: **Línea**, la más neutra).
+
+### 2.8 Descargas — archivos por herramienta (análisis)
+
+Tabla `downloads(tool_id, filename, bytes, sha256, visibility, license_note, source_url)` + sección «Descargas» en la ficha cuando existan archivos (instaladores, manuales, imágenes de disco, utilidades).
+
+- **Almacenamiento y servido:** los archivos se suben por FTP (sin el límite PHP de 2 MB) y se sirven **siempre por PHP** (carpeta protegida + streamer con `Content-Disposition: attachment` y `nosniff`); nunca por URL directa. Revisar la cuota de disco del hosting antes de poblar.
+- **Política por niveles (propuesta):**
+  1. **Público** — solo si el archivo es redistribuible (freeware, liberado por su autor o con permiso), con nota de origen y enlace oficial cuando exista.
+  2. **Con clave** — para lo personal o dudoso: una pass gestionada en BWS, sesión corta y rate-limit; el archivo nunca se enlaza directo.
+  3. **Solo enlace** — cuando no corresponda alojar: la ficha apunta a la fuente oficial.
+- **Legal (regla de oro):** alojar solo lo redistribuible; ante duda, nivel 3. Nada con copyright vigente se aloja.
+- **Pendiente del dueño:** inventario de archivos existentes, cuáles son redistribuibles, y si la clave será única o por colección.
+
 ## 3. Preservación del contenido (regla dura)
 
 1. **Inventario de partida:** 28 fichas reales + plantilla `_template.md` (la plantilla no se publica en v3; se conserva en el repo — *decisión menor B*). Sin imágenes en el sitio hoy: 1 referencia huérfana detectada (`chi-writer` apunta a `/images/tools/chi-writer.jpg`, archivo que nunca existió en el repo) — el campo se preserva y se resolverá o marcará durante la importación; el esquema v3 mantiene soporte de imagen.
@@ -111,10 +135,10 @@ Título/descripción por página e idioma · `hreflang`/canonical · **sitemap.x
 |---|------|-----------|------|
 | 0 | Verificación de hosting | ✅ Completada (§1) | ✔ |
 | 1 | **Concepto y dirección visual** | 2–3 maquetas de concepto (scroll Apple-like) + dirección elegida + librerías confirmadas | **Tu OK** |
-| 2 | **SPEC v3 + ADR-005 (arquitectura) + esquema SQLite definitivo + plan de reestructura del repo** | Documentos | **Tu OK** |
+| 2 | **SPEC v3 + ADR-005 (arquitectura) + esquema SQLite definitivo + sistema de modalidades + política de descargas + reestructura del repo** | Documentos | **Tu OK** |
 | 3 | Importación + verificación de paridad | Importador + `catalog.sqlite` + reporte | ✔ automático |
 | 4 | **Prototipo local** (Docker php:8.1 + SQLite): home-timeline, ficha, búsqueda FTS | Prototipo navegable | **Tu revisión** |
-| 5 | Implementación completa (vistas, comentarios, admin mínimo, i18n UI, SEO) | App v3 | Tests ✔ |
+| 5 | Implementación completa (vistas, comentarios, admin mínimo, i18n UI, **modalidades seleccionables**, SEO) | App v3 | Tests ✔ |
 | 6 | Contenido EN: traducción asistida + revisión | Fichas bilingües | **Tu revisión** |
 | 7 | **Deploy a producción** + verificación (FTP + navegador) + retiro de GitHub Pages (workflow eliminado) | Sitio en vivo | ✔ verificado |
 | 8 | Cierre: tag `v3.0.0` (bien documentado), docs-as-built, registros | Repo completo | ✔ |
@@ -143,4 +167,4 @@ Título/descripción por página e idioma · `hreflang`/canonical · **sitemap.x
 
 ---
 
-*Siguiente paso propuesto: **Fase 1** — 2–3 maquetas de concepto del scroll narrativo para elegir la dirección visual.*
+*Fase 1 completada — las tres maquetas (A · Cinta, B · Línea, C · Máquina) fueron aprobadas como **modos seleccionables**. Siguiente paso: **Fase 2** — SPEC v3 + ADR-005 (arquitectura, modalidades, descargas).*
