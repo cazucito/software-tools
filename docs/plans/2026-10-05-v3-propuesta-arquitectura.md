@@ -1,6 +1,6 @@
 # Plan de acción — software-tools v3 (propuesta)
 
-**Versión:** v1.2 · 2026-10-05 *(v1.1: decisiones del dueño + Fase 0 · v1.2: modalidades seleccionables + placeholder público + análisis de descargas)*
+**Versión:** v1.3 · 2026-10-05 *(v1.2: modalidades + placeholder + descargas · v1.3: assets visuales por herramienta + descargas afinadas: clave por software, sin subidas, rutas)*
 **Estado:** borrador para revisión — pendiente tu OK final antes de SPEC v3 y código.
 **Objetivo:** cambio de arquitectura — de sitio estático (Astro, GitHub Pages) a **aplicación PHP + SQLite en `software-tools.pcabrera.com`**, con un **timeline scroll-driven** como corazón del producto.
 
@@ -18,7 +18,8 @@
 | 6 | Idiomas + SEO | **Internacionalizable desde el inicio (es + en)**, con SEO cuidado |
 | 7 | Modalidades | **Las tres direcciones conviven como modos seleccionables** («al gusto») — detalle en §2.7 |
 | 8 | Placeholder | Página «en construcción» **ya desplegada** en la raíz del subdominio |
-| 9 | Descargas | Archivos por herramienta; política por niveles propuesta en §2.8 |
+| 9 | Descargas | Uso **personal primero** + redistribuible público; **clave individual por software**; **sin subidas** de usuarios; rutas y streamer por PHP (§2.8) |
+| 10 | Íconos/imágenes | **Sí** — assets por herramienta (ícono/logo/imagen), reales y trazables (§2.9) |
 | — | Regla dura | **No se pierde información** del contenido actual (ver §3) |
 
 ## 1. Fase 0 — Resultados (COMPLETADA ✔)
@@ -108,17 +109,27 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 - **Alcance:** la experiencia-home (el timeline) es la firma de cada modo; las páginas internas comparten estructura y reciben los *tokens* del modo activo (paleta, tipografía, acabado).
 - **Default:** por decidir (propuesta inicial: **Línea**, la más neutra).
 
-### 2.8 Descargas — archivos por herramienta (análisis)
+### 2.8 Descargas — archivos por herramienta (ajustado 2026-10-05)
 
-Tabla `downloads(tool_id, filename, bytes, sha256, visibility, license_note, source_url)` + sección «Descargas» en la ficha cuando existan archivos (instaladores, manuales, imágenes de disco, utilidades).
+**Propósito:** uso **personal primero** (el dueño descarga su propio software desde cualquier lugar); además, todo lo que sea redistribuible se ofrece público. **Los visitantes no pueden subir nada** — regla explícita del proyecto: los archivos los gestiona el dueño (vía agente/FTP).
 
-- **Almacenamiento y servido:** los archivos se suben por FTP (sin el límite PHP de 2 MB) y se sirven **siempre por PHP** (carpeta protegida + streamer con `Content-Disposition: attachment` y `nosniff`); nunca por URL directa. Revisar la cuota de disco del hosting antes de poblar.
-- **Política por niveles (propuesta):**
-  1. **Público** — solo si el archivo es redistribuible (freeware, liberado por su autor o con permiso), con nota de origen y enlace oficial cuando exista.
-  2. **Con clave** — para lo personal o dudoso: una pass gestionada en BWS, sesión corta y rate-limit; el archivo nunca se enlaza directo.
-  3. **Solo enlace** — cuando no corresponda alojar: la ficha apunta a la fuente oficial.
+- **Rutas (consideradas desde el diseño):** cada archivo tiene ruta lógica estable **servida por PHP**: `/descarga/<slug>/<archivo>`; la carpeta `downloads/<slug>/` queda protegida (`.htaccess` deny) y **nunca** hay URL directa a los ficheros. La ficha muestra su sección «Descargas» con tamaño y sha256 de cada archivo.
+- **Tabla:** `downloads(tool_id, filename, bytes, sha256, visibility[publico|clave|enlace], license_note, source_url)`.
+- **Clave individual por software** (así lo pidió el dueño): cada herramienta con descargas privadas tiene **su propia pass** (se guarda hasheada en la BD; se define desde el mini-panel de administración). Al validarla se abre una sesión corta *para esa herramienta* y se desbloquean sus archivos; rate-limit contra fuerza bruta.
+- **Niveles:** 1) **Público** — redistribuible (freeware/liberado/permiso), con nota de origen; 2) **Clave** — personal o dudoso (pass por software); 3) **Solo enlace** — la ficha apunta a la fuente oficial.
+- **Almacenamiento:** subida por FTP (sin el tope PHP de 2 MB), servido por PHP con `Content-Disposition: attachment` y `nosniff`. Revisar la cuota de disco del hosting antes de poblar.
 - **Legal (regla de oro):** alojar solo lo redistribuible; ante duda, nivel 3. Nada con copyright vigente se aloja.
-- **Pendiente del dueño:** inventario de archivos existentes, cuáles son redistribuibles, y si la clave será única o por colección.
+- **Pendiente del dueño:** inventario de archivos (tamaños/hashes/clasificación) — se hará cuando los comparta.
+
+### 2.9 Íconos, logos e imágenes por herramienta (aprobado 2026-10-05)
+
+**Sí** — cada herramienta podrá tener material visual propio, con **procedencia trazable**:
+
+- **Tipos:** `icon` (marca pequeña para listas/fotogramas, 64–512 px), `logo` (vector preferente para fondos oscuros), `cover` (imagen o captura del software en uso, para la ficha y los spotlight de las modalidades).
+- **Esquema:** `tool_assets(tool_id, kind[icon|logo|cover], file, source, license_note)` + carpeta `assets/tools/<slug>/` en el repo.
+- **Política de fuentes:** assets **reales** (extraídos del software que el dueño tiene, capturas propias, kits oficiales o archivos comunitarios); **no se inventan** iconos a mano — si no existe un ícono auténtico, se usa un monograma tipográfico de la identidad del sitio. Los logos son marcas de sus respectivos dueños; uso identificativo.
+- **Uso:** los íconos alimentan las tres modalidades (fotogramas de la cinta, estaciones de la línea, ventanas del directorio): más riqueza visual sin tocar el contenido.
+- **Rendimiento:** SVG cuando exista; PNG/WebP optimizados con tamaños declarados; carga diferida.
 
 ## 3. Preservación del contenido (regla dura)
 
@@ -135,10 +146,10 @@ Tabla `downloads(tool_id, filename, bytes, sha256, visibility, license_note, sou
 |---|------|-----------|------|
 | 0 | Verificación de hosting | ✅ Completada (§1) | ✔ |
 | 1 | **Concepto y dirección visual** | 2–3 maquetas de concepto (scroll Apple-like) + dirección elegida + librerías confirmadas | **Tu OK** |
-| 2 | **SPEC v3 + ADR-005 (arquitectura) + esquema SQLite definitivo + sistema de modalidades + política de descargas + reestructura del repo** | Documentos | **Tu OK** |
+| 2 | **SPEC v3 + ADR-005 (arquitectura) + esquema SQLite definitivo + sistema de modalidades + descargas (clave por software) + assets (íconos/imágenes) + reestructura del repo** | Documentos | **Tu OK** |
 | 3 | Importación + verificación de paridad | Importador + `catalog.sqlite` + reporte | ✔ automático |
 | 4 | **Prototipo local** (Docker php:8.1 + SQLite): home-timeline, ficha, búsqueda FTS | Prototipo navegable | **Tu revisión** |
-| 5 | Implementación completa (vistas, comentarios, admin mínimo, i18n UI, **modalidades seleccionables**, SEO) | App v3 | Tests ✔ |
+| 5 | Implementación completa (vistas, comentarios, admin mínimo, i18n UI, **modalidades seleccionables**, descargas con clave, **assets**, SEO) | App v3 | Tests ✔ |
 | 6 | Contenido EN: traducción asistida + revisión | Fichas bilingües | **Tu revisión** |
 | 7 | **Deploy a producción** + verificación (FTP + navegador) + retiro de GitHub Pages (workflow eliminado) | Sitio en vivo | ✔ verificado |
 | 8 | Cierre: tag `v3.0.0` (bien documentado), docs-as-built, registros | Repo completo | ✔ |
@@ -167,4 +178,4 @@ Tabla `downloads(tool_id, filename, bytes, sha256, visibility, license_note, sou
 
 ---
 
-*Fase 1 completada — las tres maquetas (A · Cinta, B · Línea, C · Máquina) fueron aprobadas como **modos seleccionables**. Siguiente paso: **Fase 2** — SPEC v3 + ADR-005 (arquitectura, modalidades, descargas).*
+*Fase 1 completada — las tres maquetas (A · Cinta, B · Línea, C · Máquina) fueron aprobadas como **modos seleccionables**. Siguiente paso: **Fase 2** — SPEC v3 + ADR-005 (arquitectura, modalidades, descargas, assets).*
