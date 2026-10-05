@@ -98,7 +98,7 @@ Título/descripción por página e idioma · `hreflang`/canonical · **sitemap.x
 
 ## 3. Preservación del contenido (regla dura)
 
-1. **Inventario de partida:** 28 fichas reales + plantilla `_template.md` (la plantilla no se publica en v3; se conserva en el repo — *decisión menor B*). Sin imágenes asociadas hoy (el esquema v3 mantiene soporte de imagen para futuro).
+1. **Inventario de partida:** 28 fichas reales + plantilla `_template.md` (la plantilla no se publica en v3; se conserva en el repo — *decisión menor B*). Sin imágenes en el sitio hoy: 1 referencia huérfana detectada (`chi-writer` apunta a `/images/tools/chi-writer.jpg`, archivo que nunca existió en el repo) — el campo se preserva y se resolverá o marcará durante la importación; el esquema v3 mantiene soporte de imagen.
 2. **Importador con verificación campo por campo** (name, slug, year, usedUntil, category, tags[], context, successor, successorSlug, related[], published) → filas SQLite + **reporte automático md↔BD**.
 3. **Checksums de contenido:** conteo de palabras + hash normalizado de cada `context` — cualquier pérdida falla ruidosamente.
 4. **Verificación página vieja ↔ nueva:** para cada slug, el texto normalizado de la ficha v2 debe aparecer íntegro en la v3 (caza de frases perdidas en el rediseño).
