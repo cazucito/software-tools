@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>software-tools — en construcción</title>
+<link rel="icon" href="data:,">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020617; --ink:#e2e8f0; --muted:#94a3b8; --faint:#475569;
+  --sky:#38bdf8; --amber:#e8b45a; --green:#52ffa8; --line:rgba(148,163,184,.16);
+  --mono:"IBM Plex Mono",ui-monospace,monospace; --sans:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--sans);display:flex;flex-direction:column}
+.top{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;gap:1rem;
+  padding:.9rem 1.3rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;color:var(--muted);
+  text-transform:uppercase;background:linear-gradient(#020617e6,#02061700);z-index:5}
+.wrap{flex:1;display:flex;flex-direction:column;justify-content:center;max-width:980px;margin:0 auto;
+  padding:6rem 1.4rem 2rem;width:100%}
+.kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.3em;color:var(--sky);text-transform:uppercase}
+h1{font-size:clamp(2.3rem,6.5vw,4.4rem);font-weight:600;letter-spacing:-.02em;line-height:1.06;margin-top:1.2rem;max-width:17ch}
+h1 em{font-style:normal;color:var(--sky)}
+.sub{color:var(--muted);margin-top:1.2rem;max-width:54ch;font-size:1.02rem}
+
+/* mini timeline animada */
+.tl{margin-top:3.2rem;position:relative;height:70px;max-width:760px}
+.tl .track{position:absolute;left:0;right:0;top:30px;height:1px;background:var(--line)}
+.tl .fill{position:absolute;left:0;top:30px;height:1px;background:var(--sky);width:100%;
+  transform-origin:left;transform:scaleX(0);animation:draw 7s cubic-bezier(.4,0,.2,1) infinite}
+.tl .dot{position:absolute;top:26px;left:0;width:9px;height:9px;border-radius:50%;background:var(--sky);
+  box-shadow:0 0 12px #38bdf8aa;animation:travel 7s cubic-bezier(.4,0,.2,1) infinite}
+.tl .years{position:absolute;left:0;right:0;top:46px;display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.18em}
+.tl .years .now{color:var(--sky)}
+@keyframes draw{0%{transform:scaleX(0)}55%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+@keyframes travel{0%{left:0;opacity:0}10%{opacity:1}55%{left:calc(100% - 9px);opacity:1}
+  62%{opacity:1}100%{left:calc(100% - 9px);opacity:0}}
+
+/* previews */
+.previews{margin-top:3.6rem;border-top:1px solid var(--line);padding-top:1.8rem}
+.pv-title{font-family:var(--mono);font-size:.66rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
+.pv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem}
+.pv{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:#0b1220;
+  padding:1.05rem 1rem 1.15rem;transition:transform .25s,border-color .25s,box-shadow .25s}
+.pv:hover{transform:translateY(-3px)}
+.pv .tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase}
+.pv .nm{font-weight:600;font-size:1.04rem;margin-top:.5rem}
+.pv .ds{color:var(--muted);font-size:.82rem;margin-top:.35rem;line-height:1.45}
+.pv .go{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;margin-top:.85rem;display:inline-block}
+.pv.a{border-top:3px solid var(--amber)} .pv.a .tag,.pv.a .go{color:var(--amber)}
+.pv.a:hover{border-color:var(--amber);box-shadow:0 10px 30px #e8b45a1c}
+.pv.b{border-top:3px solid var(--sky)} .pv.b .tag,.pv.b .go{color:var(--sky)}
+.pv.b:hover{border-color:var(--sky);box-shadow:0 10px 30px #38bdf81c}
+.pv.c{border-top:3px solid var(--green)} .pv.c .tag,.pv.c .go{color:var(--green)}
+.pv.c:hover{border-color:var(--green);box-shadow:0 10px 30px #52ffa81c}
+.foot{padding:1.6rem 1.3rem;text-align:center;font-family:var(--mono);font-size:.6rem;color:var(--faint);letter-spacing:.2em}
+@media (max-width:760px){.pv-grid{grid-template-columns:1fr}.top span:last-child{display:none}
+  .kicker{font-size:.6rem;letter-spacing:.14em}.pv-title{letter-spacing:.16em}}
+</style>
+</head>
+<body>
+<header class="top">
+  <span>SOFTWARE-TOOLS · ARCHIVO PERSONAL</span>
+  <span>1991 → HOY</span>
+</header>
+<main class="wrap">
+  <div class="kicker">EN CONSTRUCCIÓN · UNDER CONSTRUCTION</div>
+  <h1>Este archivo está <em>tomando forma</em>.</h1>
+  <p class="sub">El archivo personal de software —las herramientas de toda una vida— está en construcción.
+  Muy pronto: 28 herramientas, una línea de tiempo viva.</p>
+
+  <div class="tl" aria-hidden="true">
+    <div class="track"></div>
+    <div class="fill"></div>
+    <div class="dot"></div>
+    <div class="years"><span>1991</span><span>1996</span><span>2001</span><span>2006</span><span>2011</span><span class="now">HOY</span></div>
+  </div>
+
+  <section class="previews">
+    <div class="pv-title">Mientras tanto — tres lenguajes en exploración</div>
+    <div class="pv-grid">
+      <a class="pv a" href="/conceptos/a-cinta/">
+        <span class="tag">A · CINTA</span>
+        <div class="nm">La Cinta</div>
+        <div class="ds">La vida como una cinta de film que se reproduce con el scroll.</div>
+        <span class="go">REPRODUCIR →</span>
+      </a>
+      <a class="pv b" href="/conceptos/b-linea/">
+        <span class="tag">B · LÍNEA</span>
+        <div class="nm">La Línea</div>
+        <div class="ds">Una línea luminosa que se dibuja de 1991 a hoy, estación por estación.</div>
+        <span class="go">DESLIZAR →</span>
+      </a>
+      <a class="pv c" href="/conceptos/c-maquina/">
+        <span class="tag">C · MÁQUINA</span>
+        <div class="nm">La Máquina</div>
+        <div class="ds">Un arranque retro: BIOS, log y directorio interactivo. Haz clic.</div>
+        <span class="go">ARRANCAR →</span>
+      </a>
+    </div>
+  </section>
+</main>
+<footer class="foot">SOFTWARE-TOOLS.PCABRERA.COM · © 2026</footer>
+</body>
+</html>
