@@ -13,8 +13,8 @@
     "generate-search-index": "node scripts/generate-search-index.js"
   },
   "dependencies": {
-    "astro": "^7.2.8",
-    "fuse.js": "^7.0.0",
+    "astro": "^7.3.5",
+    "fuse.js": "^7.5.0",
     "gray-matter": "^4.0.3"
   },
   "devDependencies": {
