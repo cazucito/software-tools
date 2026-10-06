@@ -180,4 +180,4 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 
 ---
 
-*Fases 1–3 completadas (2026-10-05): las tres maquetas aprobadas como **modos seleccionables**; **SPEC v3 + ADRs 005–008** escritos (specs v2 retiradas del repo); **`catalog.sqlite` generada con paridad 48/48 ✓** y esqueleto kofro plantado. Siguiente paso: **Fase 4** — prototipo local navegable.*
+*Fases 1–4 completadas (2026-10-05): maquetas aprobadas como **modos seleccionables**; **SPEC v3 + ADRs 005–008**; **`catalog.sqlite` con paridad 48/48 ✓**; **prototipo de la Fase 4 EN VIVO** en `software-tools.pcabrera.com/proto/` (3 modalidades, ficha, búsqueda FTS5, catálogo) para revisión del dueño. Siguiente paso: **Fase 5** — app completa (comentarios, admin, descargas con clave, assets, SEO).*
