@@ -180,4 +180,4 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 
 ---
 
-*Fase 1 completada — las tres maquetas (A · Cinta, B · Línea, C · Máquina) fueron aprobadas como **modos seleccionables**. Siguiente paso: **Fase 2** — SPEC v3 + ADR-005 (arquitectura, modalidades, descargas, assets).*
+*Fases 1–3 completadas (2026-10-05): las tres maquetas aprobadas como **modos seleccionables**; **SPEC v3 + ADRs 005–008** escritos (specs v2 retiradas del repo); **`catalog.sqlite` generada con paridad 48/48 ✓** y esqueleto kofro plantado. Siguiente paso: **Fase 4** — prototipo local navegable.*
