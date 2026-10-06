@@ -1,35 +1,35 @@
-## Welcome to software tools Pages
+# software-tools
 
----
+Archivo personal del software: **48 herramientas, 1991 → hoy** — cada una con su historia de uso. Pronto: un timeline navegable con tres modalidades, búsqueda, comentarios y descargas personales.
 
-## 🏛️ Estado del sitio
+## Estado
 
-Este sitio se mantuvo activo entre **2005-2018** para apoyar la entrega de cursos Oracle, comenzando en una plataforma Moodle que ya no existe y evolucionando a esta versión en GitHub Pages.
+- **v2 — EN VIVO:** [cazucito.github.io/software-tools](https://cazucito.github.io/software-tools) (sitio estático; se retira al desplegar la v3)
+- **v3 — EN CONSTRUCCIÓN:** `software-tools.pcabrera.com` (placeholder público) — aplicación **PHP + SQLite** con timeline (modalidades *cinta / línea / máquina*), búsqueda FTS5, comentarios, descargas con clave por software e idiomas **es/en**.
 
-**Los enlaces y software listados están desactualizados** (JDK 8/10, NetBeans 8.2, etc.). Los binarios enlazados pueden tener enlaces rotos o versiones obsoletas.
+## Estructura
 
-Se preserva como registro histórico de las herramientas utilizadas en cerca de 13 años de docencia.
+| Ruta | Qué es |
+|---|---|
+| `src/content/tools/` | **Las fichas** (Markdown — fuente de autoría de todo) |
+| `app/` | v3: `public/` (docroot), `server/` (PHP), `data/` (`catalog.sqlite` generado) |
+| `ops/` | Importador, verificación de paridad, deploy, tests, reportes |
+| `docs/` | [SPEC](docs/SPEC.md), [ADRs](docs/adr/), planes, notas |
+| `.agents/` | Continuidad para agentes de IA |
+| `sketches/` | Maquetas de concepto de la Fase 1 (las 3 modalidades) |
 
----
+## Trabajar aquí
 
-## SOFTWARE
+```bash
+# Contenido → base de datos (v3)
+python3 ops/tools/import_catalog.py      # regenera app/data/catalog.sqlite
+python3 ops/tools/verify_parity.py       # verifica que nada se perdió (PARIDAD OK)
 
-***
+# Sitio v2 (el que está en vivo)
+npm ci --legacy-peer-deps && npm run dev  # local
+npm run build                             # build de producción
+```
 
-## SOFTWARE
-* JDK
-> 1. [jdk-8u171-windows-x64.exe](http://cazucito.com/xlinks/software/middleware/jdk-8u171-windows-x64.exe)
-> 2. [jdk-10.0.1_windows-x64_bin.exe](http://cazucito.com/xlinks/software/middleware/jdk-10.0.1_windows-x64_bin.exe)
-* EDITOR/IDE
-> 1. [netbeans-8.2-windows.exe](http://cazucito.com/xlinks/software/editors/netbeans-8.2-windows.exe)
-> 2. [jdk-8u171-nb-8_2-windows-x64.exe](http://cazucito.com/xlinks/software/editors/jdk-8u171-nb-8_2-windows-x64.exe)
-> 3. [npp.7.5.7.Installer.x64.exe](http://cazucito.com/xlinks/software/editors/npp.7.5.7.Installer.x64.exe)
-* VNC TOOLS
-> 1. [tigervnc-1.9.80.exe](http://cazucito.com/xlinks/software/net/tigervnc-1.9.80.exe)
-> 2. [tigervnc64-1.9.80.exe](http://cazucito.com/xlinks/software/net/tigervnc64-1.9.80.exe)
-> 3. [TigerVNC-1.9.80.dmg](http://cazucito.com/xlinks/software/net/TigerVNC-1.9.80.dmg)
-> 4. [VncViewer.jar](http://cazucito.com/xlinks/software/net/VncViewer.jar)
-> 5. [vncviewer64.exe](http://cazucito.com/xlinks/software/net/vncviewer64.exe)
-> 6. [WinSCP-5.13.3-Setup.exe](http://cazucito.com/xlinks/software/net/WinSCP-5.13.3-Setup.exe)
-### Support or Contact
-As is
+Guía completa para agentes: [AGENTS.md](AGENTS.md) · Índice de documentación: [docs/README.md](docs/README.md).
+
+*Convenciones: commits en inglés (Conventional Commits) · documentación en español · slugs estables · nada se pierde.*

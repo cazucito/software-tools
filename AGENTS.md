@@ -1,102 +1,55 @@
-# AGENTS.md - Guidelines para Agentes de IA
+# AGENTS.md — Guía para agentes de IA
 
-## Sobre este proyecto
+## Proyecto
 
-**software-tools v2** es un archivo histórico de herramientas utilizadas en 20+ años de docencia e ingeniería. Es un sitio estático generado con Astro, hospedado en GitHub Pages.
+**software-tools**: archivo personal del software usado por cazucito (**48 fichas, 1991 → hoy**). La **v2** (Astro, GitHub Pages) está **EN VIVO**; la **v3** (PHP + SQLite en `software-tools.pcabrera.com`) está **en construcción**. Hasta el deploy de la v3 (Fase 7), `main` sigue desplegando el sitio v2 — **no romperlo**.
 
-## Stack Tecnológico
+## Fuentes de verdad
 
-| Capa | Tecnología |
-|------|------------|
-| Framework | Astro 4.x |
-| Estilos | Tailwind CSS |
-| Lenguaje | TypeScript |
-| Búsqueda | Fuse.js |
-| Comentarios | Giscus (GitHub Discussions) |
-| Hosting | GitHub Pages |
+- [`docs/SPEC.md`](docs/SPEC.md) + [`docs/adr/005–008`](docs/adr/) — especificación vigente de la v3.
+- [`docs/plans/2026-10-05-v3-propuesta-arquitectura.md`](docs/plans/2026-10-05-v3-propuesta-arquitectura.md) — fases y decisiones del dueño.
+- **Contenido:** `src/content/tools/*.md` — el Markdown es la **fuente de autoría**.
 
-## Estructura del proyecto
+## Estructura
 
 ```
-software-tools/
-├── src/
-│   ├── content/tools/     # Un .md por herramienta
-│   ├── data/              # tools.json (generado)
-│   ├── pages/             # Rutas de Astro
-│   └── components/        # Componentes Astro
-├── public/images/tools/   # Imágenes locales
-├── scripts/               # generate-data.js
-└── docs/adr/              # Decisiones arquitectónicas
+src/            → v2 (Astro) — transitorio hasta Fase 7
+  content/tools/*.md   ← LAS FICHAS (no mover todavía)
+app/            → v3: public/ (docroot), server/ (PHP), data/ (catalog.sqlite generado)
+ops/            → deploy/ · tests/ · tools/ · reports/
+docs/           → SPEC, adr/, plans/, notes/
+.agents/        → continuidad entre sesiones (estado, handoff)
+site/           → página «en construcción» desplegada en la raíz del subdominio
+sketches/       → maquetas de concepto (Fase 1; se archivan al cerrar la v3)
 ```
 
-## Convenciones de commits
+## Flujo de contenido (agregar o editar una herramienta)
 
-Prefijo obligatorio:
-- `content:` nueva herramienta o edición de contenido
-- `feat:` nueva funcionalidad
-- `fix:` corrección de bug
-- `data:` cambios en generación de datos
-- `style:` cambios visuales/CSS
-- `docs:` documentación
+1. Editar/crear `src/content/tools/<slug>.md` (esquema: SPEC §4; cuerpo en Markdown).
+2. `python3 ops/tools/import_catalog.py` — regenera `app/data/catalog.sqlite`.
+3. `python3 ops/tools/verify_parity.py` — **debe dar PARIDAD OK** (exit 0).
+4. `npm run build` — valida que el sitio v2 siga construyendo.
+5. Commit convencional (inglés) + push.
 
-Ejemplo: `content: agrega Chi Writer con contexto de tesis`
-
-## Flujo de trabajo
-
-### Antes de editar
-1. Leer `CLAUDE.md` para contexto específico
-2. Ejecutar `npm run generate-data` si trabajas con contenido
-3. Verificar que el slug no exista en `/src/content/tools/`
-
-### Al agregar una herramienta
-1. Crear `/src/content/tools/{slug}.md` con frontmatter completo
-2. Agregar imagen a `/public/images/tools/{slug}.{ext}` (opcional pero recomendado)
-3. Ejecutar `npm run generate-data` para regenerar JSON
-4. Verificar en `npm run dev` que se vea correctamente
-
-### Frontmatter obligatorio
-```yaml
----
-name: "Nombre de la herramienta"
-slug: "nombre-de-la-herramienta"
-year: 1995
-category: "editor"  # editor|lenguaje|database|infra|otro
-published: true
-context: "Historia personal de uso..."
----
-```
-
-## Comandos útiles
+## Comandos
 
 ```bash
-# Desarrollo
-npm run dev
+# v2 (Astro — el sitio en vivo)
+npm run dev · npm run generate-data · npm run build · npm run preview
 
-# Generar datos desde Markdown
-npm run generate-data
+# v3 (PHP + SQLite — en construcción)
+python3 ops/tools/import_catalog.py     # Markdown → catalog.sqlite
+python3 ops/tools/verify_parity.py      # paridad fuente ↔ BD (reporte en ops/reports/)
 
-# Build de producción
-npm run build
-
-# Preview local del build
-npm run preview
+# deploy v3 (Fase 7): ops/deploy/deploy.py — SOLO complementa, nunca borra
 ```
 
 ## Reglas de oro
 
-1. **Slug único**: kebab-case, sin espacios ni caracteres especiales
-2. **Año como número**: para poder ordenar cronológicamente
-3. **Contexto personal obligatorio**: la historia es el valor diferencial
-4. **Imágenes locales preferidas**: en `/public/images/tools/`
-5. **No enlaces de descarga directa**: solo referencias oficiales
-6. **Un agente puede hacer cualquier tarea**: siguiendo estas guidelines
-
-## Recursos adicionales
-
-- `docs/adr/` - Architecture Decision Records
-- `docs/SPEC.md` - Especificación funcional completa
-- `CLAUDE.md` - Contexto específico para Claude
-
-## Dudas
-
-Si algo no está claro, preguntar antes de asumir. Este proyecto prioriza la calidad del contenido sobre la velocidad de implementación.
+1. **El contenido es el valor** — nada se pierde; la paridad es verificable (`verify_parity`).
+2. **Sin subidas públicas**; las descargas son del dueño (clave individual por software).
+3. **No tocar la lógica viva sin pedido explícito** (v2 está en producción).
+4. **Commits en inglés** (Conventional Commits, detallados); **docs/specs en español**.
+5. Slugs kebab-case **estables**; año numérico; **contexto personal obligatorio**.
+6. PHP objetivo **8.1**; límites del hosting (2 MB de subida → chunking; 30 s).
+7. Ante duda, **preguntar antes de asumir**. Calidad de contenido > velocidad.

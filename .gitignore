@@ -27,3 +27,11 @@ pnpm-debug.log*
 
 # OS
 Thumbs.db
+
+# v3 — base de datos generada (no se commitea; se reconstruye con ops/tools/import_catalog.py)
+app/data/*.sqlite
+app/data/*.sqlite-*
+
+# Python
+__pycache__/
+*.pyc
