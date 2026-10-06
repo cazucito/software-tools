@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Modalidad «Máquina» (C) — CRT fosforescente. BIOS, log de arranque y un
+   directorio estilo Norton Commander. Solo IBM Plex Mono.
+   Portada de sketches/001-direcciones-visuales/c-maquina (aprobada por el dueño).
+   ========================================================================== */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#030906; --panel:#04120a; --green:#52ffa8; --green-dim:rgba(82,255,168,.68);
+  --green-faint:rgba(82,255,168,.28); --amber:#ffc247; --ink:#c8ffe0;
+}
+:root{
+  --st-bg:var(--bg); --st-ink:var(--ink); --st-muted:var(--green-dim); --st-faint:var(--green-faint);
+  --st-accent:var(--green); --st-line:var(--green-faint);
+  --st-font-body:"IBM Plex Mono",ui-monospace,monospace; --st-font-display:"IBM Plex Mono",ui-monospace,monospace;
+  --st-font-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --st-header-bg:rgba(3,9,6,.92);
+}
+body{background:var(--bg);color:var(--green);font-family:"IBM Plex Mono",ui-monospace,monospace;
+  line-height:1.65;overflow-x:hidden;text-shadow:0 0 6px rgba(82,255,168,.35)}
+::selection{background:var(--green);color:var(--bg);text-shadow:none}
+
+/* CRT */
+.crt{position:fixed;inset:0;pointer-events:none;z-index:9990;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.20) 0 1px,transparent 1px 3px)}
+.crt-vignette{position:fixed;inset:0;pointer-events:none;z-index:9991;
+  background:radial-gradient(ellipse at center,transparent 52%,rgba(0,0,0,.55) 100%)}
+.flicker{position:fixed;inset:0;pointer-events:none;z-index:9992;background:#031008;opacity:0;animation:flick 9s infinite}
+@keyframes flick{0%,90%,100%{opacity:0}91%{opacity:.05}92%{opacity:0}95%{opacity:.08}96%{opacity:0}}
+.power{position:fixed;inset:0;background:#d8ffe9;z-index:9995;pointer-events:none;opacity:0}
+
+/* ---------- BOOT ---------- */
+#boot{min-height:100vh;padding:12vh 1.4rem 4rem;display:flex;flex-direction:column;justify-content:center;max-width:980px;margin:0 auto}
+.bl{font-size:clamp(.72rem,1.6vw,.9rem);letter-spacing:.05em;white-space:pre-wrap}
+.bl b{color:var(--amber);font-weight:500}
+.bl .dim{color:var(--green-faint)}
+.bl-title{font-size:clamp(1.5rem,4.5vw,2.6rem);letter-spacing:.08em;margin-bottom:2.4rem;font-weight:600}
+.cursor{display:inline-block;width:.6em;height:1.05em;background:var(--green);vertical-align:-.15em;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+#boot .cue{margin-top:4.5rem;font-size:.7rem;letter-spacing:.3em;color:var(--green-dim);animation:cuep 2.4s infinite;text-transform:uppercase}
+@keyframes cuep{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ---------- LOG ---------- */
+#log{height:100vh;display:flex;align-items:center;overflow:hidden}
+.log-wrap{width:100%;max-width:1100px;margin:0 auto;padding:0 1.4rem;display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:3rem;align-items:center}
+.log-lines{font-size:clamp(.66rem,1.5vw,.82rem);letter-spacing:.03em;white-space:nowrap;overflow:hidden}
+.log-line{margin:.28rem 0}
+.log-line .ly{color:var(--amber)}
+.log-line .lok{color:var(--green)}
+.log-line .lwarn{color:var(--amber);font-style:italic}
+.log-side{border:1px solid var(--green-faint);padding:1.6rem 1.4rem;background:rgba(4,18,10,.6)}
+.side-label{font-size:.6rem;letter-spacing:.26em;color:var(--green-dim);margin-bottom:.4rem}
+.side-year{font-size:clamp(2.6rem,6vw,3.8rem);line-height:1;color:var(--ink);margin-bottom:1.5rem;letter-spacing:.05em}
+.side-bar{font-size:.95rem;letter-spacing:.05em;margin-bottom:1.5rem;color:var(--green)}
+.side-files{font-size:1.2rem}.side-files span{color:var(--amber)}
+.log-final{margin-top:1.2rem;color:var(--green-dim)}
+
+/* ---------- DIRECTORIO ---------- */
+#directorio{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 1.4rem;max-width:1100px;margin:0 auto}
+.dir-title{font-size:.72rem;letter-spacing:.3em;color:var(--green-dim);text-transform:uppercase;margin-bottom:1.4rem}
+.dir-frame{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);border:1px solid var(--green-faint);background:rgba(4,18,10,.5);min-height:480px}
+.dir-pane{overflow:auto;max-height:66vh}
+.dir-head{position:sticky;top:0;background:var(--green);color:var(--bg);text-shadow:none;
+  font-size:.68rem;letter-spacing:.14em;padding:.35rem .8rem;display:flex;justify-content:space-between}
+.dir-pane.left{border-right:1px solid var(--green-faint)}
+.dir-row{display:flex;justify-content:space-between;gap:1rem;padding:.16rem .8rem;font-size:.78rem;cursor:pointer;border:0;width:100%;background:none;color:var(--green);font-family:inherit;text-align:left;text-shadow:inherit}
+.dir-row .r-meta{color:rgba(82,255,168,.5)}
+.dir-row:hover{background:rgba(82,255,168,.12)}
+.dir-row.sel{background:var(--green);color:var(--bg);text-shadow:none}
+.dir-row.sel .r-meta{color:rgba(3,9,6,.7)}
+.dir-detail{padding:2rem 1.8rem}
+.dir-detail .d-name{font-size:clamp(1.4rem,3vw,2rem);color:var(--ink);font-weight:600;letter-spacing:.02em}
+.dir-detail .d-meta{font-size:.72rem;color:var(--green-dim);letter-spacing:.14em;margin-top:.7rem;text-transform:uppercase}
+.dir-detail .d-tags{margin-top:1rem;font-size:.72rem;color:var(--green-dim);letter-spacing:.1em}
+.dir-detail .d-tags span{border:1px dashed var(--green-faint);padding:.12rem .45rem;margin:0 .28rem .3rem 0;display:inline-block}
+.dir-detail .d-ctx{margin-top:1.6rem;font-size:.88rem;color:var(--ink);max-width:52ch}
+.dir-detail .d-link{margin-top:1.8rem;display:inline-block;font-size:.78rem;letter-spacing:.14em;color:var(--green);text-decoration:none;border:1px solid var(--green-faint);padding:.5rem .9rem}
+.dir-detail .d-link:hover{background:var(--green);color:var(--bg);text-shadow:none}
+.dir-hint{font-size:.68rem;color:var(--green-dim);letter-spacing:.2em;margin-top:1rem;text-transform:uppercase}
+
+/* ---------- SALIDA ---------- */
+#salida{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding:12vh 1.4rem;max-width:980px;margin:0 auto}
+.exit-line{font-size:clamp(1rem,2.4vw,1.4rem)}
+.exit-msg{margin-top:2.2rem;font-size:clamp(.85rem,2vw,1.05rem);color:var(--green-dim)}
+.exit-cta{display:inline-block;margin-top:3rem;font-size:.9rem;color:var(--green);text-decoration:none;
+  border:1px solid var(--green);padding:.9rem 1.5rem;letter-spacing:.14em}
+.exit-cta:hover{background:var(--green);color:var(--bg);text-shadow:none}
+.reduced .flicker,.reduced .power,.reduced #boot .cue{display:none}
+.reduced #log{height:auto;padding:10vh 0}
+@media (max-width:860px){
+  .log-wrap{grid-template-columns:1fr;gap:2rem}
+  .dir-frame{grid-template-columns:1fr;min-height:320px}
+  .dir-title{font-size:.62rem;letter-spacing:.16em}
+  .dir-pane.left{border-right:0;border-bottom:1px solid var(--green-faint);max-height:42vh}
+}

@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Modalidad «Línea» (B, por defecto) — editorial, scrollytelling. Una línea
+   se dibuja de 1991 a hoy; cada herramienta es una estación.
+   Paleta: slate profundo + sky. Fraunces + Inter.
+   Portada de sketches/001-direcciones-visuales/b-linea (aprobada por el dueño).
+   ========================================================================== */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#020617; --ink:#e2e8f0; --muted:#94a3b8; --faint:#334155;
+  --sky:#38bdf8; --line:rgba(148,163,184,.18);
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+}
+:root{
+  --st-bg:var(--bg); --st-ink:var(--ink); --st-muted:var(--muted); --st-faint:var(--faint);
+  --st-accent:var(--sky); --st-line:var(--line);
+  --st-font-body:var(--sans); --st-font-display:var(--serif); --st-font-mono:var(--sans);
+  --st-header-bg:rgba(2,6,23,.92);
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+
+/* ---------- HERO ---------- */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:5rem 1.4rem;position:relative}
+.eyebrow{font-size:.72rem;letter-spacing:.32em;color:var(--muted);text-transform:uppercase;margin-bottom:2rem}
+#hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.8rem,8vw,6.4rem);line-height:1.04;letter-spacing:-.015em;max-width:18ch}
+#hero h1 em{font-style:italic;color:var(--sky);font-weight:500}
+.sub{margin-top:1.6rem;color:var(--muted);max-width:44ch;font-size:1.05rem}
+.cue{margin-top:4rem;display:flex;flex-direction:column;align-items:center;gap:.7rem;color:var(--muted);
+  font-size:.74rem;letter-spacing:.3em;text-transform:uppercase}
+.cue .thread{width:1px;height:84px;background:linear-gradient(var(--sky),transparent);animation:thread 2.4s infinite}
+@keyframes thread{0%{transform:scaleY(.3);transform-origin:top;opacity:.4}55%{transform:scaleY(1);opacity:1}100%{transform:scaleY(.3);transform-origin:bottom;opacity:.4}}
+
+/* ---------- EL CAMINO ---------- */
+#camino{position:relative;height:560vh;overflow:hidden}
+#camino .camino-head{position:absolute;top:3.4rem;left:50%;transform:translateX(-50%);font-size:.68rem;
+  letter-spacing:.3em;color:var(--muted);text-transform:uppercase;z-index:5}
+#line-svg{position:absolute;top:0;left:0;display:block}
+.station{position:absolute;width:min(300px,44vw);pointer-events:none;opacity:.18;transition:opacity .7s ease;z-index:2}
+.station .st-year,.station .st-name,.station .st-line{text-shadow:0 1px 6px #020617,0 0 16px #020617}
+.station.lit{opacity:1;pointer-events:auto}
+.station .st-year{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--sky);display:block;line-height:1.1}
+.station .st-name{font-weight:600;font-size:1.05rem;display:block;margin-top:.15rem}
+.station .st-name a{text-decoration:none}
+.station .st-name a:hover{color:var(--sky)}
+.station .st-line{color:var(--muted);font-size:.86rem;margin-top:.25rem;display:block;overflow-wrap:break-word}
+.station.l-left{text-align:right;transform:translate(calc(-100% - 42px),-50%)}
+.station.l-right{transform:translate(42px,-50%)}
+.station.l-left .st-line{margin-left:auto}
+.st-dot{transition:fill .5s ease}
+.st-dot.lit{fill:#38bdf8}
+#journey-dot{filter:drop-shadow(0 0 8px #38bdf8)}
+
+/* ---------- ESTACIÓN (spotlight) ---------- */
+#estacion{padding:16vh 1.4rem;display:flex;justify-content:center}
+.editorial{max-width:820px;width:100%;border-top:1px solid var(--line);padding-top:3.4rem}
+.ed-kicker{font-size:.7rem;letter-spacing:.3em;color:var(--sky);text-transform:uppercase}
+.ed-title{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.05;margin-top:1.2rem}
+.ed-quote{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(1.35rem,3vw,2rem);
+  line-height:1.45;color:var(--ink);margin-top:2.2rem;max-width:30ch}
+.ed-meta{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;align-items:baseline;
+  font-size:.78rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.ed-meta .chipline{color:var(--muted)}
+.ed-link{display:inline-block;margin-top:2.6rem;color:var(--sky);text-decoration:none;font-size:.85rem;
+  letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid transparent;transition:border-color .25s}
+.ed-link:hover{border-color:var(--sky)}
+
+/* ---------- HOY ---------- */
+#hoy{padding:14vh 1.4rem 10vh;text-align:center;position:relative}
+.hoy-kicker{font-size:.7rem;letter-spacing:.34em;color:var(--sky);text-transform:uppercase}
+#hoy h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,5vw,3.6rem);margin-top:1rem}
+.constel{display:flex;justify-content:center;align-items:flex-start;gap:clamp(.8rem,4vw,3rem);margin-top:4rem;position:relative}
+.constel::before{content:"";position:absolute;top:9px;left:8%;right:8%;height:1px;background:var(--line)}
+.node{display:flex;flex-direction:column;align-items:center;gap:.6rem;position:relative;z-index:1;flex:0 1 140px;text-decoration:none}
+.node .dot{width:18px;height:18px;border-radius:50%;border:1px solid var(--sky);background:var(--bg);
+  box-shadow:0 0 14px #38bdf855}
+.node:hover .n-name{color:var(--sky)}
+.node .n-name{font-size:.8rem;font-weight:500}
+.node .n-year{font-size:.66rem;color:var(--muted)}
+.hoy-line{margin-top:3.6rem;color:var(--muted);font-size:1rem}
+.cta{display:inline-block;margin-top:2.4rem;background:var(--sky);color:#020617;font-weight:600;
+  font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:1rem 1.9rem;
+  border-radius:999px;transition:transform .25s,box-shadow .25s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px #38bdf844}
+
+/* reduced / fallback */
+.reduced .cue .thread{animation:none}
+.reduced #camino{height:auto;padding:8rem 0}
+.reduced .station{opacity:1;position:relative!important;left:auto!important;top:auto!important;transform:none!important;
+  width:auto;margin:1.4rem auto;text-align:center!important;max-width:520px}
+.reduced #line-svg{display:none}
+@media (max-width:720px){
+  #camino{height:480vh}
+  #camino .camino-head{white-space:nowrap;font-size:.6rem;letter-spacing:.18em}
+  .station .st-line{display:none}
+  .station{width:auto}
+}
