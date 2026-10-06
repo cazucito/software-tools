@@ -180,4 +180,4 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 
 ---
 
-*Fases 1–4 completadas (2026-10-05): maquetas aprobadas como **modos seleccionables**; **SPEC v3 + ADRs 005–008**; **`catalog.sqlite` con paridad 48/48 ✓**; **prototipo de la Fase 4 EN VIVO** en `software-tools.pcabrera.com/proto/` (3 modalidades, ficha, búsqueda FTS5, catálogo) para revisión del dueño. Siguiente paso: **Fase 5** — app completa (comentarios, admin, descargas con clave, assets, SEO).*
+*Fases 1–5 completadas (2026-10-05): maquetas aprobadas como **modos seleccionables**; **SPEC v3 + ADRs 005–009**; **`catalog.sqlite` con paridad 48/48 ✓**; **prototipo Fase 4 EN VIVO**; **Fase 5 (app completa) DESPLEGADA Y VERIFICADA** en `software-tools.pcabrera.com/proto/` — comentarios, panel admin, descargas con clave, i18n es/en y SEO; E2E 54/54 + smoke en vivo OK. Siguiente paso: **Fase 6** (inglés) y **Fase 7** (raíz del dominio + retiro de GitHub Pages).*

@@ -21,7 +21,7 @@ final class Catalog
     {
         $rows = Db::pdo()->query(
             'SELECT id, slug, name, year, used_until, category, context, body,
-                    image, successor, successor_slug, next_version
+                    image, successor, successor_slug, next_version, published
              FROM tools WHERE published = 1
              ORDER BY year ASC, name ASC, slug ASC'
         )->fetchAll();
@@ -42,7 +42,7 @@ final class Catalog
     {
         $stmt = Db::pdo()->prepare(
             'SELECT id, slug, name, year, used_until, category, context, body,
-                    image, successor, successor_slug, next_version
+                    image, successor, successor_slug, next_version, published
              FROM tools WHERE published = 1 AND slug = ?'
         );
         $stmt->execute([$slug]);
@@ -230,7 +230,8 @@ final class Catalog
      */
     private static function relatedSlugs(int $toolId): array
     {
-        $stmt = Db::pdo()->prepare('SELECT related_slug FROM tool_relations WHERE tool_id = ? ORDER BY related_slug');
+        // rowid = orden de inserción (fiel al orden del Markdown original)
+        $stmt = Db::pdo()->prepare('SELECT related_slug FROM tool_relations WHERE tool_id = ? ORDER BY rowid');
         $stmt->execute([$toolId]);
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
@@ -246,7 +247,7 @@ final class Catalog
         $rows = Db::pdo()->query(
             'SELECT tt.tool_id, g.name FROM tool_tags tt
              JOIN tags g ON g.id = tt.tag_id
-             ORDER BY g.name'
+             ORDER BY tt.rowid'
         )->fetchAll();
         foreach ($rows as $row) {
             $map[(int) $row['tool_id']][] = (string) $row['name'];

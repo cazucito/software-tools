@@ -3,16 +3,20 @@ if (!defined('ST_APP')) {
     exit;
 }
 /**
- * Layout común: head, cabecera (marca, selector de modalidad, búsqueda),
- * contenido y pie. Variables esperadas: $content, $mode, $modes, $route,
- * $params, $title, $description, $stDataJson (opcional), $modeScript (opcional).
+ * Layout común: head (SEO: canonical, Open Graph, hreflang, JSON-LD),
+ * cabecera (marca, selector de modalidad, búsqueda), contenido y pie.
+ * Variables esperadas: $content, $mode, $modes, $route, $params, $title,
+ * $description, $canonical, $ogType, $jsonLd, $stDataJson, $modeScript, $lang.
  */
 $modes       = $modes ?? [];
 $params      = $params ?? [];
 $title       = $title ?? 'software-tools';
 $description = $description ?? '';
+$canonical   = $canonical ?? '';
+$ogType      = $ogType ?? 'website';
+$lang        = $lang ?? 'es';
 ?><!doctype html>
-<html lang="es">
+<html lang="<?= e($lang) ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,8 +24,25 @@ $description = $description ?? '';
 <?php if ($description !== ''): ?>
 <meta name="description" content="<?= e($description) ?>">
 <?php endif; ?>
+<?php if ($canonical !== ''): ?>
+<link rel="canonical" href="<?= e($canonical) ?>">
+<link rel="alternate" hreflang="<?= e($lang) ?>" href="<?= e($canonical) ?>">
+<link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
+<meta property="og:title" content="<?= e($title) ?>">
+<?php if ($description !== ''): ?>
+<meta property="og:description" content="<?= e($description) ?>">
+<?php endif; ?>
+<meta property="og:url" content="<?= e($canonical) ?>">
+<meta property="og:type" content="<?= e($ogType) ?>">
+<meta property="og:site_name" content="software-tools">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary">
+<?php endif; ?>
 <?php if (st_config('noindex')): ?>
 <meta name="robots" content="noindex">
+<?php endif; ?>
+<?php if (!empty($jsonLd)): ?>
+<script type="application/ld+json"><?= $jsonLd ?></script>
 <?php endif; ?>
 <link rel="icon" href="data:,">
 <?php if ($mode === 'cinta'): ?>
@@ -70,15 +91,15 @@ $description = $description ?? '';
       <?php endforeach; ?>
     </nav>
     <div class="st-header__right">
-      <a class="st-header__link" href="<?= e(st_url('tools', ['modo' => $mode])) ?>">Catálogo</a>
-      <a class="st-header__link st-search-link" href="<?= e(st_url('search', ['modo' => $mode])) ?>">Buscar</a>
+      <a class="st-header__link" href="<?= e(st_url('tools', ['modo' => $mode])) ?>"><?= e(st_t('header.catalog')) ?></a>
+      <a class="st-header__link st-search-link" href="<?= e(st_url('search', ['modo' => $mode])) ?>"><?= e(st_t('header.search')) ?></a>
       <form class="st-search" action="<?= e(st_url('search')) ?>" method="get" role="search">
         <?php if (st_config('url_style') !== 'pretty'): ?>
         <input type="hidden" name="p" value="search">
         <?php endif; ?>
         <input type="hidden" name="modo" value="<?= e($mode) ?>">
-        <input class="st-search__input" type="search" name="q" placeholder="Buscar…"
-               autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Buscar en el archivo">
+        <input class="st-search__input" type="search" name="q" placeholder="<?= e(st_t('header.search_placeholder')) ?>"
+               autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="<?= e(st_t('header.search')) ?>">
       </form>
     </div>
   </div>
@@ -89,7 +110,7 @@ $description = $description ?? '';
 </main>
 
 <footer class="st-footer">
-  <span>prototipo v3 · fase 4 — modalidad «<?= e($mode) ?>» · datos reales del archivo · <?= e(st_config('site_tagline')) ?></span>
+  <span><?= e(st_t('footer.prototype', ['mode' => $modeLabels[$mode] ?? ucfirst($mode)])) ?></span>
 </footer>
 
 <?php if (!empty($stDataJson)): ?>

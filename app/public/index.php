@@ -13,7 +13,11 @@ declare(strict_types=1);
  *   - hosting:     proto/index.php       → ./server  (mismo nivel)
  */
 
+use St\Admin;
 use St\Catalog;
+use St\Comments;
+use St\Downloads;
+use St\I18n;
 use St\View;
 
 $serverDir = is_dir(__DIR__ . '/server') ? __DIR__ . '/server' : dirname(__DIR__) . '/server';
@@ -28,6 +32,14 @@ try {
     $segments = $routePath === ''
         ? []
         : array_values(array_filter(explode('/', $routePath), static fn (string $s): bool => $s !== ''));
+
+    // ----- Idioma (base; /en/ se activa en Fase 6) -------------------------
+    $lang = (string) (st_config('lang') ?: 'es');
+    if (($segments[0] ?? '') === 'en' && isset((st_config('langs') ?? [])['en'])) {
+        $lang = 'en';
+        array_shift($segments);
+    }
+    I18n::setLang($lang);
 
     // ----- Modalidad activa (ADR-006) --------------------------------------
     $modes = st_config('modes');
@@ -44,7 +56,7 @@ try {
         }
     }
 
-    $common = ['mode' => $mode, 'modes' => $modes, 'params' => $params];
+    $common = ['mode' => $mode, 'modes' => $modes, 'params' => $params, 'lang' => $lang];
 
     $notFound = static function () use ($common): void {
         http_response_code(404);
@@ -57,11 +69,21 @@ try {
     // ----- Home: timeline con modalidades ----------------------------------
     if ($segments === []) {
         $timeline = Catalog::timelineData();
+        $canonical = st_abs_url('');
         View::page('home', $common + [
             'route'       => '',
             'title'       => 'software-tools — ' . $timeline['stats']['count'] . ' herramientas, una historia (' . $timeline['stats']['minYear'] . ' → hoy)',
             'description' => 'Archivo personal de software: ' . $timeline['stats']['count'] . ' herramientas de '
                 . $timeline['stats']['minYear'] . ' a hoy, cada una con su historia de uso.',
+            'canonical'   => $canonical,
+            'ogType'      => 'website',
+            'jsonLd'      => json_encode([
+                '@context'   => 'https://schema.org',
+                '@type'      => 'WebSite',
+                'name'       => 'software-tools',
+                'url'        => $canonical,
+                'description' => 'Archivo personal de software, 1991 → hoy.',
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             'stDataJson'  => json_encode(
                 $timeline,
                 JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
@@ -83,6 +105,7 @@ try {
             'route' => 'tools',
             'title' => 'Catálogo — software-tools',
             'description' => 'Las ' . count($all) . ' herramientas del archivo, por década.',
+            'canonical' => st_abs_url('tools'),
             'tools' => $all,
             'stats' => Catalog::stats(),
         ]);
@@ -106,16 +129,124 @@ try {
             $succTool = Catalog::toolBySlug((string) $tool['successor_slug']);
         }
         $bodyHtml = (new Parsedown())->setSafeMode(true)->text((string) $tool['body']);
+
+        // Avisos post-redirect (comentario / desbloqueo de descarga).
+        $notice = null;
+        $c = (string) ($_GET['c'] ?? '');
+        if ($c !== '') {
+            $map = [
+                'ok'       => 'comments.sent',
+                'held'     => 'comments.held',
+                'generic'  => 'comments.error_generic',
+                'author'   => 'comments.error_author',
+                'body'     => 'comments.error_body',
+                'too_fast' => 'comments.error_too_fast',
+                'rate'     => 'comments.error_rate',
+                'ancient'  => 'comments.error_ancient',
+            ];
+            if (isset($map[$c])) {
+                $notice = [
+                    'type' => in_array($c, ['ok', 'held'], true) ? 'ok' : 'error',
+                    'text' => st_t($map[$c], ['max' => (int) st_config('comments')['max_len']]),
+                ];
+            }
+        }
+        $d = (string) ($_GET['d'] ?? '');
+        if ($d === 'ok') {
+            $notice = ['type' => 'ok', 'text' => st_t('downloads.unlocked')];
+        } elseif ($d === 'wrong') {
+            $notice = ['type' => 'error', 'text' => st_t('downloads.wrong_key')];
+        } elseif ($d === 'rate') {
+            $notice = ['type' => 'error', 'text' => st_t('downloads.rate')];
+        }
+
+        $canonical = st_abs_url('tools/' . $slug);
         View::page('tool', $common + [
             'route'      => 'tools/' . $slug,
             'title'      => $tool['name'] . ' (' . $tool['year'] . ') — software-tools',
             'description' => mb_substr((string) $tool['context'], 0, 160),
+            'canonical'  => $canonical,
+            'ogType'     => 'article',
+            'jsonLd'     => json_encode([
+                '@context'            => 'https://schema.org',
+                '@type'               => 'SoftwareApplication',
+                'name'                => $tool['name'],
+                'description'         => $tool['context'],
+                'url'                 => $canonical,
+                'applicationCategory' => 'DeveloperApplication',
+                'operatingSystem'     => 'Any',
+                'isPartOf'            => ['@type' => 'WebSite', 'name' => 'software-tools', 'url' => st_abs_url('')],
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             'tool'       => $tool,
             'related'    => Catalog::toolsBySlugs($tool['related']),
             'neighbours' => Catalog::neighbours($slug),
             'succTool'   => $succTool,
             'bodyHtml'   => $bodyHtml,
+            'notice'     => $notice,
+            'dloads'     => Downloads::forTool($slug),
+            'hasDlKey'   => Downloads::hasKey($slug),
+            'commentsEnabled' => (bool) st_config('comments')['enabled'],
+            'commentsList'    => Comments::forTool($slug),
+            'commentToken'    => Comments::timeToken(),
+            'assets'          => \St\Ops::assetsFor($slug),
         ]);
+        exit;
+    }
+
+    // ----- Comentarios: publicación -----------------------------------------
+    if ($segments === ['comment'] && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+        $slug = (string) ($_POST['slug'] ?? '');
+        if (!preg_match('/^[a-z0-9-]+$/', $slug) || !Catalog::toolBySlug($slug)) {
+            $notFound();
+            exit;
+        }
+        $error = Comments::submit($slug, $_POST);
+        $flag = $error ?? (!empty(st_config('comments')['direct']) ? 'ok' : 'held');
+        st_redirect(st_url('tools/' . $slug, ['modo' => $mode, 'c' => $flag]) . '#comentarios');
+    }
+
+    // ----- Descargas: desbloqueo por clave ----------------------------------
+    if ($segments[0] === 'download' && count($segments) === 2 && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+        $slug = $segments[1];
+        if (!preg_match('/^[a-z0-9-]+$/', $slug) || !Catalog::toolBySlug($slug)) {
+            $notFound();
+            exit;
+        }
+        $result = Downloads::unlock($slug, (string) ($_POST['key'] ?? ''));
+        $flag = $result === null ? 'ok' : ($result === 'rate' ? 'rate' : 'wrong');
+        st_redirect(st_url('tools/' . $slug, ['modo' => $mode, 'd' => $flag]) . '#descargas');
+    }
+
+    // ----- Descargas: streamer ----------------------------------------------
+    if ($segments[0] === 'download' && count($segments) === 3) {
+        $slug = $segments[1];
+        $file = $segments[2];
+        if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
+            $notFound();
+            exit;
+        }
+        Downloads::stream($slug, $file); // termina la respuesta
+    }
+
+    // ----- Panel de administración ------------------------------------------
+    if ($segments[0] === 'admin') {
+        Admin::handle($segments, $common);
+        exit;
+    }
+
+    // ----- Sitemap -----------------------------------------------------------
+    if ($segments === ['sitemap.xml']) {
+        header('Content-Type: application/xml; charset=utf-8');
+        $urls = [st_abs_url(''), st_abs_url('tools'), st_abs_url('search')];
+        foreach (Catalog::tools() as $t) {
+            $urls[] = st_abs_url('tools/' . $t['slug']);
+        }
+        echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+        foreach ($urls as $u) {
+            echo '  <url><loc>' . htmlspecialchars($u, ENT_XML1) . '</loc></url>' . "\n";
+        }
+        echo '</urlset>' . "\n";
         exit;
     }
 
@@ -126,6 +257,7 @@ try {
         View::page('search', $common + [
             'route' => 'search',
             'title' => $q !== '' ? ('Buscar: ' . $q . ' — software-tools') : 'Buscar — software-tools',
+            'canonical' => st_abs_url('search'),
             'q'      => $q,
             'result' => $result,
         ]);

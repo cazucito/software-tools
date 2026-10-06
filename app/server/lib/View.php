@@ -38,4 +38,11 @@ final class View
         $vars['content'] = self::render($template, $vars);
         echo self::render('layout', $vars);
     }
+
+    /** Renderiza una página del panel admin (layout propio, sin modalidades). */
+    public static function admin(string $template, array $vars = []): void
+    {
+        $vars['content'] = self::render('admin/' . $template, $vars);
+        echo self::render('admin/layout', $vars);
+    }
 }

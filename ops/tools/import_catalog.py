@@ -40,24 +40,8 @@ CREATE TABLE IF NOT EXISTS tool_tags(tool_id INTEGER NOT NULL REFERENCES tools(i
   tag_id INTEGER NOT NULL REFERENCES tags(id), PRIMARY KEY(tool_id, tag_id));
 CREATE TABLE IF NOT EXISTS tool_relations(tool_id INTEGER NOT NULL REFERENCES tools(id) ON DELETE CASCADE,
   related_slug TEXT NOT NULL, PRIMARY KEY(tool_id, related_slug));
-CREATE TABLE IF NOT EXISTS tool_assets(id INTEGER PRIMARY KEY,
-  tool_id INTEGER NOT NULL REFERENCES tools(id) ON DELETE CASCADE,
-  kind TEXT NOT NULL CHECK(kind IN ('icon','logo','cover')), file TEXT NOT NULL,
-  source TEXT, license_note TEXT);
-CREATE TABLE IF NOT EXISTS downloads(id INTEGER PRIMARY KEY,
-  tool_id INTEGER NOT NULL REFERENCES tools(id) ON DELETE CASCADE,
-  filename TEXT NOT NULL, relpath TEXT NOT NULL, bytes INTEGER, sha256 TEXT,
-  visibility TEXT NOT NULL DEFAULT 'clave' CHECK(visibility IN ('publico','clave','enlace')),
-  license_note TEXT, source_url TEXT, created_at TEXT, UNIQUE(tool_id, filename));
-CREATE TABLE IF NOT EXISTS download_keys(
-  tool_id INTEGER PRIMARY KEY REFERENCES tools(id) ON DELETE CASCADE,
-  pass_hash TEXT NOT NULL, updated_at TEXT);
-CREATE TABLE IF NOT EXISTS comments(id INTEGER PRIMARY KEY,
-  tool_id INTEGER NOT NULL REFERENCES tools(id) ON DELETE CASCADE,
-  lang TEXT NOT NULL DEFAULT 'es', author TEXT NOT NULL, body TEXT NOT NULL,
-  created_at TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'approved'
-    CHECK(status IN ('pending','approved','spam')), ip_hash TEXT);
-CREATE INDEX IF NOT EXISTS idx_comments_tool ON comments(tool_id, status);
+-- Las tablas operativas (comments, downloads, download_keys, tool_assets, rate_events…)
+-- viven aparte en ops.sqlite (ADR-009): la app las auto-inicializa; el importador no las toca.
 CREATE VIRTUAL TABLE IF NOT EXISTS tools_fts USING fts5(name, context, body, tags);
 """
 
@@ -133,8 +117,7 @@ def main():
     con.commit()
 
     counts = {}
-    for t in ('tools', 'tags', 'tool_tags', 'tool_relations', 'categories', 'tool_i18n',
-              'tool_assets', 'downloads', 'download_keys', 'comments', 'tools_fts'):
+    for t in ('tools', 'tags', 'tool_tags', 'tool_relations', 'categories', 'tool_i18n', 'tools_fts'):
         counts[t] = con.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]
     size = os.path.getsize(args.db)
     con.close()

@@ -12,6 +12,9 @@ define('ST_ROOT', dirname(__DIR__)); // app/
 
 $GLOBALS['st_config'] = require __DIR__ . '/config.php';
 
+// Zona horaria del sitio (fechas legibles de comentarios, etc.)
+date_default_timezone_set((string) (st_config('timezone') ?: 'UTC'));
+
 // ---------------------------------------------------------------------------
 // Autoload de clases propias: St\Catalog -> app/server/lib/Catalog.php
 // ---------------------------------------------------------------------------
@@ -28,6 +31,10 @@ spl_autoload_register(static function (string $class): void {
 
 // Markdown (Parsedown vendored — solo lectura de nuestros propios .md)
 require_once __DIR__ . '/vendor/parsedown/Parsedown.php';
+
+// i18n: la clase St\I18n (autoload) + el atajo global st_t() (las funciones
+// no pasan por el autoload)
+require_once __DIR__ . '/lib/I18n.php';
 
 // ---------------------------------------------------------------------------
 // Ruta base ('' en la raíz del dominio, '/proto' bajo subdirectorio, etc.)
@@ -94,4 +101,41 @@ function st_url(string $route = '', array $params = []): string
 function st_asset(string $path): string
 {
     return ST_BASE . '/assets/' . ltrim($path, '/');
+}
+
+/** URL absoluta (canonical, Open Graph, JSON-LD). */
+function st_abs_url(string $route = '', array $params = []): string
+{
+    $https = (($_SERVER['HTTPS'] ?? '') === 'on') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+    $host = (string) ($_SERVER['HTTP_HOST'] ?? 'software-tools.pcabrera.com');
+    return ($https ? 'https' : 'http') . '://' . $host . st_url($route, $params);
+}
+
+/** Monograma tipográfico (fallback cuando una herramienta no tiene ícono). */
+function st_monogram(string $name): string
+{
+    $words = preg_split('/\s+/u', trim($name)) ?: [];
+    $letters = '';
+    foreach ($words as $word) {
+        if ($word !== '' && preg_match('/[\p{L}\p{N}]/u', $word)) {
+            $letters .= mb_strtoupper(mb_substr($word, 0, 1));
+        }
+        if (mb_strlen($letters) >= 2) {
+            break;
+        }
+    }
+    return $letters !== '' ? $letters : '·';
+}
+
+/** Redirección interna y fin. */
+function st_redirect(string $url): void
+{
+    header('Location: ' . $url, true, 302);
+    exit;
+}
+
+/** Atajo global de traducción (delega en St\I18n). */
+function st_t(string $key, array $params = []): string
+{
+    return \St\I18n::t($key, $params);
 }

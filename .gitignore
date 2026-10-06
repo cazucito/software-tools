@@ -32,6 +32,9 @@ Thumbs.db
 app/data/*.sqlite
 app/data/*.sqlite-*
 
+# v3 — configuración local con secretos (override de config.php)
+app/server/config.local.php
+
 # Python
 __pycache__/
 *.pyc

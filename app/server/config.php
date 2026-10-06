@@ -17,7 +17,11 @@ $config = [
 
     // Rutas
     'data_file'    => dirname(__DIR__) . '/data/catalog.sqlite', // app/data/catalog.sqlite
+    'ops_file'     => dirname(__DIR__) . '/data/ops.sqlite',     // operativo (ADR-009)
     'views_dir'    => __DIR__ . '/views',
+    'locales_dir'  => dirname(__DIR__) . '/public/locales',
+    'downloads_dir' => dirname(__DIR__) . '/public/downloads',   // archivos (protegidos, ADR-007)
+    'assets_tools_dir' => dirname(__DIR__) . '/public/assets/tools',
     'base_path'    => null, // null = autodetectar desde SCRIPT_NAME
 
     // Modalidades (ADR-006)
@@ -30,6 +34,42 @@ $config = [
 
     // Prototipo: sin indexar todavía (se retira al ser la v3 oficial)
     'noindex'      => true,
+
+    // i18n (base; extracción completa de cadenas en Fase 6)
+    'lang'         => 'es',
+    'langs'        => ['es' => 'Español'],
+    'timezone'     => 'America/Mexico_City',
+
+    // Secreto de la app (HMAC de time-trap y sesiones de descarga).
+    // En producción vive en config.local.php (no versionado).
+    'app_secret'   => 'dev-secret-cambiar-en-produccion',
+
+    // Panel admin (ADR-008). pass_hash = null → panel desactivado.
+    'admin'        => [
+        'pass_hash'    => null,
+        'session_ttl'  => 7200,
+        'login_max'    => 5,
+        'login_window' => 900,
+    ],
+
+    // Comentarios (SPEC 6.5)
+    'comments'     => [
+        'enabled'     => true,
+        'direct'      => true, // publicación directa + moderación retroactiva
+        'min_seconds' => 3,
+        'max_seconds' => 7200,
+        'max_len'     => 2000,
+        'rate_max'    => 3,
+        'rate_window' => 600,
+    ],
+
+    // Descargas (ADR-007)
+    'downloads'    => [
+        'key_session_ttl' => 7200,    // duración del desbloqueo por herramienta
+        'key_rate_max'    => 5,
+        'key_rate_window' => 600,
+        'max_upload'      => 1500000, // subida directa (el hosting corta en ~2 MB)
+    ],
 
     // Debug: muestra errores en pantalla (solo desarrollo local)
     'debug'        => false,
