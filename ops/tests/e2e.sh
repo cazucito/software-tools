@@ -41,7 +41,7 @@ assert_eq "sitemap 51 urls (home+tools+search+48)" 51 "$nloc"
 echo "== 2. Ficha (monograma, comentarios, JSON-LD) =="
 code=$(H "$BASE/index.php?p=tools/eudora&modo=linea"); assert_eq "ficha 200" 200 "$code"
 body=$(cat "$TMP/body.html")
-assert_contains "ficha con monograma" 'st-monogram' "$body"
+assert_contains "ficha con monograma (fallback st-art)" 'st-art--mono' "$body"
 assert_contains "ficha con formulario de comentarios" 'st-cform' "$body"
 assert_contains "ficha con honeypot" 'name="website"' "$body"
 assert_contains "ficha con JSON-LD SoftwareApplication" 'SoftwareApplication' "$body"
@@ -200,6 +200,16 @@ n=$(python3 -c "
 import sqlite3
 print(sqlite3.connect('$ROOT/app/data/ops.sqlite').execute('SELECT COUNT(*) FROM catalog_dirty').fetchone()[0])")
 assert_eq "pendientes limpiados tras marcar exportado" 0 "$n"
+
+echo "== 7b. Escala (ADR-010): hero, filtros, arte =="
+home=$(curl -s "$BASE/")
+assert_contains "home: buscador hero presente" 'st-hero-search' "$home"
+catp=$(curl -s "$BASE/index.php?p=tools")
+assert_contains "catálogo: barra de filtros" 'st-filters' "$catp"
+catd=$(curl -s "$BASE/index.php?p=tools&decada=1990")
+assert_contains "catálogo: filtro por década aplicado" '1990s' "$catd"
+ficha=$(curl -s "$BASE/index.php?p=tools/eudora")
+assert_contains "ficha: arte de década (monograma era)" 'st-era-1990' "$ficha"
 
 echo "== 8. Logout =="
 loc=$(curl -s -b "$JAR" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=admin/logout" -d "csrf=$csrf_x")

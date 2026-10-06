@@ -1,0 +1,98 @@
+/* ==========================================================================
+   ADR-010 — Escala a cientos de herramientas.
+   Arte por década, buscador hero, filtros del catálogo, zoom por década.
+   Se carga tras el CSS de la modalidad (aplica a las tres).
+   ========================================================================== */
+
+/* ---- Arte de herramienta: ícono real o monograma por década ---- */
+.st-art {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 auto; width: 2.4em; height: 2.4em; border-radius: .45em;
+  overflow: hidden; object-fit: cover; font-weight: 700; font-size: .85em;
+  line-height: 1; letter-spacing: .02em;
+}
+.st-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.st-art--mono { font-family: var(--st-font-display, inherit); }
+
+.st-era-1980 { background: linear-gradient(135deg, #f59e0b, #b45309); color: #1c1204; }
+.st-era-1990 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #2a1a05; }
+.st-era-2000 { background: linear-gradient(135deg, #38bdf8, #2563eb); color: #05182b; }
+.st-era-2010 { background: linear-gradient(135deg, #34d399, #059669); color: #03211a; }
+.st-era-2020 { background: linear-gradient(135deg, #f472b6, #c026d3); color: #2a0518; }
+
+/* ---- Rendimiento con cientos de nodos (pintado bajo demanda) ---- */
+.st-list__item, .frame, .station { content-visibility: auto; contain-intrinsic-size: auto 64px; }
+
+/* ---- Zoom por década (Cinta y Línea): clic en marcador ---- */
+.frame, .station { transition: opacity .45s ease; }
+body[data-zoom] .frame, body[data-zoom] .station { opacity: .06; pointer-events: none; }
+body[data-zoom="1990"] .frame[data-dec="1990"], body[data-zoom="1990"] .station[data-dec="1990"],
+body[data-zoom="2000"] .frame[data-dec="2000"], body[data-zoom="2000"] .station[data-dec="2000"],
+body[data-zoom="2010"] .frame[data-dec="2010"], body[data-zoom="2010"] .station[data-dec="2010"],
+body[data-zoom="2020"] .frame[data-dec="2020"], body[data-zoom="2020"] .station[data-dec="2020"] {
+  opacity: 1; pointer-events: auto;
+}
+button.decade {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: inherit; font: inherit; opacity: .8;
+}
+button.decade:hover { opacity: 1; }
+button.decade.is-on { opacity: 1; font-weight: 700; text-decoration: underline; }
+.st-dec-nav {
+  position: absolute; top: .6rem; left: 50%; transform: translateX(-50%);
+  display: flex; gap: .6rem; z-index: 30;
+}
+.st-dec-nav button {
+  background: none; border: 1px solid currentColor; border-radius: 999px;
+  padding: .25rem .7rem; cursor: pointer; color: inherit; font: inherit;
+  font-size: .8rem; opacity: .75;
+}
+.st-dec-nav button:hover { opacity: 1; }
+.st-dec-nav button.is-on { background: currentColor; color: var(--st-bg, #0b0f14); opacity: 1; font-weight: 700; }
+
+/* ---- Buscador hero (home): barra compacta sobre el hero de la modalidad ---- */
+.st-hero-search { padding: 1.1rem 1rem 0; text-align: center; }
+.st-search { position: relative; max-width: 560px; margin: 0 auto; display: flex; gap: .5rem; }
+.st-search__input {
+  flex: 1; min-width: 0; padding: .85rem 1rem; border-radius: .6rem;
+  border: 1px solid currentColor; background: transparent; color: inherit; font: inherit;
+}
+.st-search__btn {
+  padding: .85rem 1.2rem; border-radius: .6rem; border: 1px solid currentColor;
+  background: currentColor; color: var(--st-bg, #0b0f14); font: inherit; font-weight: 700; cursor: pointer;
+}
+.st-suggest { position: relative; max-width: 560px; margin: .5rem auto 0; text-align: left; z-index: 50; }
+.st-suggest__row, .st-suggest__all, .st-suggest__empty {
+  display: flex; justify-content: space-between; gap: 1rem; padding: .6rem .9rem;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-top: 0;
+  background: rgba(5, 8, 12, .88); backdrop-filter: blur(6px);
+  color: inherit; text-decoration: none; font-size: .92rem;
+}
+.st-suggest__row:first-of-type, .st-suggest__empty { border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent); }
+.st-suggest__row:hover, .st-suggest__row:focus { outline: none; text-decoration: underline; }
+.st-suggest__name { font-weight: 600; }
+.st-suggest__meta { opacity: .65; font-size: .85em; white-space: nowrap; }
+.st-suggest__empty { justify-content: center; opacity: .8; }
+.st-suggest__all { justify-content: center; opacity: .85; font-weight: 600; }
+
+/* ---- Filtros del catálogo (ADR-010) ---- */
+.st-filters { display: flex; flex-direction: column; gap: .55rem; margin: 1.4rem 0 2rem; }
+.st-filters__row { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+.st-filters__label {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .12em;
+  opacity: .6; margin-right: .25rem; min-width: 4.6em; text-align: right;
+}
+.st-chip {
+  display: inline-flex; align-items: center; gap: .35rem; padding: .3rem .75rem;
+  border-radius: 999px; border: 1px solid currentColor; opacity: .75;
+  text-decoration: none; color: inherit; font-size: .85rem;
+}
+.st-chip:hover { opacity: 1; }
+.st-chip.is-on { background: currentColor; color: var(--st-bg, #0b0f14); opacity: 1; font-weight: 700; border-color: currentColor; }
+.st-chip__n { font-size: .72em; opacity: .7; }
+.st-chip--off { opacity: .55; }
+
+/* ---- Arte en listas y ficha ---- */
+.st-list__art { display: inline-flex; margin-right: .6rem; vertical-align: middle; }
+.st-list__art .st-art { width: 2em; height: 2em; font-size: .8em; }
+.st-tool__icon .st-art { width: 4.2em; height: 4.2em; font-size: .9em; }

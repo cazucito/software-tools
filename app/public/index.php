@@ -58,6 +58,9 @@ try {
 
     $common = ['mode' => $mode, 'modes' => $modes, 'params' => $params, 'lang' => $lang];
 
+    // Mapa de íconos (1 query por página) para listas y fichas — ADR-010.
+    $common['icons'] = \St\Ops::iconMap();
+
     $notFound = static function () use ($common): void {
         http_response_code(404);
         View::page('404', $common + [
@@ -69,6 +72,7 @@ try {
     // ----- Home: timeline con modalidades ----------------------------------
     if ($segments === []) {
         $timeline = Catalog::timelineData();
+        $timeline['icons'] = \St\Ops::iconMap();
         $canonical = st_abs_url('');
         View::page('home', $common + [
             'route'       => '',
@@ -98,16 +102,28 @@ try {
         exit;
     }
 
-    // ----- Catálogo completo -----------------------------------------------
+    // ----- Catálogo completo (con filtros combinables, ADR-010) -------------
     if ($segments === ['tools']) {
-        $all = Catalog::tools();
+        $filters = [
+            'd' => isset($_GET['decada']) && preg_match('/^\d{4}$/', (string) $_GET['decada'])
+                ? (int) $_GET['decada'] : null,
+            'c' => trim((string) ($_GET['categoria'] ?? '')),
+            't' => trim((string) ($_GET['tag'] ?? '')),
+        ];
+        $active = array_filter($filters, static fn ($v): bool => $v !== null && $v !== '');
+        $all = Catalog::toolsFiltered($active);
+        $stats = Catalog::stats();
         View::page('tools-index', $common + [
             'route' => 'tools',
             'title' => 'Catálogo — software-tools',
             'description' => 'Las ' . count($all) . ' herramientas del archivo, por década.',
-            'canonical' => st_abs_url('tools'),
+            'canonical' => st_abs_url('tools', $active),
             'tools' => $all,
-            'stats' => Catalog::stats(),
+            'stats' => $stats,
+            'filters' => $filters,
+            'tagOptions' => Catalog::tagsIndex(),
+            'catOptions' => Catalog::categories(),
+            'decades' => range((int) floor((int) $stats['minYear'] / 10) * 10, (int) floor((int) $stats['maxYear'] / 10) * 10, 10),
         ]);
         exit;
     }
@@ -179,6 +195,7 @@ try {
             ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             'tool'       => $tool,
             'related'    => Catalog::toolsBySlugs($tool['related']),
+            'sameCat'    => Catalog::toolsByCategory((string) $tool['category'], (int) $tool['id'], 6),
             'neighbours' => Catalog::neighbours($slug),
             'succTool'   => $succTool,
             'bodyHtml'   => $bodyHtml,

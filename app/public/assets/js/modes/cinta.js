@@ -10,7 +10,7 @@
   window.__st = { errors: [], notes: [] };
   window.addEventListener('error', function (e) { window.__st.errors.push(String(e.message || e)); });
 
-  var D = window.ST_DATA, S = D.stats, TOOLS = D.tools;
+  var D = window.ST_DATA, S = D.stats, TOOLS = D.tools, icons = D.icons || {};
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function el(id) { return document.getElementById(id); }
   var BASE = document.body.getAttribute('data-base') || '';
@@ -50,16 +50,30 @@
     f.setAttribute('title', t.name + ' — abrir ficha');
     f.style.left = (PAD + (t.year - S.minYear) * PX + dx) + 'px';
     f.style.top = 'calc(50% + ' + dy + 'px)';
-    f.innerHTML = '<div class="f-year">' + t.year + '</div><div class="f-name">' + esc(t.name) + '</div>' +
+    f.innerHTML = '<div class="f-art">' + window.stArt(t, icons) + '</div>' +
+                  '<div class="f-year">' + t.year + '</div><div class="f-name">' + esc(t.name) + '</div>' +
                   '<div class="f-cat">' + esc(t.category) + '</div><div class="f-dot"></div>';
+    f.setAttribute('data-dec', Math.floor(t.year / 10) * 10);
     tape.appendChild(f);
   });
 
-  [1990, 2000, 2010].forEach(function (dec) {
-    var m = document.createElement('div');
-    m.className = 'decade';
+  /* marcadores de década: clic = zoom por década (ADR-010), otro clic reinicia */
+  var decs = [];
+  TOOLS.forEach(function (t) { var dd = Math.floor(t.year / 10) * 10; if (decs.indexOf(dd) < 0) { decs.push(dd); } });
+  decs.sort(function (a, b) { return a - b; });
+  decs.forEach(function (dec) {
+    var m = document.createElement('button');
+    m.type = 'button'; m.className = 'decade'; m.setAttribute('data-dec', dec);
     m.style.left = (PAD + (dec - S.minYear) * PX - PX / 2) + 'px';
     m.innerHTML = '<span>' + dec + 's</span>';
+    m.addEventListener('click', function () {
+      var b = document.body, cur = b.getAttribute('data-zoom');
+      if (cur === String(dec)) { b.removeAttribute('data-zoom'); m.classList.remove('is-on'); }
+      else { b.setAttribute('data-zoom', dec); decs.forEach(function (d2) {
+        var mb = tape.querySelector('button.decade[data-dec="' + d2 + '"]');
+        if (mb) { mb.classList.toggle('is-on', d2 === dec); }
+      }); }
+    });
     tape.appendChild(m);
   });
 

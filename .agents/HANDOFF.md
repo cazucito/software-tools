@@ -2,7 +2,7 @@
 
 ## Estado
 
-**Fase 5 desplegada en vivo** en `https://software-tools.pcabrera.com/proto/` (2026-10-05). E2E local **54/54** + smoke en vivo **OK**. Siguiente: Fase 6 (inglés) / Fase 7 (raíz + retiro Pages) cuando el dueño lo pida.
+**v3 EN PRODUCCIÓN en la raíz** `https://software-tools.pcabrera.com/` (2026-10-05): URLs limpias, indexable, admin en `/admin`. `/proto/` sigue vivo como sandbox noindex. E2E **58/58**. Pendiente del dueño: unpublish de GitHub Pages (un clic en Settings → Pages; kaelaxiom no tiene admin). Siguiente: Fase 6 (inglés), assets reales (ADR-010) y descargas con su carpeta.
 
 ## Recetas
 
@@ -12,26 +12,26 @@ python3 ops/tools/import_catalog.py && python3 ops/tools/verify_parity.py   # PA
 
 # v3 en local (Docker php:8.1 + SQLite)
 docker run --rm -d --name st-proto -p 127.0.0.1:8091:8091 -v "$PWD":/srv -w /srv php:8.1-cli php -S 0.0.0.0:8091 -t app/public
-# → http://127.0.0.1:8091/index.php?modo=linea   (admin local: config.local.php)
+# → http://127.0.0.1:8091/index.php?modo=linea
 
-# E2E local (arranca su propio servidor en 8091... exige 8090 libre; receta en el propio script)
-E2E_ADMIN_PASS=... bash ops/tests/e2e.sh            # esperar 54/54
+# E2E local (borrar ops.sqlite antes por el rate-limit de login)
+rm -f app/data/ops.sqlite && E2E_ADMIN_PASS=... bash ops/tests/e2e.sh     # esperar 58/58
 
-# Redesplegar (solo complementa; credenciales BWS en runtime; NUNCA sube secretos)
-python3 /mnt/thoth/_TEMP/software-tools-sketches/cap/deploy_proto.py
-# subir catálogo fresco:        ... --catalog    (¡solo tras exportar ediciones vivas del admin!)
-# subir archivo suelto:         python3 .../upload_one.py put <local> proto/<ruta>
-# regenerar config.local.php vivo (nueva pass/secret): editar write_live_config.py → python3 .../write_live_config.py
+# Desplegar (credenciales BWS en runtime; NUNCA sube secretos ni datos vivos)
+python3 ops/deploy/deploy.py                     # sandbox /proto/
+python3 ops/deploy/deploy.py --catalog           # + catálogo (solo tras exportar ediciones vivas)
+python3 ops/deploy/deploy.py --root --catalog    # producción (raíz); renombra a _bak-* si reaparecen
+# regenerar config viva (nueva pass/secret): ~/.hermes/cache/scratch/st-f4/ → cap/write_live_config.py
 ```
 
 ## Cuidados
 
-- **`deploy_proto.py` sin `--catalog` no toca la BD del servidor** — nunca pisar ediciones vivas del admin sin exportarlas antes.
-- `downloads/` y `assets/tools/` del servidor son del dueño: **no se suben ni se borran**; los archivos grandes entran por FTP manual.
-- La BD de catálogo **se regenera** desde las fichas .md; nunca editarla a mano.
-- Secretos (FTP, admin, app_secret) **solo en BWS** o `config.local.php` (gitignored, excluido del deploy); nada en el repo.
-- Round-trip del export: las fichas deben **terminar en newline** (`ops/tools/fix_trailing_newlines.py` si alguna no); tags/related se ordenan por `rowid` (orden del Markdown).
-- El e2e **reimporta** el catálogo antes de la sección 7 (aisla el round-trip del test de edición); `ops.sqlite` hay que borrarlo antes de correr (receta en el script) por el rate-limit de login.
-- En el hosting, `index.php`, `server/` y `data/` son hermanos dentro de `/proto/`; el controlador autodetecta ambos layouts.
-- El login renderiza el token CSRF dos veces (login + logout del layout, mismo valor): al extraer con grep usar `head -1`.
-- GitHub Pages **sigue activo** mientras la raíz sea la v2; retirarlo en Fase 7 (workflow Pages reconstruye en cada push a main).
+- **`--catalog` solo tras exportar ediciones vivas** del admin (nunca pisar la BD del server).
+- `downloads/` y `assets/tools/` del server son del dueño: no se suben ni se borran (archivos grandes por FTP manual).
+- La BD de catálogo **se regenera** desde las fichas .md.
+- Secretos solo en BWS o `config.local.php` (gitignored, excluido del deploy). La raíz tiene `noindex=false` + `url_style=pretty`; el sandbox `/proto/` usa defaults (noindex, query-style).
+- `.htaccess` de la raíz: rewrite LiteSpeed `index.php?p=$1` (QSA). En `data/` y `downloads/`: deny total.
+- Round-trip: fichas con newline final (`ops/tools/fix_trailing_newlines.py`); tags/related por rowid (orden Markdown).
+- El login renderiza el token CSRF dos veces (login + logout del layout): al extraer con grep usar `head -1`.
+- Arte (ADR-010): `st_tool_art()` (server) y `window.stArt(t, icons)` (JS); mapa `icons` = `Ops::iconMap()`; monogramas por década en `scale.css`; zoom por década en Cinta (marcadores) y Línea (`.st-dec-nav`).
+- GitHub Pages sigue publicado (v2 en cazucito.github.io) hasta que el dueño haga unpublish; `pages-build-deployment` es workflow de sistema: no se puede desactivar por API.

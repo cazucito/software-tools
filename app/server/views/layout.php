@@ -61,6 +61,7 @@ $lang        = $lang ?? 'es';
 <link rel="stylesheet" href="<?= e(st_asset('libs/lenis.css')) ?>">
 <link rel="stylesheet" href="<?= e(st_asset('css/base.css')) ?>">
 <link rel="stylesheet" href="<?= e(st_asset('css/mode-' . $mode . '.css')) ?>">
+<link rel="stylesheet" href="<?= e(st_asset('css/scale.css')) ?>">
 <script>
 /* Preferencia de modalidad guardada: aplicarla si la URL no la trae. */
 (function () {

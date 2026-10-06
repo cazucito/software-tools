@@ -127,6 +127,24 @@ function st_monogram(string $name): string
     return $letters !== '' ? $letters : '·';
 }
 
+/**
+ * Arte de una herramienta (ADR-010): ícono real si existe (mapa de la página),
+ * si no monograma tipográfico teñido por década (st-era-YYYY).
+ *
+ * @param array<string,string> $icons mapa slug → 'assets/tools/<slug>/<archivo>'
+ */
+function st_tool_art(string $slug, string $name, int $year, array $icons = []): string
+{
+    $file = $icons[$slug] ?? '';
+    if ($file !== '') {
+        $rel = preg_replace('#^assets/#', '', (string) $file) ?: 'tools/' . $slug;
+        return '<img class="st-art" src="' . e(st_asset($rel))
+            . '" alt="' . e($name) . '" loading="lazy">';
+    }
+    $era = (int) floor($year / 10) * 10;
+    return '<span class="st-art st-art--mono st-era-' . $era . '">' . e(st_monogram($name)) . '</span>';
+}
+
 /** Redirección interna y fin. */
 function st_redirect(string $url): void
 {

@@ -34,10 +34,77 @@ final class Catalog
     }
 
     /**
-     * Una herramienta por slug (con etiquetas y relaciones), o null.
+     * Catálogo con filtros combinables (década, categoría, tag) — ADR-010.
      *
-     * @return array<string,mixed>|null
+     * @param array<string,int|string> $f
      */
+    public static function toolsFiltered(array $f): array
+    {
+        $sql = 'SELECT t.id, t.slug, t.name, t.year, t.used_until, t.category,
+                       t.context, t.body, t.image, t.successor, t.successor_slug,
+                       t.next_version, t.published
+                FROM tools t';
+        $where = ['t.published = 1'];
+        $args = [];
+        if (isset($f['d'])) {
+            $d = (int) $f['d'];
+            $where[] = 't.year >= ? AND t.year < ?';
+            $args[] = $d;
+            $args[] = $d + 10;
+        }
+        if (!empty($f['c'])) {
+            $where[] = 't.category = ?';
+            $args[] = (string) $f['c'];
+        }
+        if (!empty($f['t'])) {
+            $sql .= ' JOIN tool_tags ftag ON ftag.tool_id = t.id
+                      JOIN tags gtag ON gtag.id = ftag.tag_id';
+            $where[] = 'gtag.name = ?';
+            $args[] = (string) $f['t'];
+        }
+        $stmt = Db::pdo()->prepare($sql . ' WHERE ' . implode(' AND ', $where)
+            . ' ORDER BY t.year ASC, t.name ASC, t.slug ASC');
+        $stmt->execute($args);
+        return $stmt->fetchAll();
+    }
+
+    /** Etiquetas con conteo para la barra de filtros (ADR-010). @return list<array{name:string,count:int}> */
+    public static function tagsIndex(): array
+    {
+        $rows = Db::pdo()->query(
+            'SELECT g.name AS name, COUNT(*) AS n
+             FROM tags g
+             JOIN tool_tags tt ON tt.tag_id = g.id
+             JOIN tools t ON t.id = tt.tool_id AND t.published = 1
+             GROUP BY g.name ORDER BY n DESC, g.name ASC LIMIT 24'
+        )->fetchAll();
+        return array_map(static fn (array $r): array => ['name' => (string) $r['name'], 'count' => (int) $r['n']], $rows);
+    }
+
+    /** Categorías del catálogo (filtros). @return list<string> */
+    public static function categories(): array
+    {
+        $rows = Db::pdo()->query('SELECT DISTINCT category FROM tools WHERE published = 1 ORDER BY category')->fetchAll();
+        return array_map(static fn (array $r): string => (string) $r['category'], $rows);
+    }
+
+    /** Misma categoría (excluye la propia) para la ficha — ADR-010. @return list<array<string,mixed>> */
+    public static function toolsByCategory(string $category, ?int $exceptId = null, int $limit = 6): array
+    {
+        $sql = 'SELECT id, slug, name, year, category, context
+                FROM tools WHERE published = 1 AND category = ?';
+        $args = [$category];
+        if ($exceptId !== null) {
+            $sql .= ' AND id <> ?';
+            $args[] = $exceptId;
+        }
+        $sql .= ' ORDER BY year ASC, name ASC LIMIT ' . max(1, $limit);
+        $stmt = Db::pdo()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt->fetchAll();
+    }
+
+    /** Ficha de una herramienta por slug (pública). */
     public static function toolBySlug(string $slug): ?array
     {
         $stmt = Db::pdo()->prepare(

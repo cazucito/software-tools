@@ -34,11 +34,7 @@ $maxLen = (int) st_config('comments')['max_len'];
 
   <header class="st-tool__head">
     <div class="st-tool__icon" aria-hidden="true">
-      <?php if (!empty($assets['icon'])): ?>
-      <img src="<?= e(st_asset((string) $assets['icon']['file'])) ?>" alt="" width="64" height="64" loading="lazy">
-      <?php else: ?>
-      <span class="st-monogram"><?= e(st_monogram((string) $tool['name'])) ?></span>
-      <?php endif; ?>
+      <?= st_tool_art((string) $tool['slug'], (string) $tool['name'], (int) $tool['year'], $icons) ?>
     </div>
     <div class="st-tool__headtext">
       <div class="st-kicker"><?= e(strtoupper((string) $tool['category'])) ?> · <?= e($decade) ?> · <?= e($years) ?></div>
@@ -71,6 +67,17 @@ $maxLen = (int) st_config('comments')['max_len'];
     <h2 class="st-section-title"><?= e(st_t('tool.related')) ?></h2>
     <div class="st-tags">
       <?php foreach ($related as $rel): ?>
+      <a class="st-tag st-tag--link" href="<?= e(st_url('tools/' . $rel['slug'], ['modo' => $mode])) ?>"><?= e($rel['name']) ?> <span class="st-tag__year"><?= e($rel['year']) ?></span></a>
+      <?php endforeach; ?>
+    </div>
+  </section>
+  <?php endif; ?>
+
+  <?php if (!empty($sameCat)): ?>
+  <section class="st-related">
+    <h2 class="st-section-title"><?= e(st_t('tool.same_category', ['category' => (string) $tool['category']])) ?></h2>
+    <div class="st-tags">
+      <?php foreach ($sameCat as $rel): ?>
       <a class="st-tag st-tag--link" href="<?= e(st_url('tools/' . $rel['slug'], ['modo' => $mode])) ?>"><?= e($rel['name']) ?> <span class="st-tag__year"><?= e($rel['year']) ?></span></a>
       <?php endforeach; ?>
     </div>

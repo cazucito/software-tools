@@ -8,7 +8,7 @@
   window.__st = { errors: [], notes: [] };
   window.addEventListener('error', function (e) { window.__st.errors.push(String(e.message || e)); });
 
-  var D = window.ST_DATA, S = D.stats, TOOLS = D.tools;
+  var D = window.ST_DATA, S = D.stats, TOOLS = D.tools, icons = D.icons || {};
   var byslug = {}; TOOLS.forEach(function (t) { byslug[t.slug] = t; });
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function firstSentence(s) { var m = String(s).match(/^[^.!?]*[.!?]/); return m ? m[0] : s; }
@@ -75,7 +75,9 @@
     stations.forEach(function (t, i) {
       var s = document.createElement('div');
       s.className = 'station'; s.setAttribute('data-i', i);
-      s.innerHTML = '<span class="st-year">' + t.year + '</span>' +
+      s.setAttribute('data-dec', Math.floor(t.year / 10) * 10);
+      s.innerHTML = '<span class="st-artwrap">' + window.stArt(t, icons) + '</span>' +
+                    '<span class="st-year">' + t.year + '</span>' +
                     '<span class="st-name"><a href="' + toolHref(t.slug) + '">' + esc(t.name) + '</a></span>' +
                     '<span class="st-line">' + esc(firstSentence(t.context)) + '</span>';
       camino.appendChild(s);
@@ -105,6 +107,31 @@
   buildDOM();
   buildLine();
   placeStations();
+
+  /* zoom por década (ADR-010): navegación sobre el camino */
+  (function decNav() {
+    var decs2 = [];
+    stations.forEach(function (t) {
+      var dd = Math.floor(t.year / 10) * 10;
+      if (decs2.indexOf(dd) < 0) { decs2.push(dd); }
+    });
+    decs2.sort(function (a, b) { return a - b; });
+    if (!decs2.length) { return; }
+    var nav = document.createElement('div');
+    nav.className = 'st-dec-nav';
+    decs2.forEach(function (dec) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = dec + 's';
+      b.addEventListener('click', function () {
+        var body = document.body, cur = body.getAttribute('data-zoom');
+        if (cur === String(dec)) { body.removeAttribute('data-zoom'); }
+        else { body.setAttribute('data-zoom', dec); }
+        nav.querySelectorAll('button').forEach(function (bb) { bb.classList.toggle('is-on', bb === b); });
+      });
+      nav.appendChild(b);
+    });
+    camino.appendChild(nav);
+  })();
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) {

@@ -211,6 +211,21 @@ final class Ops
     // Assets por herramienta
     // ------------------------------------------------------------------
 
+    /** Mapa slug → archivo de ícono (kind='icon') para toda la página — ADR-010. @return array<string,string> */
+    public static function iconMap(): array
+    {
+        try {
+            $rows = Db::ops()->query("SELECT tool_slug, file FROM tool_assets WHERE kind = 'icon'")->fetchAll();
+        } catch (\Throwable) {
+            return [];
+        }
+        $map = [];
+        foreach ($rows as $row) {
+            $map[(string) $row['tool_slug']] = (string) $row['file'];
+        }
+        return $map;
+    }
+
     /** Assets de una herramienta: kind => fila. */
     public static function assetsFor(string $slug): array
     {
