@@ -29,4 +29,6 @@ GEL se distribuía como **freeware** desde el sitio de GExperts (gexperts.com), 
 
 ## Presencia en esta colección
 
-Se conserva la serie de ejecutables de release candidates (GelRC32c → RC40) y los plug-ins de la instalación, verificados byte-a-byte en el servidor. El instalador final **Gel 8.6a** (el último publicado) está alojado también en la colección, y su referencia pública vive en el Internet Archive.
+Se conserva la serie de ejecutables de *release candidates* (GelRC32c → GelRC40) y los plug-ins de la instalación, verificados byte-a-byte en el servidor. El instalador final **Gel 8.6a** (el último publicado) está alojado también en la colección, y su referencia pública vive en el Internet Archive.
+
+> **Nota de fechas**: la última versión **publicada** fue Gel 8.6a (setup fechado 2002-10-31, conservado en el Internet Archive). GEL siguió desarrollándose internamente después de ese release: el build GelRC40 conserva su fecha real de compilación (mayo 2004) — los candidatos a release no tienen metadata de versión embebida ni fecha pública, por lo que sus años (2002–2004) son **estimados** a partir del orden de la serie y del mtime de RC40.
