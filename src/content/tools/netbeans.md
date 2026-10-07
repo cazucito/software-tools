@@ -8,7 +8,7 @@ context: "El IDE oficial de Sun (luego Oracle). Usado intensivamente durante mis
 usedUntil: 2018
 successor: "IntelliJ IDEA / VS Code"
 successorSlug: "intellij-idea"
-related: ["eclipse", "oracle-sql-developer", "intellij-idea", "oracle-database"]
+related: ["gel", "eclipse", "oracle-sql-developer", "intellij-idea", "oracle-database"]
 published: true
 ---
 

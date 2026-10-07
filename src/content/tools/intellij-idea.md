@@ -8,7 +8,7 @@ context: "El IDE que me hizo dejar Eclipse después de 8 años. Cuando probé el
 usedUntil: null
 successor: null
 successorSlug: null
-related: ["eclipse", "netbeans", "visual-studio-code", "datagrip"]
+related: ["gel", "eclipse", "netbeans", "visual-studio-code", "datagrip"]
 published: true
 ---
 
