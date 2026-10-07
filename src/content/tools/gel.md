@@ -29,4 +29,4 @@ GEL se distribuía como **freeware** desde el sitio de GExperts (gexperts.com), 
 
 ## Presencia en esta colección
 
-Se conserva la serie de ejecutables de release candidates (GelRC32c → GelRC40) y los plug-ins de la instalación, verificados byte-a-byte en el servidor. La referencia pública al instalador oficial (Gel 8.6a) está en el Internet Archive.
+Se conserva la serie de ejecutables de release candidates (GelRC32c → RC40) y los plug-ins de la instalación, verificados byte-a-byte en el servidor. El instalador final **Gel 8.6a** (el último publicado) está alojado también en la colección, y su referencia pública vive en el Internet Archive.
