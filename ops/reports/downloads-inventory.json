@@ -1,8 +1,19 @@
 {
-  "generated_at": "2026-10-07T17:19:21",
+  "generated_at": "2026-10-07T17:42:02",
   "base_url": "https://software-tools.pcabrera.com",
   "tools": {
     "gel": [
+      {
+        "filename": "Gel86a.zip",
+        "version": "8.6",
+        "variant": "Gel 8.6a (instalador final)",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "2.4 MB",
+        "sha256": "fc0cadf23dc1473236ccedf27aa3f7f61e2415088ddddaa8262e8c0415c812ad",
+        "license": "GEL — freeware (GExperts); vía Internet Archive (Tucows Software Library)",
+        "source_url": ""
+      },
       {
         "filename": "GelDic.exe",
         "version": "",
