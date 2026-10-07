@@ -1,7 +1,196 @@
 {
-  "generated_at": "2026-10-07T17:03:59",
+  "generated_at": "2026-10-07T17:19:21",
   "base_url": "https://software-tools.pcabrera.com",
   "tools": {
+    "gel": [
+      {
+        "filename": "GelDic.exe",
+        "version": "",
+        "variant": "GelDic (diccionario)",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "2.2 MB",
+        "sha256": "daa639ce73bd8533956bffb4963d522c52a2bf3eb733d21b8ef88f4c3cc8de6c",
+        "license": "GEL — freeware (GExperts)",
+        "source_url": ""
+      },
+      {
+        "filename": "GelFtp.jar",
+        "version": "",
+        "variant": "Plug-in: FTP",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "24 KB",
+        "sha256": "470cabb66f6d0b8e4a3b2821a7d66ec113db77f4270d4114f423da642f68d455",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "GelRC32c.exe",
+        "version": "RC32c",
+        "variant": "IDE",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "3.5 MB",
+        "sha256": "942cfc53788ba3334fc75182df28951e8f6529c5f4b628e93426bb9fa8fe14bf",
+        "license": "GEL — freeware (GExperts)",
+        "source_url": ""
+      },
+      {
+        "filename": "GelRC32c.zip",
+        "version": "RC32c",
+        "variant": "Instalador (zip)",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "3.5 MB",
+        "sha256": "6328e7c6464cd6f2c12f35dba4921ce4b12f4371074a189b75d81e40db672a67",
+        "license": "GEL — freeware (GExperts)",
+        "source_url": ""
+      },
+      {
+        "filename": "GelRC38.exe",
+        "version": "RC38",
+        "variant": "IDE",
+        "year": "2003",
+        "visibility": "clave",
+        "size": "4.2 MB",
+        "sha256": "2b7f2832685a86d826f117cf7a3ad00c71bd0c9832068b8bbf45babaef6c39cb",
+        "license": "GEL — freeware (GExperts)",
+        "source_url": ""
+      },
+      {
+        "filename": "GelRC39.exe",
+        "version": "RC39",
+        "variant": "IDE",
+        "year": "2003",
+        "visibility": "clave",
+        "size": "4.2 MB",
+        "sha256": "200534d2c481760aada8a7b380a7bbc2ee335cebde8805a560c7db9b2fb4fbe3",
+        "license": "GEL — freeware (GExperts)",
+        "source_url": ""
+      },
+      {
+        "filename": "GelRC40.exe",
+        "version": "RC40",
+        "variant": "IDE",
+        "year": "2004",
+        "visibility": "clave",
+        "size": "4.2 MB",
+        "sha256": "3de3538b0d4a242962e5375099c5b5a9905ea1f08d8a3f6b6c622cedad6fb242",
+        "license": "GEL — freeware (GExperts)",
+        "source_url": ""
+      },
+      {
+        "filename": "JarMaker.jar",
+        "version": "",
+        "variant": "Plug-in: generador de JARs",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "7 KB",
+        "sha256": "234dd4a2bd740658c957df5a20dc9519212674d486c826bcd8ce492e81c5f22c",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "format.jar",
+        "version": "",
+        "variant": "Plug-in: format",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "1 KB",
+        "sha256": "987502f6a66498a6f83643cf491e6a66f80ea82d8cf2bf569d4235f3ba8747bf",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "gel-8.6a.oficial.link",
+        "version": "8.6",
+        "variant": "Instalador oficial (Gel 8.6a — Tucows/Internet Archive)",
+        "year": "2002",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Freeware — Internet Archive (Tucows Software Library)",
+        "source_url": "https://archive.org/download/tucows_246670_Gel/Gel86a.zip"
+      },
+      {
+        "filename": "jaxen-core-1.0-fcs.jar",
+        "version": "",
+        "variant": "PDM05: jaxen-core",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "157 KB",
+        "sha256": "2593f7607e68385dfa4f93d65e047533956a634a10bcb995278d07b00cca2e4e",
+        "license": "PDM05 dependency — dominio público/Apache",
+        "source_url": ""
+      },
+      {
+        "filename": "jref-bridge.jar",
+        "version": "",
+        "variant": "Plug-in: JRef bridge",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "2 KB",
+        "sha256": "39f1335b49b5e46aa97d28c7963831b8113060e39a4013c15bc564294f7df7f6",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "pmd-1.2.2.jar",
+        "version": "",
+        "variant": "PDM05: PMD 1.2.2",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "483 KB",
+        "sha256": "809a9ee631dfa35f08591beb2f03f875ddb339a26ad8f3a645b7b826e733ce5b",
+        "license": "PMD — BSD",
+        "source_url": ""
+      },
+      {
+        "filename": "pmd-gel-0.5.jar",
+        "version": "",
+        "variant": "PDM05: integración PMD",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "4 KB",
+        "sha256": "b9b45af5294dc47a7164750acbac22e5abc187a47855b44940a63b4e0be29e95",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "saxpath-1.0-fcs.jar",
+        "version": "",
+        "variant": "PDM05: saxpath",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "23 KB",
+        "sha256": "8e93f90a10e3c494d6a2784c8b3ec8bf1830976d38f38802358677024f8563b8",
+        "license": "saxpath — Apache",
+        "source_url": ""
+      },
+      {
+        "filename": "xercesImpl-2.0.2.jar",
+        "version": "",
+        "variant": "PDM05: Xerces2",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "912 KB",
+        "sha256": "4e9a71466c6c7d011509d5e285a33c04dba0219a26df71d373943589d124aac8",
+        "license": "Xerces2 — Apache 2.0",
+        "source_url": ""
+      },
+      {
+        "filename": "xmlParserAPIs-2.0.2.jar",
+        "version": "",
+        "variant": "PDM05: APIs XML",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "77 KB",
+        "sha256": "879a2ff68d5ba6b5026190b53ee247cc618cd0ed83ce71ef57bd16c7d0a7de52",
+        "license": "xml-apis — Apache 2.0",
+        "source_url": ""
+      }
+    ],
     "netbeans": [
       {
         "filename": "com-sun-idm-ide_8.1.0.20080630.nbm",
