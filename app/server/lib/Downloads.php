@@ -15,7 +15,7 @@ final class Downloads
 {
     /** Extensiones aceptadas para archivos de descarga (whitelist). */
     public const ALLOWED_EXT = [
-        'zip', 'rar', '7z', 'tar', 'gz', 'tgz', 'xz', 'bz2', 'jar', 'whl',
+        'zip', 'rar', '7z', 'tar', 'gz', 'tgz', 'xz', 'bz2', 'jar', 'whl', 'sh', 'nbm', 'link',
         'exe', 'msi', 'dmg', 'iso', 'bin', 'img', 'dsk', 'cab', 'sit', 'hqx',
         'pdf', 'txt', 'md', 'nfo', 'jpg', 'jpeg', 'png', 'webp', 'mp4',
     ];
@@ -28,19 +28,21 @@ final class Downloads
     public static function forTool(string $slug): array
     {
         $rows = Ops::downloadsFor($slug);
-        $open = self::hasAccess($slug);
+        $open = self::hasAccess();
         foreach ($rows as &$row) {
-            $row['open'] = ($row['visibility'] === 'publico') || $open;
+            $row['open'] = $open; // todo archivo alojado requiere la contraseña general
             $row['human_size'] = self::humanSize((int) $row['bytes']);
             $row['sha_short'] = substr((string) $row['sha256'], 0, 12);
+            $row['present'] = self::pathFor($slug, (string) $row['filename']) !== null
+                && is_file((string) self::pathFor($slug, (string) $row['filename']));
         }
         return $rows;
     }
 
-    /** ¿Hay clave configurada para esta herramienta? */
-    public static function hasKey(string $slug): bool
+    /** ¿Hay contraseña general de descargas definida? */
+    public static function hasGlobalPass(): bool
     {
-        return Ops::keyHash($slug) !== null;
+        return (Ops::setting('downloads_pass_hash') ?? '') !== '';
     }
 
     public static function humanSize(int $bytes): string
@@ -58,18 +60,19 @@ final class Downloads
     // Sesión de descarga por herramienta (cookie firmada)
     // ------------------------------------------------------------------
 
-    public static function cookieName(string $slug): string
+    /** Nombre de la cookie de sesión de descargas (global). */
+    public static function cookieName(): string
     {
-        return 'st_dl_' . substr(hash('sha256', $slug), 0, 10);
+        return 'st_dl_all';
     }
 
-    /** Abre la sesión de descarga para una herramienta. */
-    public static function grant(string $slug): void
+    /** Abre las descargas para esta sesión (cookie global firmada). */
+    public static function grant(): void
     {
         $ttl = (int) st_config('downloads')['key_session_ttl'];
         $exp = time() + $ttl;
-        $sig = hash_hmac('sha256', $slug . '|' . $exp, (string) st_config('app_secret'));
-        setcookie(self::cookieName($slug), $exp . '.' . $sig, [
+        $sig = hash_hmac('sha256', 'all|' . $exp, (string) st_config('app_secret'));
+        setcookie(self::cookieName(), $exp . '.' . $sig, [
             'expires'  => $exp,
             'path'     => ST_BASE . '/',
             'httponly' => true,
@@ -78,10 +81,10 @@ final class Downloads
         ]);
     }
 
-    /** ¿Está abierta la sesión de descarga de esta herramienta? */
-    public static function hasAccess(string $slug): bool
+    /** ¿Esta sesión tiene las descargas abiertas (contraseña general)? */
+    public static function hasAccess(string $slug = ''): bool
     {
-        $raw = (string) ($_COOKIE[self::cookieName($slug)] ?? '');
+        $raw = (string) ($_COOKIE[self::cookieName()] ?? '');
         if ($raw === '' || strpos($raw, '.') === false) {
             return false;
         }
@@ -90,29 +93,29 @@ final class Downloads
         if ($exp < time()) {
             return false;
         }
-        $expect = hash_hmac('sha256', $slug . '|' . $exp, (string) st_config('app_secret'));
+        $expect = hash_hmac('sha256', 'all|' . $exp, (string) st_config('app_secret'));
         return hash_equals($expect, $sig);
     }
 
     /**
-     * Intenta desbloquear con la clave del software.
+     * Intenta desbloquear con la CONTRASEÑA GENERAL de descargas.
      * Devuelve null si OK, o 'wrong' | 'rate' | 'no_key'.
      */
-    public static function unlock(string $slug, string $pass): ?string
+    public static function unlockAll(string $pass): ?string
     {
-        $hash = Ops::keyHash($slug);
-        if ($hash === null) {
+        $hash = Ops::setting('downloads_pass_hash');
+        if ($hash === null || $hash === '') {
             return 'no_key';
         }
         $cfg = st_config('downloads');
-        $key = Auth::ipHash() . '|' . $slug;
+        $key = Auth::ipHash() . '|all';
         if (Ops::tooMany('dlkey', $key, (int) $cfg['key_rate_max'], (int) $cfg['key_rate_window'])) {
             return 'rate';
         }
         if (!password_verify($pass, $hash)) {
             return 'wrong';
         }
-        self::grant($slug);
+        self::grant();
         return null;
     }
 
@@ -156,7 +159,7 @@ final class Downloads
      * Registra un archivo que ya está en disco (subido por FTP) o acaba de
      * subirse. Devuelve la fila o un mensaje de error.
      */
-    public static function register(string $slug, string $filename, string $visibility, ?string $license, ?string $sourceUrl): array
+    public static function register(string $slug, string $filename, string $visibility, ?string $license, ?string $sourceUrl, ?string $version = null, ?string $variant = null, ?string $year = null): array
     {
         $filename = self::safeName($filename) ?? '';
         if ($filename === '') {
@@ -171,8 +174,28 @@ final class Downloads
         }
         $bytes = (int) filesize($path);
         $sha = hash_file('sha256', $path) ?: '';
-        Ops::downloadInsert($slug, $filename, $slug . '/' . $filename, $bytes, $sha, $visibility, $license, $sourceUrl);
+        Ops::downloadInsert($slug, $filename, $slug . '/' . $filename, $bytes, $sha, $visibility, $license, $sourceUrl, $version, $variant, $year);
         return ['ok' => true, 'filename' => $filename, 'bytes' => $bytes, 'sha256' => $sha];
+    }
+
+    /**
+     * Registra metadata de un archivo que aún no está en el servidor
+     * (binario grande subido por FTP después). Muestra «pendiente» en la ficha.
+     */
+    public static function registerMeta(string $slug, string $filename, int $bytes, string $sha256, string $visibility, ?string $license, ?string $sourceUrl, ?string $version, ?string $variant, ?string $year = null): array
+    {
+        $filename = self::safeName($filename) ?? '';
+        if ($filename === '') {
+            return ['error' => 'Nombre de archivo no permitido.'];
+        }
+        if (!preg_match('/^[a-f0-9]{64}$/i', $sha256) || $bytes <= 0 || $bytes > 20 * 1024 * 1024 * 1024) {
+            return ['error' => 'sha256 (64 hex) o tamaño inválidos.'];
+        }
+        if (!in_array($visibility, ['publico', 'clave', 'enlace'], true)) {
+            $visibility = 'clave';
+        }
+        Ops::downloadInsert($slug, $filename, $slug . '/' . $filename, $bytes, strtolower($sha256), $visibility, $license, $sourceUrl, $version, $variant, $year);
+        return ['ok' => true, 'filename' => $filename];
     }
 
     /** Archivos presentes en downloads/<slug>/ que aún no están registrados. */
@@ -232,7 +255,7 @@ final class Downloads
             http_response_code(404);
             exit('404');
         }
-        if ($row['visibility'] === 'clave' && !self::hasAccess($slug)) {
+        if ($row['visibility'] !== 'enlace' && !self::hasAccess()) {
             http_response_code(403);
             exit('403');
         }

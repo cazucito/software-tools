@@ -19,9 +19,15 @@ $config = [
     'data_file'    => dirname(__DIR__) . '/data/catalog.sqlite', // app/data/catalog.sqlite
     'ops_file'     => dirname(__DIR__) . '/data/ops.sqlite',     // operativo (ADR-009)
     'views_dir'    => __DIR__ . '/views',
-    'locales_dir'  => dirname(__DIR__) . '/public/locales',
-    'downloads_dir' => dirname(__DIR__) . '/public/downloads',   // archivos (protegidos, ADR-007)
-    'assets_tools_dir' => dirname(__DIR__) . '/public/assets/tools',
+    'locales_dir'  => is_dir(dirname(__DIR__) . '/locales')
+        ? dirname(__DIR__) . '/locales'                            // hosting: locales/ hermana de server/
+        : dirname(__DIR__) . '/public/locales',                    // desarrollo
+    'downloads_dir' => is_dir(dirname(__DIR__) . '/downloads')
+        ? dirname(__DIR__) . '/downloads'                          // hosting (raíz o /proto: downloads/ hermana de server/)
+        : dirname(__DIR__) . '/public/downloads',                  // desarrollo (app/public/downloads)
+    'assets_tools_dir' => is_dir(dirname(__DIR__) . '/assets/tools')
+        ? dirname(__DIR__) . '/assets/tools'                       // hosting: assets/tools/ hermana de server/
+        : dirname(__DIR__) . '/public/assets/tools',               // desarrollo
     'base_path'    => null, // null = autodetectar desde SCRIPT_NAME
 
     // Modalidades (ADR-006)

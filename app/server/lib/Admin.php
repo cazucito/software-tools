@@ -154,15 +154,11 @@ final class Admin
         if ($slug === '') {
             $names = self::toolNames();
             $rows = Ops::downloadsAll();
-            $keyed = [];
-            foreach ($names as $s => $n) {
-                $keyed[$s] = Ops::keyHash($s) !== null;
-            }
             self::render('downloads', $common + [
                 'title'     => 'Descargas — admin',
                 'rows'      => $rows,
                 'toolNames' => $names,
-                'keyed'     => $keyed,
+                'dlHasPass' => Downloads::hasGlobalPass(),
             ]);
             return;
         }
@@ -179,33 +175,52 @@ final class Admin
             $action = (string) ($_POST['action'] ?? '');
             $back = st_url('admin/downloads/' . $slug);
 
-            if ($action === 'set_key') {
-                $key = (string) ($_POST['key'] ?? '');
-                if (strlen($key) < 4) {
-                    Auth::flash('error', 'La clave debe tener al menos 4 caracteres.');
+            if ($action === 'set_dl_pass') {
+                $pass = (string) ($_POST['dl_pass'] ?? '');
+                if (mb_strlen($pass) < 8) {
+                    Auth::flash('error', 'La contraseña debe tener al menos 8 caracteres.');
                 } else {
                     $algo = defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : PASSWORD_BCRYPT;
-                    Ops::keySet($slug, password_hash($key, $algo));
-                    Auth::flash('ok', 'Clave del software actualizada.');
+                    Ops::settingSet('downloads_pass_hash', password_hash($pass, $algo));
+                    Auth::flash('ok', 'Contraseña general de descargas actualizada.');
                 }
-            } elseif ($action === 'del_key') {
-                Ops::keyDelete($slug);
-                Auth::flash('ok', 'Clave eliminada (los archivos «clave» quedan bloqueados hasta definir otra).');
             } elseif ($action === 'register') {
-                $result = Downloads::register(
-                    $slug,
-                    (string) ($_POST['filename'] ?? ''),
-                    (string) ($_POST['visibility'] ?? 'clave'),
-                    self::nullable((string) ($_POST['license'] ?? '')),
-                    self::nullable((string) ($_POST['source_url'] ?? ''))
-                );
+                $version = self::nullable((string) ($_POST['version'] ?? ''));
+                $variant = self::nullable((string) ($_POST['variant'] ?? ''));
+                $year = self::nullable((string) ($_POST['year'] ?? ''));
+                $result = !empty($_POST['no_file'])
+                    ? Downloads::registerMeta(
+                        $slug,
+                        (string) ($_POST['filename'] ?? ''),
+                        (int) ($_POST['size'] ?? 0),
+                        trim((string) ($_POST['sha256'] ?? '')),
+                        self::dlVis(),
+                        self::nullable((string) ($_POST['license'] ?? '')),
+                        self::nullable((string) ($_POST['source_url'] ?? '')),
+                        $version,
+                        $variant,
+                        $year
+                    )
+                    : Downloads::register(
+                        $slug,
+                        (string) ($_POST['filename'] ?? ''),
+                        self::dlVis(),
+                        self::nullable((string) ($_POST['license'] ?? '')),
+                        self::nullable((string) ($_POST['source_url'] ?? '')),
+                        $version,
+                        $variant,
+                        $year
+                    );
                 Auth::flash(empty($result['error']) ? 'ok' : 'error', (string) ($result['error'] ?? 'Archivo registrado.'));
             } elseif ($action === 'update_file') {
                 Ops::downloadUpdate(
                     (int) ($_POST['id'] ?? 0),
-                    (string) ($_POST['visibility'] ?? 'clave'),
+                    self::dlVis(),
                     self::nullable((string) ($_POST['license'] ?? '')),
-                    self::nullable((string) ($_POST['source_url'] ?? ''))
+                    self::nullable((string) ($_POST['source_url'] ?? '')),
+                    self::nullable((string) ($_POST['version'] ?? '')),
+                    self::nullable((string) ($_POST['variant'] ?? '')),
+                    self::nullable((string) ($_POST['year'] ?? ''))
                 );
                 Auth::flash('ok', 'Archivo actualizado.');
             } elseif ($action === 'delete_file') {
@@ -228,7 +243,7 @@ final class Admin
             'tool'         => $tool,
             'files'        => $files,
             'unregistered' => Downloads::scan($slug),
-            'hasKey'       => Downloads::hasKey($slug),
+            'dlHasPass'    => Downloads::hasGlobalPass(),
             'maxUpload'    => Downloads::humanSize((int) st_config('downloads')['max_upload']),
         ]);
     }
@@ -260,11 +275,19 @@ final class Admin
         $result = Downloads::register(
             $slug,
             $filename,
-            (string) ($_POST['visibility'] ?? 'clave'),
+            self::dlVis(),
             self::nullable((string) ($_POST['license'] ?? '')),
-            self::nullable((string) ($_POST['source_url'] ?? ''))
+            self::nullable((string) ($_POST['source_url'] ?? '')),
+            self::nullable((string) ($_POST['version'] ?? '')),
+            self::nullable((string) ($_POST['variant'] ?? ''))
         );
         return empty($result['error']) ? ['ok', 'Archivo subido y registrado.'] : ['error', (string) $result['error']];
+    }
+
+    /** Visibilidad simplificada: alojado (con contraseña general) o solo enlace. */
+    private static function dlVis(): string
+    {
+        return (($_POST['visibility'] ?? 'clave') === 'enlace') ? 'enlace' : 'clave';
     }
 
     // ------------------------------------------------------------------

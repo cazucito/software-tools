@@ -91,30 +91,31 @@ echo "== 5. Admin: descargas (clave + archivo + streamer) =="
 manage=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/downloads/eudora")
 CSRF=$(grab 'name="csrf" value="[0-9a-f]{32}"' "$manage" | grep -oE '[0-9a-f]{32}')
 loc=$(curl -s -b "$JAR" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=admin/downloads/eudora" \
-      -d "csrf=$CSRF" -d "action=set_key" -d "key=e2e-clave")
-assert_contains "clave definida → vuelve a gestión" 'admin/downloads/eudora' "$loc"
-assert_contains "flash ok clave" 'actualizada' "$(curl -s -b "$JAR" "$BASE/index.php?p=admin/downloads/eudora")"
+      -d "csrf=$CSRF" -d "action=set_dl_pass" -d "dl_pass=e2e-clave")
+assert_contains "contraseña general definida → vuelve a gestión" 'admin/downloads/eudora' "$loc"
+assert_contains "flash ok contraseña" 'actualizada' "$(curl -s -b "$JAR" "$BASE/index.php?p=admin/downloads/eudora")"
 # subida directa
 printf 'prueba-e2e-fase5\n' > "$TMP/e2e-prueba.txt"
 loc=$(curl -s -b "$JAR" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=admin/downloads/eudora" \
-      -F "csrf=$CSRF" -F "action=upload" -F "visibility=clave" -F "license=prueba" -F "source_url=" -F "file=@$TMP/e2e-prueba.txt")
+      -F "csrf=$CSRF" -F "action=upload" -F "visibility=clave" -F "license=prueba" -F "source_url=" -F "version=10.0" -F "variant=IDE" -F "file=@$TMP/e2e-prueba.txt")
 assert_contains "archivo subido y registrado → vuelve a gestión" 'admin/downloads/eudora' "$loc"
 n=$(python3 -c "
 import sqlite3
 c=sqlite3.connect('$ROOT/app/data/ops.sqlite')
 print(c.execute(\"SELECT COUNT(*) FROM downloads WHERE tool_slug='eudora' AND filename='e2e-prueba.txt'\").fetchone()[0])")
 assert_eq "fila de descarga en ops.sqlite" 1 "$n"
-# ficha muestra descarga bloqueada
+# ficha bloqueada: form visible, SOLO chips, lista oculta
 ficha=$(curl -s "$BASE/index.php?p=tools/eudora")
 assert_contains "ficha con sección descargas" 'st-dlkey' "$ficha"
-assert_contains "ficha con nombre de archivo" 'e2e-prueba.txt' "$ficha"
+assert_eq "ficha bloqueada: sin grupos de versión" 0 "$(printf '%s' "$ficha" | grep -c 'st-dlgroup__title')"
+assert_eq "ficha bloqueada: sin nombre de archivo" 0 "$(printf '%s' "$ficha" | grep -c 'e2e-prueba.txt')"
 # evitar el streamer sin cookie
 code=$(H "$BASE/index.php?p=download/eudora/e2e-prueba.txt"); assert_eq "stream sin acceso → 403" 403 "$code"
-# clave incorrecta
-loc=$(curl -s -b "$JAR2" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=download/eudora" -d "key=clave-mala")
-assert_contains "desbloqueo con clave mala → d=wrong" 'd=wrong' "$loc"
-# clave correcta
-loc=$(curl -s -c "$JAR2" -b "$JAR2" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=download/eudora" -d "key=e2e-clave")
+# contraseña incorrecta (general)
+loc=$(curl -s -b "$JAR2" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=download/eudora" -d "dl_pass=clave-mala")
+assert_contains "desbloqueo con contraseña mala → d=wrong" 'd=wrong' "$loc"
+# contraseña correcta (general, una para todo el sitio)
+loc=$(curl -s -c "$JAR2" -b "$JAR2" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=download/eudora" -d "dl_pass=e2e-clave")
 assert_contains "desbloqueo correcto → d=ok" 'd=ok' "$loc"
 code=$(H -b "$JAR2" "$BASE/index.php?p=download/eudora/e2e-prueba.txt")
 assert_eq "stream con cookie → 200" 200 "$code"
@@ -122,14 +123,16 @@ assert_eq "contenido del archivo íntegro" "prueba-e2e-fase5" "$(cat "$TMP/body.
 # sha256 visible coincide con disco
 sha=$(sha256sum "$TMP/e2e-prueba.txt" | cut -c1-12)
 ficha=$(curl -s -b "$JAR2" "$BASE/index.php?p=tools/eudora")
+assert_contains "ficha desbloqueada: grupos por versión" 'st-dlgroup__title' "$ficha"
+assert_contains "ficha desbloqueada: nombre de archivo" 'e2e-prueba.txt' "$ficha"
 assert_contains "sha256 mostrado en ficha" "$sha" "$ficha"
-# público (sin clave) →
+# alojado (normalizado a clave) → sigue requiriendo contraseña general
 loc=$(curl -s -b "$JAR" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=admin/downloads/eudora" \
       -d "csrf=$CSRF" -d "action=update_file" -d "id=$(python3 -c "
 import sqlite3
 print(sqlite3.connect('$ROOT/app/data/ops.sqlite').execute(\"SELECT id FROM downloads WHERE tool_slug='eudora' AND filename='e2e-prueba.txt'\").fetchone()[0])")" -d "visibility=publico" -d "license=prueba" -d "source_url=")
 code=$(H "$BASE/index.php?p=download/eudora/e2e-prueba.txt")
-assert_eq "stream público sin cookie → 200" 200 "$code"
+assert_eq "stream alojado sin cookie → 403 (aunque se pida publico)" 403 "$code"
 # borrado (registro + archivo)
 loc=$(curl -s -b "$JAR" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=admin/downloads/eudora" \
       -d "csrf=$CSRF" -d "action=delete_file" -d "id=$(python3 -c "

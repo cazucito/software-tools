@@ -201,7 +201,8 @@ try {
             'bodyHtml'   => $bodyHtml,
             'notice'     => $notice,
             'dloads'     => Downloads::forTool($slug),
-            'hasDlKey'   => Downloads::hasKey($slug),
+            'dlHasPass'   => Downloads::hasGlobalPass(),
+            'dlUnlocked'  => Downloads::hasAccess($slug),
             'commentsEnabled' => (bool) st_config('comments')['enabled'],
             'commentsList'    => Comments::forTool($slug),
             'commentToken'    => Comments::timeToken(),
@@ -229,7 +230,7 @@ try {
             $notFound();
             exit;
         }
-        $result = Downloads::unlock($slug, (string) ($_POST['key'] ?? ''));
+        $result = Downloads::unlockAll((string) ($_POST['dl_pass'] ?? ''));
         $flag = $result === null ? 'ok' : ($result === 'rate' ? 'rate' : 'wrong');
         st_redirect(st_url('tools/' . $slug, ['modo' => $mode, 'd' => $flag]) . '#descargas');
     }

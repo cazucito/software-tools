@@ -2,7 +2,7 @@
 if (!defined('ST_APP')) {
     exit;
 }
-/** Descargas: resumen por herramienta. Variables: $rows, $toolNames, $keyed. */
+/** Descargas: resumen por herramienta. Variables: $rows, $toolNames, $dlHasPass. */
 $filesTotal = 0;
 $bytesTotal = 0;
 foreach ($rows as $d) {
@@ -44,7 +44,7 @@ foreach ($rows as $d) {
         <td><a href="<?= e(st_url('tools/' . $slug)) ?>" target="_blank" rel="noopener"><?= e($name) ?></a></td>
         <td><?= $row ? e((int) $row['files']) : '<span class="ad-badge ad-badge--muted">0</span>' ?></td>
         <td><?= $row ? e(St\Downloads::humanSize((int) $row['total_bytes'])) : '—' ?></td>
-        <td><?= $keyed[$slug] ? '<span class="ad-badge ad-badge--ok">definida</span>' : '<span class="ad-badge ad-badge--muted">sin clave</span>' ?></td>
+        <td><?= $dlHasPass ? '<span class="ad-badge ad-badge--ok">contraseña general definida</span>' : '<span class="ad-badge ad-badge--muted">sin contraseña</span>' ?></td>
         <td><a class="ad-btn ad-btn--sm" href="<?= e(st_url('admin/downloads/' . $slug)) ?>">Gestionar</a></td>
       </tr>
       <?php endforeach; ?>

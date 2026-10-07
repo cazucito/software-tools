@@ -31,11 +31,10 @@ final class Db
         'CREATE INDEX IF NOT EXISTS idx_comments_tool ON comments(tool_slug, status)',
         'CREATE TABLE IF NOT EXISTS downloads(
             id INTEGER PRIMARY KEY, tool_slug TEXT NOT NULL, filename TEXT NOT NULL, relpath TEXT NOT NULL,
-            bytes INTEGER, sha256 TEXT,
+            version TEXT, variant TEXT, bytes INTEGER, sha256 TEXT,
             visibility TEXT NOT NULL DEFAULT "clave" CHECK(visibility IN ("publico","clave","enlace")),
             license_note TEXT, source_url TEXT, created_at TEXT, UNIQUE(tool_slug, filename))',
-        'CREATE TABLE IF NOT EXISTS download_keys(
-            tool_slug TEXT PRIMARY KEY, pass_hash TEXT NOT NULL, updated_at TEXT)',
+        'CREATE TABLE IF NOT EXISTS settings(k TEXT PRIMARY KEY, v TEXT NOT NULL)',
         'CREATE TABLE IF NOT EXISTS tool_assets(
             id INTEGER PRIMARY KEY, tool_slug TEXT NOT NULL,
             kind TEXT NOT NULL CHECK(kind IN ("icon","logo","cover")), file TEXT NOT NULL,
@@ -77,6 +76,14 @@ final class Db
                 $pdo->exec('PRAGMA journal_mode = TRUNCATE');
                 foreach (self::OPS_SCHEMA as $ddl) {
                     $pdo->exec($ddl);
+                }
+                // Migración para BD existentes: columnas version/variant/year (descargas).
+                foreach (['version', 'variant', 'year'] as $col) {
+                    try {
+                        $pdo->exec("ALTER TABLE downloads ADD COLUMN $col TEXT");
+                    } catch (\PDOException) {
+                        // ya existe
+                    }
                 }
             } catch (\PDOException $e) {
                 throw new \RuntimeException(

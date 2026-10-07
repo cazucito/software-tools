@@ -92,6 +92,90 @@ button.decade.is-on { opacity: 1; font-weight: 700; text-decoration: underline; 
 .st-chip__n { font-size: .72em; opacity: .7; }
 .st-chip--off { opacity: .55; }
 
+/* ---- Barra de versiones (chips → ancla) ---- */
+.st-dl-nav {
+  display: flex; flex-wrap: wrap; gap: .45rem; align-items: center;
+  margin: 0 0 1.1rem; padding: .5rem .6rem;
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  border-radius: 12px; background: color-mix(in srgb, currentColor 4%, transparent);
+}
+.st-dl-nav__label {
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  opacity: .55; margin-right: .15rem;
+}
+.st-dl-nav__chip {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-size: .75rem; font-weight: 600; padding: .2rem .6rem;
+  border-radius: 999px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  text-decoration: none; opacity: .78; transition: opacity .15s ease, background .15s ease;
+}
+.st-dl-nav__chip:hover { opacity: 1; background: color-mix(in srgb, currentColor 12%, transparent); }
+.st-dl-nav__n {
+  font-size: .6rem; line-height: 1.15; padding: .06rem .38rem;
+  border-radius: 999px; background: color-mix(in srgb, currentColor 18%, transparent);
+}
+.st-dlgroup { scroll-margin-top: 96px; }
+
+/* ---- Dos secciones: sitio oficial (pública) y colección privada ---- */
+.st-dls__sub {
+  display: block; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+  font-weight: 700; margin: 1.2rem 0 .6rem;
+  padding-bottom: .35rem; border-bottom: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+}
+.st-dls-official {
+  padding: .6rem .7rem .35rem;
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  border-radius: 14px; background: color-mix(in srgb, currentColor 3%, transparent);
+}
+.st-dls-private {
+  margin-top: 1rem; padding: .2rem .1rem .3rem;
+  border-top: 1px dashed color-mix(in srgb, currentColor 26%, transparent);
+}
+.st-dlref__hint { font-size: .78rem; opacity: .6; margin: 0 0 .55rem; }
+.st-dl--ref .st-dl__name { font-weight: 500; }
+
+/* ---- Descargas simplificadas (filas limpias) ---- */
+.st-dlgroup { list-style: none; margin: 0 0 1.2rem; padding: 0; }
+.st-dlgroup__title {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .9rem; letter-spacing: .08em; text-transform: uppercase;
+  color: color-mix(in srgb, currentColor 75%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  padding-bottom: .3rem; margin-bottom: .3rem;
+}
+.st-dlgroup__era {
+  font-size: .62rem; font-weight: 700; letter-spacing: .1em;
+  padding: .1rem .5rem; border-radius: 999px;
+  border: 1px solid currentColor; opacity: .75;
+}
+.st-dlgroup__year {
+  font-size: .72rem; font-weight: 500; opacity: .55;
+  font-variant-numeric: tabular-nums; margin-left: .15rem;
+}
+.st-dlgroup__files { list-style: none; margin: 0; padding: 0; }
+.st-dl {
+  display: flex; align-items: center; gap: .9rem;
+  padding: .5rem .25rem .5rem .6rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  cursor: help;
+}
+.st-dl:last-child { border-bottom: 0; }
+.st-dl__name {
+  flex: 1 1 auto; min-width: 0; font-weight: 600; font-size: .95rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.st-dl__pend { font-size: .8rem; opacity: .7; flex: none; }
+.st-dl__size { flex: none; font-size: .78rem; opacity: .6; font-variant-numeric: tabular-nums; }
+.st-dl__action { flex: none; min-width: 108px; text-align: right; }
+.st-dl__lock { font-size: .8rem; opacity: .75; }
+.st-dl__btn {
+  display: inline-block; font-weight: 600; font-size: .8rem;
+  padding: .3rem .75rem; border-radius: 999px; text-decoration: none;
+  border: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+  transition: background .18s ease, color .18s ease;
+}
+.st-dl__btn:hover { background: currentColor; color: var(--st-bg, #fff); }
+
 /* ---- Arte en listas y ficha ---- */
 .st-list__art { display: inline-flex; margin-right: .6rem; vertical-align: middle; }
 .st-list__art .st-art { width: 2em; height: 2em; font-size: .8em; }

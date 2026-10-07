@@ -148,16 +148,20 @@ final class Ops
         string $sha256,
         string $visibility,
         ?string $license,
-        ?string $sourceUrl
+        ?string $sourceUrl,
+        ?string $version = null,
+        ?string $variant = null,
+        ?string $year = null
     ): int {
         $stmt = Db::ops()->prepare(
-            'INSERT INTO downloads(tool_slug, filename, relpath, bytes, sha256, visibility, license_note, source_url, created_at)
-             VALUES (?,?,?,?,?,?,?,?,?)
+            'INSERT INTO downloads(tool_slug, filename, relpath, version, variant, year, bytes, sha256, visibility, license_note, source_url, created_at)
+             VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
              ON CONFLICT(tool_slug, filename) DO UPDATE SET
-               relpath=excluded.relpath, bytes=excluded.bytes, sha256=excluded.sha256,
+               relpath=excluded.relpath, version=excluded.version, variant=excluded.variant, year=excluded.year,
+               bytes=excluded.bytes, sha256=excluded.sha256,
                visibility=excluded.visibility, license_note=excluded.license_note, source_url=excluded.source_url'
         );
-        $stmt->execute([$slug, $filename, $relpath, $bytes, $sha256, $visibility, $license, $sourceUrl, gmdate('c')]);
+        $stmt->execute([$slug, $filename, $relpath, $version, $variant, $year, $bytes, $sha256, $visibility, $license, $sourceUrl, gmdate('c')]);
         return (int) Db::ops()->lastInsertId();
     }
 
@@ -174,37 +178,32 @@ final class Ops
     }
 
     /** Actualiza visibilidad / licencia / enlace de un archivo. */
-    public static function downloadUpdate(int $id, string $visibility, ?string $license, ?string $sourceUrl): void
+    public static function downloadUpdate(int $id, string $visibility, ?string $license, ?string $sourceUrl, ?string $version = null, ?string $variant = null, ?string $year = null): void
     {
         $stmt = Db::ops()->prepare(
-            'UPDATE downloads SET visibility = ?, license_note = ?, source_url = ? WHERE id = ?'
+            'UPDATE downloads SET visibility = ?, license_note = ?, source_url = ?, version = ?, variant = ?, year = ? WHERE id = ?'
         );
-        $stmt->execute([$visibility, $license, $sourceUrl, $id]);
+        $stmt->execute([$visibility, $license, $sourceUrl, $version, $variant, $year, $id]);
     }
 
     // ------------------------------------------------------------------
-    // Claves por software (ADR-007)
+    // Configuración operativa (nombre genérico → valor)
     // ------------------------------------------------------------------
 
-    public static function keyHash(string $slug): ?string
+    public static function setting(string $k): ?string
     {
-        $stmt = Db::ops()->prepare('SELECT pass_hash FROM download_keys WHERE tool_slug = ?');
-        $stmt->execute([$slug]);
-        $hash = $stmt->fetchColumn();
-        return $hash === false ? null : (string) $hash;
+        $stmt = Db::ops()->prepare('SELECT v FROM settings WHERE k = ?');
+        $stmt->execute([$k]);
+        $v = $stmt->fetchColumn();
+        return $v === false ? null : (string) $v;
     }
 
-    public static function keySet(string $slug, string $hash): void
+    public static function settingSet(string $k, string $v): void
     {
-        Db::ops()->prepare(
-            'INSERT INTO download_keys(tool_slug, pass_hash, updated_at) VALUES (?,?,?)
-             ON CONFLICT(tool_slug) DO UPDATE SET pass_hash=excluded.pass_hash, updated_at=excluded.updated_at'
-        )->execute([$slug, $hash, gmdate('c')]);
-    }
-
-    public static function keyDelete(string $slug): void
-    {
-        Db::ops()->prepare('DELETE FROM download_keys WHERE tool_slug = ?')->execute([$slug]);
+        $stmt = Db::ops()->prepare(
+            'INSERT INTO settings(k, v) VALUES (?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v'
+        );
+        $stmt->execute([$k, $v]);
     }
 
     // ------------------------------------------------------------------

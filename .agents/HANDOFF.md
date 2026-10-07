@@ -2,13 +2,16 @@
 
 ## Estado
 
-**v3 EN PRODUCCIÓN en la raíz** `https://software-tools.pcabrera.com/` (2026-10-05): URLs limpias, indexable, admin en `/admin`. `/proto/` sigue vivo como sandbox noindex. E2E **58/58**. Pendiente del dueño: unpublish de GitHub Pages (un clic en Settings → Pages; kaelaxiom no tiene admin). Siguiente: Fase 6 (inglés), assets reales (ADR-010) y descargas con su carpeta.
+**v3 EN PRODUCCIÓN en la raíz** `https://software-tools.pcabrera.com/` (2026-10-05): URLs limpias, indexable, admin en `/admin`. `/proto/` sigue vivo como sandbox noindex. E2E **61/61**. Fase 8 (ADR-011, 2026-10-07): descargas = Sitio oficial (público) + Colección privada tras **contraseña general** (`thoth-descargas-2026` en prod; cookie 2 h); la ficha de NetBeans es el piloto (44 archivos). Pendientes del dueño: unpublish de GitHub Pages (Settings → Pages; kaelaxiom no tiene admin); decidir mirror físico de `downloads/` (6.8 GB) — hoy el respaldo activo es el inventario con sha256.
 
 ## Recetas
 
 ```bash
 # Flujo de contenido (cualquier cambio de fichas)
 python3 ops/tools/import_catalog.py && python3 ops/tools/verify_parity.py   # PARIDAD OK obligatorio
+
+# Inventario de respaldo de descargas (solo lectura; ST_ADMIN_PASS vía env/BWS)
+ST_BASE=https://software-tools.pcabrera.com ST_ADMIN_PASS=... python3 ops/tools/downloads_inventory.py
 
 # v3 en local (Docker php:8.1 + SQLite)
 docker run --rm -d --name st-proto -p 127.0.0.1:8091:8091 -v "$PWD":/srv -w /srv php:8.1-cli php -S 0.0.0.0:8091 -t app/public

@@ -145,6 +145,19 @@ function st_tool_art(string $slug, string $name, int $year, array $icons = []): 
     return '<span class="st-art st-art--mono st-era-' . $era . '">' . e(st_monogram($name)) . '</span>';
 }
 
+/**
+ * Era/vendor de una versión (heurística por producto; prototipo ADR-011).
+ * Hoy solo NetBeans: ≥9 Apache, 7–8 Oracle, resto Sun.
+ */
+function st_era(string $slug, ?string $version): string
+{
+    if ($slug !== 'netbeans' || $version === null || $version === '' || !preg_match('/^(\d+)/', $version, $m)) {
+        return '';
+    }
+    $major = (int) $m[1];
+    return $major >= 9 ? 'Apache' : ($major >= 7 ? 'Oracle' : 'Sun');
+}
+
 /** Redirección interna y fin. */
 function st_redirect(string $url): void
 {
