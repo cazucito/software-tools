@@ -50,7 +50,7 @@ def parse_tool_page(page: str) -> list[dict]:
         get = lambda n: (m.group(1) if (m := re.search(
             rf'name="{n}"[^>]*value="([^"]*)"', b)) else '')
         sha_m = re.search(r'class="ad-note" title="([0-9a-f]{64})"', b)
-        vis_m = re.search(r'name="visibility">\s*<option value="(\w+)" selected', b)
+        vis_m = re.search(r'<option value="(\w+)" selected', b)
         away_m = re.search(r'<span class="ad-note">([^<]*)</span>', b)
         rows.append({
             'filename': fn,
