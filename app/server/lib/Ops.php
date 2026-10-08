@@ -177,13 +177,13 @@ final class Ops
         return $row ?: null;
     }
 
-    /** Actualiza visibilidad / licencia / enlace de un archivo. */
-    public static function downloadUpdate(int $id, string $visibility, ?string $license, ?string $sourceUrl, ?string $version = null, ?string $variant = null, ?string $year = null): void
+    /** Actualiza visibilidad / licencia / enlace / ruta relativa de un archivo. */
+    public static function downloadUpdate(int $id, string $visibility, ?string $license, ?string $sourceUrl, ?string $version = null, ?string $variant = null, ?string $year = null, ?string $filename = null): void
     {
         $stmt = Db::ops()->prepare(
-            'UPDATE downloads SET visibility = ?, license_note = ?, source_url = ?, version = ?, variant = ?, year = ? WHERE id = ?'
+            'UPDATE downloads SET visibility = ?, license_note = ?, source_url = ?, version = ?, variant = ?, year = ?, filename = COALESCE(?, filename) WHERE id = ?'
         );
-        $stmt->execute([$visibility, $license, $sourceUrl, $version, $variant, $year, $id]);
+        $stmt->execute([$visibility, $license, $sourceUrl, $version, $variant, $year, $filename, $id]);
     }
 
     // ------------------------------------------------------------------

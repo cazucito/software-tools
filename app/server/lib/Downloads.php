@@ -123,7 +123,7 @@ final class Downloads
     // Lado admin (registro de archivos)
     // ------------------------------------------------------------------
 
-    /** Nombre de archivo seguro (kebab libre pero sin rutas ni extensiones raras). */
+    /** Nombre plano seguro (un segmento, sin subcarpetas). */
     public static function safeName(string $name): ?string
     {
         $name = trim($name);
@@ -137,10 +137,39 @@ final class Downloads
         return $name;
     }
 
+    /**
+     * Ruta RELATIVA segura dentro de downloads/<slug>/ (estándar ADR-011):
+     * 1–3 niveles de subcarpetas, cada segmento plano válido SIN extensión
+     * (solo el último la exige), sin '.', '..', doble slash ni líder/cola.
+     */
+    public static function safeRel(string $rel): ?string
+    {
+        $rel = trim($rel, '/');
+        if ($rel === '' || strpos($rel, '//') !== false || strlen($rel) > 240) {
+            return null;
+        }
+        $parts = explode('/', $rel);
+        if (count($parts) > 4) {
+            return null;
+        }
+        foreach ($parts as $seg) {
+            if (!preg_match('/^[A-Za-z0-9][A-Za-z0-9._ -]{0,120}$/', $seg)
+                || in_array($seg, ['.', '..'], true)
+                || str_ends_with($seg, '.')) {
+                return null;
+            }
+        }
+        $last = strtolower((string) pathinfo($parts[count($parts) - 1], PATHINFO_EXTENSION));
+        if ($last === '' || !in_array($last, self::ALLOWED_EXT, true)) {
+            return null;
+        }
+        return implode('/', $parts);
+    }
+
     /** Ruta absoluta válida dentro de downloads_dir (o null). */
     public static function pathFor(string $slug, string $filename): ?string
     {
-        if (!preg_match('/^[a-z0-9-]+$/', $slug) || self::safeName($filename) === null) {
+        if (!preg_match('/^[a-z0-9-]+$/', $slug) || self::safeRel($filename) === null) {
             return null;
         }
         $base = realpath((string) st_config('downloads_dir'));
@@ -161,7 +190,7 @@ final class Downloads
      */
     public static function register(string $slug, string $filename, string $visibility, ?string $license, ?string $sourceUrl, ?string $version = null, ?string $variant = null, ?string $year = null): array
     {
-        $filename = self::safeName($filename) ?? '';
+        $filename = self::safeRel($filename) ?? '';
         if ($filename === '') {
             return ['error' => 'Nombre de archivo no permitido.'];
         }
@@ -184,7 +213,7 @@ final class Downloads
      */
     public static function registerMeta(string $slug, string $filename, int $bytes, string $sha256, string $visibility, ?string $license, ?string $sourceUrl, ?string $version, ?string $variant, ?string $year = null): array
     {
-        $filename = self::safeName($filename) ?? '';
+        $filename = self::safeRel($filename) ?? '';
         if ($filename === '') {
             return ['error' => 'Nombre de archivo no permitido.'];
         }
@@ -213,16 +242,26 @@ final class Downloads
             $known[(string) $row['filename']] = true;
         }
         $out = [];
-        foreach (scandir($dir) ?: [] as $entry) {
-            if ($entry === '.' || $entry === '..' || isset($known[$entry])) {
-                continue;
+        $walk = static function (string $base, string $rel) use (&$walk, $known, &$out): void {
+            foreach (scandir($base) ?: [] as $entry) {
+                if ($entry === '.' || $entry === '..') {
+                    continue;
+                }
+                $path = $base . '/' . $entry;
+                $sub = $rel === '' ? $entry : $rel . '/' . $entry;
+                if (is_dir($path)) {
+                    if (substr_count($rel, '/') < 3) {
+                        $walk($path, $sub);
+                    }
+                    continue;
+                }
+                if (!is_file($path) || isset($known[$sub]) || Downloads::safeRel($sub) === null) {
+                    continue;
+                }
+                $out[] = ['filename' => $sub, 'bytes' => (int) filesize($path), 'human_size' => Downloads::humanSize((int) filesize($path))];
             }
-            $path = $dir . '/' . $entry;
-            if (!is_file($path) || self::safeName($entry) === null) {
-                continue;
-            }
-            $out[] = ['filename' => $entry, 'bytes' => (int) filesize($path), 'human_size' => self::humanSize((int) filesize($path))];
-        }
+        };
+        $walk($dir, '');
         usort($out, static fn (array $a, array $b): int => strcmp($a['filename'], $b['filename']));
         return $out;
     }

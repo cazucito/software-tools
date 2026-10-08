@@ -47,6 +47,25 @@ streamer.
   **registro manual** (`no_file=1`) + FTP a `downloads/<slug>/`. `ALLOWED_EXT`
   incluye `sh` y `nbm`.
 
+## Decisión: filename = ruta relativa (estándar de subcarpetas)
+
+- El campo `filename` de `downloads` es una **ruta relativa** dentro de
+  `downloads/<slug>/`: admite hasta 3 niveles de subcarpetas
+  (`plug-ins/GelFtp.jar`, `plug-ins/PDM05/pmd-1.2.2.jar`) o un nombre plano.
+- **`Downloads::safeRel()`** valida cada segmento (misma sintaxis que los
+  nombres planos), exige extensión permitida solo en el último, rechaza `.`,
+  `..`, doble slash, líder/cola y más de 4 segmentos; `pathFor()` combina con
+  `realpath` + prefijo para que **nada salga de `downloads/<slug>/`**
+  (traversal cubierto por e2e, codificado y literal).
+- El streamer reconstruye el filename con los segmentos restantes de la URL
+  (`/download/<slug>/<ruta>/<archivo>`); los botones codifican por segmento
+  (sin `%2F`). La subida directa puede crear la subcarpeta (mkdir); el panel
+  admin permite editar la ruta relativa de una fila (validada con `safeRel`).
+- `scan()` recorre subcarpetas (máx. 3 niveles) para sugerir registros.
+- **Convención de organización**: espejar la estructura real del producto
+  (`plug-ins/`, `plugins/`, `lib/`, `bin/`…) cuando agrupa variantes; archivos
+  sueltos en la raíz del slug.
+
 ## Decisión: resiliencia (inventario de respaldo)
 
 - `ops/tools/downloads_inventory.py` exporta el catálogo de descargas (filas,

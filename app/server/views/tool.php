@@ -265,7 +265,7 @@ $maxLen = (int) st_config('comments')['max_len'];
           <span class="st-dl__size"><?= e($f['human_size']) ?></span>
           <span class="st-dl__action">
             <?php if ($f['open'] && $f['present']): ?>
-            <a class="st-dl__btn" href="<?= e(st_url('download/' . $tool['slug'] . '/' . rawurlencode((string) $f['filename']))) ?>"><?= e(st_t('downloads.download')) ?> ↓</a>
+            <a class="st-dl__btn" href="<?= e(st_url('download/' . $tool['slug'] . '/' . implode('/', array_map('rawurlencode', explode('/', (string) $f['filename']))))) ?>"><?= e(st_t('downloads.download')) ?> ↓</a>
             <?php else: ?>
             <span class="st-dl__lock">🔒</span>
             <?php endif; ?>

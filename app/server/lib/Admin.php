@@ -213,16 +213,23 @@ final class Admin
                     );
                 Auth::flash(empty($result['error']) ? 'ok' : 'error', (string) ($result['error'] ?? 'Archivo registrado.'));
             } elseif ($action === 'update_file') {
-                Ops::downloadUpdate(
-                    (int) ($_POST['id'] ?? 0),
-                    self::dlVis(),
-                    self::nullable((string) ($_POST['license'] ?? '')),
-                    self::nullable((string) ($_POST['source_url'] ?? '')),
-                    self::nullable((string) ($_POST['version'] ?? '')),
-                    self::nullable((string) ($_POST['variant'] ?? '')),
-                    self::nullable((string) ($_POST['year'] ?? ''))
-                );
-                Auth::flash('ok', 'Archivo actualizado.');
+                $nuName = self::nullable((string) ($_POST['filename'] ?? ''));
+                $nuName = $nuName === null ? null : Downloads::safeRel($nuName);
+                if ($_POST['filename'] !== '' && $nuName === null) {
+                    Auth::flash('error', 'Nombre de archivo (ruta relativa) no permitido.');
+                } else {
+                    Ops::downloadUpdate(
+                        (int) ($_POST['id'] ?? 0),
+                        self::dlVis(),
+                        self::nullable((string) ($_POST['license'] ?? '')),
+                        self::nullable((string) ($_POST['source_url'] ?? '')),
+                        self::nullable((string) ($_POST['version'] ?? '')),
+                        self::nullable((string) ($_POST['variant'] ?? '')),
+                        self::nullable((string) ($_POST['year'] ?? '')),
+                        $nuName
+                    );
+                    Auth::flash('ok', 'Archivo actualizado.');
+                }
             } elseif ($action === 'delete_file') {
                 $withFile = !empty($_POST['with_file']);
                 Downloads::remove((int) ($_POST['id'] ?? 0), $withFile);
@@ -258,18 +265,18 @@ final class Admin
         if ($size <= 0 || $size > (int) st_config('downloads')['max_upload']) {
             return ['error', 'El archivo excede el límite de subida directa; usa FTP.'];
         }
-        $filename = Downloads::safeName((string) $_FILES['file']['name']);
+        $filename = Downloads::safeRel((string) $_FILES['file']['name']);
         if ($filename === null) {
             return ['error', 'Nombre de archivo no permitido.'];
         }
         if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
             return ['error', 'Slug inválido.'];
         }
-        $dir = rtrim((string) st_config('downloads_dir'), '/') . '/' . $slug;
+        $dir = rtrim((string) st_config('downloads_dir'), '/') . '/' . $slug . '/' . dirname($filename);
         if (!is_dir($dir) && !mkdir($dir, 0755, true)) {
             return ['error', 'No se pudo crear downloads/' . $slug . '/.'];
         }
-        if (!move_uploaded_file((string) $_FILES['file']['tmp_name'], $dir . '/' . $filename)) {
+        if (!move_uploaded_file((string) $_FILES['file']['tmp_name'], $dir . '/' . basename($filename))) {
             return ['error', 'No se pudo guardar el archivo.'];
         }
         $result = Downloads::register(

@@ -46,6 +46,7 @@ $slug = (string) $tool['slug'];
             <input type="hidden" name="csrf" value="<?= e($csrf) ?>">
             <input type="hidden" name="action" value="update_file">
             <input type="hidden" name="id" value="<?= e((int) $f['id']) ?>">
+            <input type="text" name="filename" value="<?= e((string) $f['filename']) ?>" style="min-width:220px" title="Ruta relativa dentro de downloads/&lt;slug&gt;/ (admite subcarpetas: plug-ins/x.jar)">
             <strong class="ad-file"><?= e($f['filename']) ?></strong>
             <span class="ad-note"><?= e(St\Downloads::humanSize((int) $f['bytes'])) ?></span>
             <span class="ad-note" title="<?= e((string) $f['sha256']) ?>"><?= e(substr((string) $f['sha256'], 0, 12)) ?>…</span>

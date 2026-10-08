@@ -236,9 +236,10 @@ try {
     }
 
     // ----- Descargas: streamer ----------------------------------------------
-    if ($segments[0] === 'download' && count($segments) === 3) {
+    if ($segments[0] === 'download' && count($segments) >= 3) {
         $slug = $segments[1];
-        $file = $segments[2];
+        // filename = ruta RELATIVA (estándar): puede contener subcarpetas (plug-ins/x.jar)
+        $file = implode('/', array_slice($segments, 2));
         if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
             $notFound();
             exit;

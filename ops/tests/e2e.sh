@@ -36,7 +36,7 @@ assert_contains "home con JSON-LD WebSite" 'application/ld+json' "$body"
 sitemap=$(curl -s "$BASE/index.php?p=sitemap.xml")
 assert_contains "sitemap con 48 loc" '<loc>' "$sitemap"
 nloc=$(printf '%s' "$sitemap" | grep -c '<loc>')
-assert_eq "sitemap 51 urls (home+tools+search+48)" 51 "$nloc"
+assert_eq "sitemap 52 urls (home+tools+search+49)" 52 "$nloc"
 
 echo "== 2. Ficha (monograma, comentarios, JSON-LD) =="
 code=$(H "$BASE/index.php?p=tools/eudora&modo=linea"); assert_eq "ficha 200" 200 "$code"
@@ -126,7 +126,7 @@ ficha=$(curl -s -b "$JAR2" "$BASE/index.php?p=tools/eudora")
 assert_contains "ficha desbloqueada: grupos por versión" 'st-dlgroup__title' "$ficha"
 assert_contains "ficha desbloqueada: nombre de archivo" 'e2e-prueba.txt' "$ficha"
 assert_contains "sha256 mostrado en ficha" "$sha" "$ficha"
-# alojado (normalizado a clave) → sigue requiriendo contraseña general
+# ---- alojado (normalizado a clave) → sigue requiriendo contraseña general ----
 loc=$(curl -s -b "$JAR" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=admin/downloads/eudora" \
       -d "csrf=$CSRF" -d "action=update_file" -d "id=$(python3 -c "
 import sqlite3
@@ -144,6 +144,27 @@ import sqlite3
 print(sqlite3.connect('$ROOT/app/data/ops.sqlite').execute(\"SELECT COUNT(*) FROM downloads WHERE tool_slug='eudora'\").fetchone()[0])")
 assert_eq "registro borrado" 0 "$n"
 [ -f "$ROOT/app/public/downloads/eudora/e2e-prueba.txt" ] && fail "archivo sigue en disco" || ok "archivo borrado de disco"
+
+# ---- estándar de subcarpetas: filename = ruta relativa segura ----
+docker run --rm -v "$ROOT":/srv php:8.1-cli sh -c 'mkdir -p /srv/app/public/downloads/eudora/sub-plugins && printf plug-e2e > /srv/app/public/downloads/eudora/sub-plugins/e2e-plug.txt' >/dev/null 2>&1
+apage=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/downloads/eudora")
+csrf=$(echo "$apage" | grep -o 'name="csrf" value="[0-9a-f]\{32\}"' | head -1 | grep -o '[0-9a-f]\{32\}')
+loc=$(curl -s -b "$JAR" -o /dev/null -w '%{redirect_url}' -X POST "$BASE/index.php?p=admin/downloads/eudora" \
+  --data-urlencode "csrf=$csrf" --data-urlencode 'action=register' \
+  --data-urlencode 'filename=sub-plugins/e2e-plug.txt' --data-urlencode 'variant=Subcarpeta (estándar)' \
+  --data-urlencode 'version=10.1' --data-urlencode 'year=2025' --data-urlencode 'visibility=clave')
+assert_contains "registro con subruta aceptado" 'admin/downloads/eudora' "$loc"
+ficha=$(curl -s -b "$JAR2" "$BASE/index.php?p=tools/eudora")
+assert_contains "ficha desbloqueada muestra subruta" 'sub-plugins/e2e-plug.txt' "$ficha"
+curl -s -b "$JAR2" "$BASE/index.php?p=download/eudora/sub-plugins/e2e-plug.txt" -o "$TMP/sub.bin"
+assert_eq "stream con subcarpeta devuelve bytes" 8 "$(wc -c < "$TMP/sub.bin")"
+# traversal: nunca se sale de downloads/<slug>/
+code=$(H "$BASE/index.php?p=download/eudora/..%2F..%2Fetc%2Fpasswd")
+assert_eq "traversal (encoded) bloqueado → 404" 404 "$code"
+code=$(H "$BASE/index.php?p=download/eudora/../../etc/passwd")
+assert_eq "traversal (literal) bloqueado → 404" 404 "$code"
+# limpieza del fixture de subcarpeta
+docker run --rm -v "$ROOT":/srv php:8.1-cli sh -c 'rm -f /srv/app/public/downloads/eudora/sub-plugins/e2e-plug.txt && rmdir /srv/app/public/downloads/eudora/sub-plugins' >/dev/null 2>&1 || true
 
 echo "== 6. Admin: catálogo (toggle + edición + dirty) =="
 code=$(H -b "$JAR" "$BASE/index.php?p=admin/catalog"); assert_eq "catálogo admin 200" 200 "$code"
@@ -194,7 +215,7 @@ else
 fi
 bundle=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/export&bundle=1")
 nb=$(printf '%s' "$bundle" | grep -c '^slug:')
-assert_eq "bundle contiene 48 fichas" 48 "$nb"
+assert_eq "bundle contiene 49 fichas" 49 "$nb"
 exportpage=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/export")
 assert_contains "pendiente visible en Export" 'eudora' "$exportpage"
 csrf_x=$(grab 'name="csrf" value="[0-9a-f]{32}"' "$exportpage" | grep -oE '[0-9a-f]{32}')
