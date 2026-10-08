@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T17:42:02",
+  "generated_at": "2026-10-07T18:25:41",
   "base_url": "https://software-tools.pcabrera.com",
   "tools": {
     "gel": [
@@ -23,17 +23,6 @@
         "size": "2.2 MB",
         "sha256": "daa639ce73bd8533956bffb4963d522c52a2bf3eb733d21b8ef88f4c3cc8de6c",
         "license": "GEL — freeware (GExperts)",
-        "source_url": ""
-      },
-      {
-        "filename": "GelFtp.jar",
-        "version": "",
-        "variant": "Plug-in: FTP",
-        "year": "2002",
-        "visibility": "clave",
-        "size": "24 KB",
-        "sha256": "470cabb66f6d0b8e4a3b2821a7d66ec113db77f4270d4114f423da642f68d455",
-        "license": "GEL plug-in — freeware",
         "source_url": ""
       },
       {
@@ -92,28 +81,6 @@
         "source_url": ""
       },
       {
-        "filename": "JarMaker.jar",
-        "version": "",
-        "variant": "Plug-in: generador de JARs",
-        "year": "2002",
-        "visibility": "clave",
-        "size": "7 KB",
-        "sha256": "234dd4a2bd740658c957df5a20dc9519212674d486c826bcd8ce492e81c5f22c",
-        "license": "GEL plug-in — freeware",
-        "source_url": ""
-      },
-      {
-        "filename": "format.jar",
-        "version": "",
-        "variant": "Plug-in: format",
-        "year": "2002",
-        "visibility": "clave",
-        "size": "1 KB",
-        "sha256": "987502f6a66498a6f83643cf491e6a66f80ea82d8cf2bf569d4235f3ba8747bf",
-        "license": "GEL plug-in — freeware",
-        "source_url": ""
-      },
-      {
         "filename": "gel-8.6a.oficial.link",
         "version": "8.6",
         "variant": "Instalador oficial (Gel 8.6a — Tucows/Internet Archive)",
@@ -125,7 +92,29 @@
         "source_url": "https://archive.org/download/tucows_246670_Gel/Gel86a.zip"
       },
       {
-        "filename": "jaxen-core-1.0-fcs.jar",
+        "filename": "plug-ins/GelFtp.jar",
+        "version": "",
+        "variant": "Plug-in: FTP",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "24 KB",
+        "sha256": "470cabb66f6d0b8e4a3b2821a7d66ec113db77f4270d4114f423da642f68d455",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "plug-ins/JarMaker.jar",
+        "version": "",
+        "variant": "Plug-in: generador de JARs",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "7 KB",
+        "sha256": "234dd4a2bd740658c957df5a20dc9519212674d486c826bcd8ce492e81c5f22c",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "plug-ins/PDM05/jaxen-core-1.0-fcs.jar",
         "version": "",
         "variant": "PDM05: jaxen-core",
         "year": "2002",
@@ -136,18 +125,7 @@
         "source_url": ""
       },
       {
-        "filename": "jref-bridge.jar",
-        "version": "",
-        "variant": "Plug-in: JRef bridge",
-        "year": "2002",
-        "visibility": "clave",
-        "size": "2 KB",
-        "sha256": "39f1335b49b5e46aa97d28c7963831b8113060e39a4013c15bc564294f7df7f6",
-        "license": "GEL plug-in — freeware",
-        "source_url": ""
-      },
-      {
-        "filename": "pmd-1.2.2.jar",
+        "filename": "plug-ins/PDM05/pmd-1.2.2.jar",
         "version": "",
         "variant": "PDM05: PMD 1.2.2",
         "year": "2002",
@@ -158,7 +136,7 @@
         "source_url": ""
       },
       {
-        "filename": "pmd-gel-0.5.jar",
+        "filename": "plug-ins/PDM05/pmd-gel-0.5.jar",
         "version": "",
         "variant": "PDM05: integración PMD",
         "year": "2002",
@@ -169,7 +147,7 @@
         "source_url": ""
       },
       {
-        "filename": "saxpath-1.0-fcs.jar",
+        "filename": "plug-ins/PDM05/saxpath-1.0-fcs.jar",
         "version": "",
         "variant": "PDM05: saxpath",
         "year": "2002",
@@ -180,7 +158,7 @@
         "source_url": ""
       },
       {
-        "filename": "xercesImpl-2.0.2.jar",
+        "filename": "plug-ins/PDM05/xercesImpl-2.0.2.jar",
         "version": "",
         "variant": "PDM05: Xerces2",
         "year": "2002",
@@ -191,7 +169,7 @@
         "source_url": ""
       },
       {
-        "filename": "xmlParserAPIs-2.0.2.jar",
+        "filename": "plug-ins/PDM05/xmlParserAPIs-2.0.2.jar",
         "version": "",
         "variant": "PDM05: APIs XML",
         "year": "2002",
@@ -199,6 +177,28 @@
         "size": "77 KB",
         "sha256": "879a2ff68d5ba6b5026190b53ee247cc618cd0ed83ce71ef57bd16c7d0a7de52",
         "license": "xml-apis — Apache 2.0",
+        "source_url": ""
+      },
+      {
+        "filename": "plug-ins/format.jar",
+        "version": "",
+        "variant": "Plug-in: format",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "1 KB",
+        "sha256": "987502f6a66498a6f83643cf491e6a66f80ea82d8cf2bf569d4235f3ba8747bf",
+        "license": "GEL plug-in — freeware",
+        "source_url": ""
+      },
+      {
+        "filename": "plug-ins/jref-bridge.jar",
+        "version": "",
+        "variant": "Plug-in: JRef bridge",
+        "year": "2002",
+        "visibility": "clave",
+        "size": "2 KB",
+        "sha256": "39f1335b49b5e46aa97d28c7963831b8113060e39a4013c15bc564294f7df7f6",
+        "license": "GEL plug-in — freeware",
         "source_url": ""
       }
     ],
