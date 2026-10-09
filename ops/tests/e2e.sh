@@ -3,6 +3,8 @@
 # e2e de la Fase 5 — comentarios, admin, descargas con clave, export.
 # Uso:   E2E_ADMIN_PASS=<pass> bash ops/tests/e2e.sh [http://127.0.0.1:8091]
 # Corre contra el prototipo local (php -S). Necesita: curl, python3.
+# Requiere config.local.php de desarrollo con override COMPLETO de 'comments'
+# (enabled=true): en el sitio los comentarios viven deshabilitados (config.php).
 # ============================================================================
 set -u
 BASE="${1:-http://127.0.0.1:8091}"

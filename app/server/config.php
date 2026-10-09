@@ -58,9 +58,11 @@ $config = [
         'login_window' => 900,
     ],
 
-    // Comentarios (SPEC 6.5)
+    // Comentarios (SPEC 6.5) — DESHABILITADOS a pedido del dueño (2026-10-09):
+    // el sitio no acepta comentarios hasta definir políticas y mecanismos.
+    // Desarrollo: reactivar con override completo en config.local.php.
     'comments'     => [
-        'enabled'     => true,
+        'enabled'     => false,
         'direct'      => true, // publicación directa + moderación retroactiva
         'min_seconds' => 3,
         'max_seconds' => 7200,

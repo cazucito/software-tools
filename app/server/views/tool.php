@@ -282,6 +282,7 @@ $maxLen = (int) st_config('comments')['max_len'];
   </section>
   <?php endif; ?>
 
+  <?php if ($commentsEnabled): // comentarios fuera del sitio hasta definir políticas (2026-10-09) ?>
   <section class="st-comments" id="comentarios">
     <h2 class="st-section-title"><?= e(st_t('comments.title')) ?>
       <?php if ($commentsList): ?><span class="st-count-badge"><?= e(count($commentsList)) ?></span><?php endif; ?>
@@ -325,6 +326,7 @@ $maxLen = (int) st_config('comments')['max_len'];
     <p class="st-hint"><?= e(st_t('comments.disabled')) ?></p>
     <?php endif; ?>
   </section>
+  <?php endif; ?>
 
   <nav class="st-neighbours" aria-label="Cronología">
     <?php if ($neighbours['prev']): ?>
