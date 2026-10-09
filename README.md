@@ -1,6 +1,6 @@
 # software-tools
 
-Archivo personal del software: **48 herramientas, 1991 → hoy** — cada una con su historia de uso. Pronto: un timeline navegable con tres modalidades, búsqueda, comentarios y descargas personales.
+Archivo personal del software: **50 herramientas, 1991 → hoy** — cada una con su historia de uso. Pronto: un timeline navegable con tres modalidades, búsqueda, comentarios y descargas personales.
 
 ## Estado
 
