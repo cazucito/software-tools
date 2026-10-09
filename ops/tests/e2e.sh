@@ -34,9 +34,9 @@ assert_contains "home con footer i18n (fase 5)" 'fase 5' "$body"
 assert_contains "home con canonical" 'rel="canonical"' "$body"
 assert_contains "home con JSON-LD WebSite" 'application/ld+json' "$body"
 sitemap=$(curl -s "$BASE/index.php?p=sitemap.xml")
-assert_contains "sitemap con 48 loc" '<loc>' "$sitemap"
+assert_contains "sitemap con loc" '<loc>' "$sitemap"
 nloc=$(printf '%s' "$sitemap" | grep -c '<loc>')
-assert_eq "sitemap 52 urls (home+tools+search+49)" 52 "$nloc"
+assert_eq "sitemap 53 urls (home+tools+search+50)" 53 "$nloc"
 
 echo "== 2. Ficha (monograma, comentarios, JSON-LD) =="
 code=$(H "$BASE/index.php?p=tools/eudora&modo=linea"); assert_eq "ficha 200" 200 "$code"
@@ -215,7 +215,7 @@ else
 fi
 bundle=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/export&bundle=1")
 nb=$(printf '%s' "$bundle" | grep -c '^slug:')
-assert_eq "bundle contiene 49 fichas" 49 "$nb"
+assert_eq "bundle contiene 50 fichas" 50 "$nb"
 exportpage=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/export")
 assert_contains "pendiente visible en Export" 'eudora' "$exportpage"
 csrf_x=$(grab 'name="csrf" value="[0-9a-f]{32}"' "$exportpage" | grep -oE '[0-9a-f]{32}')

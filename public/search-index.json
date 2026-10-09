@@ -1,5 +1,20 @@
 [
   {
+    "name": "OpenClaw",
+    "slug": "openclaw",
+    "year": 2025,
+    "decade": "2020s",
+    "category": "tool",
+    "tags": [
+      "ai",
+      "agentes",
+      "open-source",
+      "asistente-personal",
+      "clawdbot"
+    ],
+    "context": "Asistente personal de IA open source: corre en tu propia máquina y usa tus apps de mensajería como interfaz. Lo usé desde su publicación hasta el 22 de abril de 2026."
+  },
+  {
     "name": "DataGrip",
     "slug": "datagrip",
     "year": 2018,
@@ -172,6 +187,21 @@
       "open-source"
     ],
     "context": "El navegador que rescató la web del monopolio de Internet Explorer. Extensiones, tabs, y el espíritu open source. Mi navegador principal durante más de una década."
+  },
+  {
+    "name": "GEL",
+    "slug": "gel",
+    "year": 2002,
+    "decade": "2000s",
+    "category": "editor",
+    "tags": [
+      "ide",
+      "java",
+      "windows",
+      "freeware",
+      "gexperts"
+    ],
+    "context": "IDE de Java ligero y compilado nativamente para Windows, freeware de GExperts (creadores de GExperts para Delphi). Alternativa al JDK puro con autocompletado, ayuda de parámetros y gestión de proyectos."
   },
   {
     "name": "Visual Basic .NET",

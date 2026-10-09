@@ -1,6 +1,27 @@
 {
   "tools": [
     {
+      "name": "OpenClaw",
+      "slug": "openclaw",
+      "year": 2025,
+      "decade": "2020s",
+      "category": "tool",
+      "tags": [
+        "ai",
+        "agentes",
+        "open-source",
+        "asistente-personal",
+        "clawdbot"
+      ],
+      "image": null,
+      "context": "Asistente personal de IA open source: corre en tu propia máquina y usa tus apps de mensajería como interfaz. Lo usé desde su publicación hasta el 22 de abril de 2026.",
+      "usedUntil": 2026,
+      "successor": null,
+      "successorSlug": null,
+      "related": [],
+      "published": true
+    },
+    {
       "name": "DataGrip",
       "slug": "datagrip",
       "year": 2018,
@@ -209,6 +230,7 @@
       "successor": null,
       "successorSlug": null,
       "related": [
+        "gel",
         "eclipse",
         "netbeans",
         "visual-studio-code",
@@ -290,6 +312,31 @@
       "published": true
     },
     {
+      "name": "GEL",
+      "slug": "gel",
+      "year": 2002,
+      "decade": "2000s",
+      "category": "editor",
+      "tags": [
+        "ide",
+        "java",
+        "windows",
+        "freeware",
+        "gexperts"
+      ],
+      "image": null,
+      "context": "IDE de Java ligero y compilado nativamente para Windows, freeware de GExperts (creadores de GExperts para Delphi). Alternativa al JDK puro con autocompletado, ayuda de parámetros y gestión de proyectos.",
+      "usedUntil": 2004,
+      "successor": "NetBeans",
+      "successorSlug": "netbeans",
+      "related": [
+        "netbeans",
+        "eclipse",
+        "intellij-idea"
+      ],
+      "published": true
+    },
+    {
       "name": "Visual Basic .NET",
       "slug": "visual-basic-net",
       "year": 2002,
@@ -356,6 +403,7 @@
       "successor": "IntelliJ IDEA",
       "successorSlug": "intellij-idea",
       "related": [
+        "gel",
         "netbeans",
         "visual-studio",
         "intellij-idea"
@@ -404,6 +452,7 @@
       "successor": "IntelliJ IDEA / VS Code",
       "successorSlug": "intellij-idea",
       "related": [
+        "gel",
         "eclipse",
         "oracle-sql-developer",
         "intellij-idea",
@@ -1301,12 +1350,13 @@
       ]
     },
     "open-source": {
-      "count": 5,
+      "count": 6,
       "tools": [
         "atom",
         "eclipse",
         "mozilla-firefox",
         "netbeans",
+        "openclaw",
         "visual-studio-code"
       ]
     },
@@ -1373,13 +1423,14 @@
       ]
     },
     "ide": {
-      "count": 11,
+      "count": 12,
       "tools": [
         "borland-cpp",
         "borland-pascal-7",
         "datagrip",
         "delphi",
         "eclipse",
+        "gel",
         "intellij-idea",
         "netbeans",
         "oracle-sql-developer",
@@ -1463,9 +1514,10 @@
       ]
     },
     "windows": {
-      "count": 7,
+      "count": 8,
       "tools": [
         "delphi",
+        "gel",
         "visual-basic-6",
         "visual-studio",
         "windows-95",
@@ -1515,9 +1567,10 @@
       ]
     },
     "java": {
-      "count": 3,
+      "count": 4,
       "tools": [
         "eclipse",
+        "gel",
         "intellij-idea",
         "netbeans"
       ]
@@ -1614,6 +1667,18 @@
       "count": 1,
       "tools": [
         "figlet"
+      ]
+    },
+    "freeware": {
+      "count": 1,
+      "tools": [
+        "gel"
+      ]
+    },
+    "gexperts": {
+      "count": 1,
+      "tools": [
+        "gel"
       ]
     },
     "browser": {
@@ -1918,6 +1983,30 @@
         "norton-ghost"
       ]
     },
+    "ai": {
+      "count": 1,
+      "tools": [
+        "openclaw"
+      ]
+    },
+    "agentes": {
+      "count": 1,
+      "tools": [
+        "openclaw"
+      ]
+    },
+    "asistente-personal": {
+      "count": 1,
+      "tools": [
+        "openclaw"
+      ]
+    },
+    "clawdbot": {
+      "count": 1,
+      "tools": [
+        "openclaw"
+      ]
+    },
     "enterprise": {
       "count": 1,
       "tools": [
@@ -2141,6 +2230,7 @@
     "2000s": [
       "acronis-true-image",
       "eclipse",
+      "gel",
       "intellij-idea",
       "mozilla-firefox",
       "multisim",
@@ -2159,6 +2249,9 @@
       "sublime-text",
       "virtualbox",
       "visual-studio-code"
+    ],
+    "2020s": [
+      "openclaw"
     ]
   },
   "categories": {
@@ -2167,6 +2260,7 @@
       "atom",
       "chi-writer",
       "eclipse",
+      "gel",
       "intellij-idea",
       "latex",
       "netbeans",
@@ -2193,6 +2287,7 @@
       "netscape-navigator",
       "norton-commander",
       "norton-ghost",
+      "openclaw",
       "pkzip",
       "windows-explorer",
       "winzip"
@@ -2225,8 +2320,8 @@
     ]
   },
   "meta": {
-    "generatedAt": "2026-10-05T23:43:23.854Z",
-    "totalTools": 49,
-    "totalPublished": 49
+    "generatedAt": "2026-10-09T19:46:03.407Z",
+    "totalTools": 51,
+    "totalPublished": 51
   }
 }
