@@ -18,6 +18,7 @@
 ## Pendiente
 
 - **GitHub Pages a retirar por el dueño** (v2 sigue visible en cazucito.github.io/software-tools hasta ese clic).
+- **Comentarios deshabilitados** en el sitio (2026-10-09, `comments.enabled=false` por pedido del dueño: spam/seguridad) hasta definir políticas y mecanismos; el e2e los prueba con override de desarrollo en config.local.php.
 - **Fase 6 (inglés completo)** de ficha/sistema; base i18n lista.
 - **Assets reales** (ADR-010, nivel 1): ~20–30 íconos icónicos cuando comparta su carpeta; los monogramas por década ya son la identidad del resto.
 - Descargas: inventario de su carpeta (tiers publico/clave/enlace).
