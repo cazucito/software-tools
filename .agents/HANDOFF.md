@@ -2,7 +2,7 @@
 
 ## Estado
 
-**v3 EN PRODUCCIÓN en la raíz** `https://software-tools.pcabrera.com/` (2026-10-05): URLs limpias, indexable, admin en `/admin`. `/proto/` sigue vivo como sandbox noindex. E2E **61/61**. Fase 8 (ADR-011, 2026-10-07): descargas = Sitio oficial (público) + Colección privada tras **contraseña general** (`thoth-descargas-2026` en prod; cookie 2 h); la ficha de NetBeans es el piloto (44 archivos). Pendientes del dueño: unpublish de GitHub Pages (Settings → Pages; kaelaxiom no tiene admin); decidir mirror físico de `downloads/` (6.8 GB) — hoy el respaldo activo es el inventario con sha256.
+**v3 EN PRODUCCIÓN en la raíz** `https://software-tools.pcabrera.com/` (2026-10-05): URLs limpias, indexable, admin en `/admin`. `/proto/` sigue vivo como sandbox noindex. E2E **66/66**. Fase 8 (ADR-011, 2026-10-07): descargas = Sitio oficial (público) + Colección privada tras **contraseña general** (`thoth-descargas-2026` en prod; cookie 2 h); la ficha de NetBeans es el piloto (44 archivos). Pendientes del dueño: unpublish de GitHub Pages (Settings → Pages; kaelaxiom no tiene admin); decidir mirror físico de `downloads/` (6.8 GB) — hoy el respaldo activo es el inventario con sha256.
 
 ## Recetas
 
@@ -18,13 +18,14 @@ docker run --rm -d --name st-proto -p 127.0.0.1:8091:8091 -v "$PWD":/srv -w /srv
 # → http://127.0.0.1:8091/index.php?modo=linea
 
 # E2E local (borrar ops.sqlite antes por el rate-limit de login)
-rm -f app/data/ops.sqlite && E2E_ADMIN_PASS=... bash ops/tests/e2e.sh     # esperar 58/58
+rm -f app/data/ops.sqlite && E2E_ADMIN_PASS=... bash ops/tests/e2e.sh     # esperar 66/66
 
 # Desplegar (credenciales BWS en runtime; NUNCA sube secretos ni datos vivos)
 python3 ops/deploy/deploy.py                     # sandbox /proto/
 python3 ops/deploy/deploy.py --catalog           # + catálogo (solo tras exportar ediciones vivas)
 python3 ops/deploy/deploy.py --root --catalog    # producción (raíz); renombra a _bak-* si reaparecen
-# regenerar config viva (nueva pass/secret): ~/.hermes/cache/scratch/st-f4/ → cap/write_live_config.py
+# regenerar config viva (nueva pass/secret): cap/write_live_config.py — scratch/st-f4 se autopurga a las 24 h;
+# el admin pass de producción debe conservarse en BWS
 ```
 
 ## Cuidados
