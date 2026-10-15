@@ -29,5 +29,8 @@
     "software"
   ],
   "author": "cazucito",
-  "license": "MIT"
+  "license": "MIT",
+  "overrides": {
+    "http-cache-semantics": "^4.3.0"
+  }
 }
