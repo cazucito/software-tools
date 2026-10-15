@@ -137,8 +137,11 @@ else {
   sc.src = dataUrl.href;
   const validData = d => !!d && Array.isArray(d.categories) && Array.isArray(d.tools)
     && d.categories.every(c => c && typeof c.slug === 'string' && typeof c.count === 'number'
-      && Array.isArray(c.subs) && c.subs.every(s => s && typeof s.slug === 'string'))
-    && d.tools.every(t => t && typeof t.slug === 'string' && typeof t.name === 'string');
+      && Array.isArray(c.subs) && c.subs.every(s => s && typeof s.slug === 'string')
+      && (c.color == null || typeof c.color === 'string'))
+    && d.tools.every(t => t && typeof t.slug === 'string' && typeof t.name === 'string'
+      && (t.tags == null || (Array.isArray(t.tags) && t.tags.every(g => typeof g === 'string')))
+      && (t.rel == null || (Array.isArray(t.rel) && t.rel.every(r => typeof r === 'string'))));
   sc.onload = () => validData(window.ST_DATA)
     ? init(window.ST_DATA) : fatal('Datos inválidos: falta window.ST_DATA.');
   sc.onerror = () => fatal('No se pudo cargar ' + dataUrl.pathname);
@@ -160,7 +163,7 @@ const catBySlug  = Object.fromEntries(D.categories.map(c => [c.slug, c]));
 const toolBySlug = Object.fromEntries(D.tools.map(t => [t.slug, t]));
 // color de categoría: dato → mapa local → hash determinista del slug
 const slugHash = s => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
-const colorOf = c => c.color || CAT_COLOR[c.slug] || PALETTE[slugHash(c.slug) % PALETTE.length];
+const colorOf = c => (typeof c.color === 'string' && c.color) || CAT_COLOR[c.slug] || PALETTE[slugHash(c.slug) % PALETTE.length];
 const LABEL_MIN = 30;      // separación mínima (px) para etiquetas no activas (familias y hojas)
 const LABEL_CAT_MIN = 34;  // ídem para categorías
 const MIN_SP = 24;         // paso vertical mínimo (px) del abanico antes de recortar con chip de desborde
@@ -178,14 +181,14 @@ const xCols = (compact, W, open) => {
     ? {xRoot: 44, xCat: 112, xSub: 212, xLeaf: 317, tight: true}
     : {xRoot: compact ? 64 : 104, xCat, xSub, xLeaf, tight: false};
   // invariante: xLeaf <= xMax. Desplazamiento uniforme a la izquierda; si el tronco
-  // saldría de xRoot >= 24, se comprime el resto de columnas en vez de desplazar.
+  // saldría de xRoot >= 34 (círculo completo visible), se comprime el resto de columnas.
   const xMax = xMaxOf(W, compact, open), shift = c.xLeaf - xMax;
   if (shift <= 0) return c;
-  if (c.xRoot - shift >= 24) {
+  if (c.xRoot - shift >= 34) {
     return {xRoot: c.xRoot - shift, xCat: c.xCat - shift, xSub: c.xSub - shift, xLeaf: xMax, tight: c.tight};
   }
-  const k = Math.max(xMax - 24, 0) / (c.xLeaf - c.xRoot), f = x => 24 + (x - c.xRoot) * k;
-  return {xRoot: 24, xCat: f(c.xCat), xSub: f(c.xSub), xLeaf: Math.max(xMax, 24), tight: c.tight};
+  const k = Math.max(xMax - 34, 0) / (c.xLeaf - c.xRoot), f = x => 34 + (x - c.xRoot) * k;
+  return {xRoot: 34, xCat: f(c.xCat), xSub: f(c.xSub), xLeaf: Math.max(xMax, 34), tight: c.tight};
 };
 
 // abanico de hojas: 1 columna hasta FAN_SINGLE; más → multicolumna con tope de alto y de ancho.
@@ -504,7 +507,7 @@ function showToolList(list) {
 qEl.addEventListener('input', () => runSearch(qEl.value));
 qEl.addEventListener('keydown', e => {
   if (e.key === 'Escape') { ddEl.classList.remove('is-open'); qEl.blur(); }
-  if (e.key === 'Enter') { const f = ddEl.querySelector('button'); if (f) f.click(); }
+  if (e.key === 'Enter') { if (!ddEl.classList.contains('is-open')) return; const f = ddEl.querySelector('button'); if (f) f.click(); }
 });
 document.addEventListener('click', e => { if (!e.target.closest('.hd__search')) ddEl.classList.remove('is-open'); });
 document.addEventListener('keydown', e => {
