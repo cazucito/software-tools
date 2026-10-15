@@ -13,6 +13,18 @@ Tres físicas para el FUTURO modo único del sitio (reemplaza Cinta/Línea/Máqu
 - **Búsqueda requerida**: filtra name/slug/tags/contexto y navega el mapa al resultado.
 - Clic en nodo de herramienta (o resultado) → **detalle de la ficha** + enlace a la ficha real.
 
+## Familias (segundo anillo) — decisión del dueño 2026-10-15
+
+- Regla global y determinista: una categoría con **más de 6** herramientas se
+  subdivide en familias; el resto muestra sus herramientas directas.
+  Resultado: Herramientas→9, Editores→3, Lenguajes→2; Bases de datos,
+  Infraestructura y Sistemas operativos quedan planas.
+- Taxonomía curada en `tools/prep_data.py` (dict `TAXONOMY`), con validación
+  estricta: cobertura completa de cada categoría subdividida, sin duplicados,
+  o el script aborta sin escribir.
+- Dendrita v2: clic categoría → familias · clic familia → herramientas · clic
+  herramienta → ficha (breadcrumb «categoría → familia» en el panel).
+
 ## Datos
 
 `data.js` se genera desde el catálogo (fuente única):

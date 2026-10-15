@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Maqueta B · Dendrita — software-tools (mapa mental)</title>
+<title>Dendrita · software-tools (mapa mental por familias)</title>
 <style>
 :root{
   --st-bg:#0b0f17; --st-ink:#eef2f7; --st-muted:#98a2b3; --st-faint:#475467;
@@ -80,8 +80,8 @@ text{font-family:var(--st-font-mono)}
 .rel button:hover{text-decoration:underline}
 .panel .live{display:inline-block;margin-top:1.2rem;font-family:var(--st-font-mono);font-size:.72rem}
 
-.hint{position:fixed;bottom:.7rem;left:1rem;z-index:30;color:var(--st-faint);
-  font-family:var(--st-font-mono);font-size:.66rem;letter-spacing:.05em;max-width:80vw}
+.hint{position:fixed;bottom:.7rem;left:1rem;z-index:30;color:var(--st-muted);
+  font-family:var(--st-font-mono);font-size:.66rem;letter-spacing:.05em;max-width:82vw}
 @media (max-width:760px){
   .hd__brand small{display:none}
   .panel{top:auto;left:0;right:0;width:auto;max-height:62vh;border-left:0;border-top:1px solid var(--st-line);
@@ -91,13 +91,14 @@ text{font-family:var(--st-font-mono)}
   .hd__act button{display:none}
 }
 .noanim *{animation:none!important;transition:none!important}
+.noanim .branch.draw{stroke-dasharray:none;stroke-dashoffset:0}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-@media (min-width: 761px){.panel-open .hd__act{padding-right:calc(var(--panel-w) + 0.75rem)}}
+@media (min-width: 761px){.panel-open .hd__act{padding-right:calc(var(--panel-w) + 1.25rem)}.panel-open .hint{max-width:calc(100vw - var(--panel-w) - 2rem)}}
 </style>
 </head>
 <body>
 <header class="hd">
-  <div class="hd__brand">software-tools<small>mapa · dendrita</small></div>
+  <div class="hd__brand">software-tools<small>mapa · dendrita · familias</small></div>
   <div class="hd__act">
     <button id="collapse">contraer todo</button>
     <div class="hd__search">
@@ -107,14 +108,14 @@ text{font-family:var(--st-font-mono)}
   </div>
 </header>
 
-<svg id="map" role="application" aria-label="Mapa mental del archivo (dendrita)"></svg>
+<svg id="map" role="application" aria-label="Mapa mental del archivo (dendrita: categorías → familias → herramientas)"></svg>
 
 <aside class="panel" id="panel" aria-hidden="true">
   <button class="panel__close" id="pclose" aria-label="Cerrar">×</button>
   <div class="panel__inner" id="pinner"></div>
 </aside>
 
-<div class="hint">clic en una rama para que crezca · clic en una hoja abre su ficha · los hilos tenues = herramientas relacionadas</div>
+<div class="hint">clic en categoría → familias · clic en familia → herramientas · clic en herramienta → ficha · hilos = relacionadas</div>
 
 <script src="../data.js"></script>
 <script>
@@ -135,7 +136,7 @@ const pinner=document.getElementById('pinner');
 const qEl  = document.getElementById('q');
 const ddEl = document.getElementById('dd');
 
-const state = { expanded: null, selected: null };
+const state = { cat: null, sub: null, selected: null };
 const LAST_POS = new Map();
 let W, H;
 
@@ -147,6 +148,7 @@ function mk(tag, attrs, parent) {
   return el;
 }
 function short(n, w=20) { return n.length > w ? n.slice(0, w-1) + '…' : n; }
+function hex2rgb(h){const v=parseInt(h.slice(1),16);return `${(v>>16)&255},${(v>>8)&255},${v&255}`;}
 
 function layout() {
   W = window.innerWidth; H = window.innerHeight;
@@ -157,15 +159,25 @@ function render() {
   LAST_POS.clear();
   layout();
   svg.innerHTML = '';
+  const LABELS = [];
   const compact = isMobile();
   const xRoot = compact ? 64 : 104;
   const xCat  = compact ? 170 : 268;
+  const xSub  = xCat + (compact ? 150 : 205);
+  const xLeaf = xSub + (compact ? 165 : 228);
   const cy = H/2 + 6;
 
   const cats = D.categories;
   const n = cats.length;
-  const spread = Math.min(compact ? 84 : 112, (H - 190) / (n - 1));
+  const spread = Math.min(compact ? 84 : 112, (H - 190) / Math.max(n - 1, 1));
   const yOf = i => cy + (i - (n-1)/2) * spread;
+
+  // nervio con curvatura (dobla hacia el lado del destino)
+  const nerve = (x1, y1, x2, y2, stroke, w, dy0=2) => {
+    const bow = (y2 >= y1 ? 1 : -1) * 22;
+    mk('path', {d: `M ${x1} ${y1+dy0} C ${x1+56} ${y1+bow}, ${x2-40} ${y2}, ${x2-8} ${y2}`,
+      class:'branch draw', stroke, 'stroke-width': w});
+  };
 
   // tronco
   const tg = mk('g', {});
@@ -173,84 +185,119 @@ function render() {
   mk('text', {x:xRoot, y:cy+5, fill:'#7dd3fc', 'font-size':14, 'font-weight':700, 'text-anchor':'middle'}, tg)
     .textContent = 'st';
   mk('text', {x:xRoot, y:cy+56, fill:'#eef2f7', 'font-size':11.5, 'text-anchor':'middle',
-      style:'paint-order:stroke;stroke:#0b0f17;stroke-width:3px'}, tg)
+    style:'paint-order:stroke;stroke:#0b0f17;stroke-width:3px'}, tg)
     .textContent = 'software-tools';
+
+  // hojas de una lista: primero TODOS los nervios, luego nodos+etiquetas
+  const drawLeaves = (tl, srcX, srcY, xCol, color) => {
+    if (!tl.length) return;
+    const sp = 40;
+    const fanH = (tl.length - 1) * sp;
+    const availTop = 84, availBot = H - 48;
+    const cyF = Math.max(availTop + fanH/2, Math.min(availBot - fanH/2, srcY));
+    for (const [k, t] of tl.entries()) {
+      const ty = cyF - fanH/2 + k * sp;
+      LAST_POS.set(t.slug, [xCol, ty]);
+      const sel = state.selected === t.slug;
+      nerve(srcX, srcY, xCol - 8, ty, sel ? '#eef2f7' : `rgba(${hex2rgb(color)},0.55)`, sel ? 1.8 : 1.3, 16);
+    }
+    for (const [k, t] of tl.entries()) {
+      const [lx, ty] = LAST_POS.get(t.slug);
+      const sel = state.selected === t.slug;
+      const lg = mk('g', {class:'node leaf-pop', style:`animation-delay:${Math.min(k*16,420)}ms`,
+        title: t.name + ' · ' + t.year});
+      mk('circle', {class:'kk', cx:lx, cy:ty, r: sel ? 7.5 : 6,
+        fill: sel ? '#eef2f7' : color, stroke:'#0b0f17', 'stroke-width':1}, lg);
+      const lbl = mk('text', {x:lx+12, y:ty+3.5, class:'leafLbl' + (sel ? ' sel' : '')}, lg);
+      lbl.textContent = `${short(t.name, compact ? 16 : 24)} · ${t.year}`;
+      lg.addEventListener('click', () => selectTool(t.slug));
+    }
+  };
 
   cats.forEach((cat, i) => {
     const y = yOf(i);
     const color = colorOf(cat.slug);
-    const expanded = state.expanded === cat.slug;
+    const open = state.cat === cat.slug;
 
     // rama principal (curva orgánica), arranca en el borde del tronco
     const dxT = xCat - xRoot, dyT = y - cy, lenT = Math.hypot(dxT, dyT) || 1;
     const sx0 = xRoot + 34*dxT/lenT, sy0 = cy + 34*dyT/lenT;
     const c1x = xRoot + (xCat - xRoot)*0.45, c1y = y + (i%2 ? 26 : -26);
     const d = `M ${sx0} ${sy0} C ${c1x} ${cy}, ${c1x} ${c1y}, ${xCat} ${y}`;
-    mk('path', {d, class:'branch' + (expanded ? '' : ' draw'), stroke: `rgba(${hex2rgb(color)},${expanded?0.9:0.5})`});
-    if (expanded) mk('path', {d, class:'branch draw', stroke: color, 'stroke-width': 2});
+    mk('path', {d, class:'branch' + (open ? '' : ' draw'), stroke: `rgba(${hex2rgb(color)},${open?0.9:0.5})`});
+    if (open) mk('path', {d, class:'branch draw', stroke: color, 'stroke-width': 2});
 
     // nodo de categoría
     const g = mk('g', {class:'node', title: cat.label});
-    mk('circle', {class:'kk', cx:xCat, cy:y, r:24, fill:'#101826', stroke:color, 'stroke-width': expanded?2.4:1.6}, g);
+    mk('circle', {class:'kk', cx:xCat, cy:y, r:24, fill:'#101826', stroke:color, 'stroke-width': open?2.4:1.6}, g);
     mk('text', {x:xCat, y:y+4, fill:color, 'font-size':10.5, 'text-anchor':'middle', 'font-weight':700}, g)
       .textContent = cat.count;
-    mk('text', {x:xCat+30, y:y-9, fill: expanded ? '#eef2f7' : '#98a2b3', 'font-size':12,
-      style:'paint-order:stroke;stroke:#0b0f17;stroke-width:3px'}, g)
-      .textContent = cat.label;
-    g.addEventListener('click', () => {
-      state.expanded = expanded ? null : cat.slug;
-      if (state.selected && toolBySlug[state.selected].cat !== cat.slug) state.selected = null;
+    const onCatClick = () => {
+      state.cat = open ? null : cat.slug;
+      state.sub = null;
+      if (state.selected && toolBySlug[state.selected].cat !== state.cat) state.selected = null;
       render();
-    });
+    };
+    LABELS.push({x: xCat+30, y: y-9, text: cat.label, strong: open,
+      size: 12, dim: '#98a2b3', halo: 3, onClick: onCatClick});
+    g.addEventListener('click', onCatClick);
 
-    if (!expanded) return;
+    if (!open) return;
 
-    // hojas: herramientas, en columnas a la derecha del nodo
-    const tools = D.tools.filter(t => t.cat === cat.slug);
-    const availTop = 84, availBot = H - 48;
-    const rowsMax = Math.max(4, Math.floor((availBot - availTop) / 46));
-    let cols = Math.ceil(tools.length / rowsMax);
-    let rowsPerCol = Math.ceil(tools.length / cols);
-    // el abanico no debe desbordar en vertical: si es muy alto, abre otra
-    // columna para quedar pegado a su hub (se percibe de qué rama es)
-    const fanCap = Math.min(620, availBot - availTop);
-    while ((rowsPerCol - 1) * 46 > fanCap && cols < 4) {
-      cols++; rowsPerCol = Math.ceil(tools.length / cols);
-    }
-    const fanH = (rowsPerCol - 1) * 46;
-    const cyFan = Math.max(availTop + fanH/2, Math.min(availBot - fanH/2, y));
-    const baseX = xCat + (compact ? 110 : 190);
-    const leaves = tools.map((t, k) => {
-      const col = Math.floor(k / rowsPerCol), row = k % rowsPerCol;
-      const x = baseX + col * (compact ? 150 : 200);
-      const ty = cyFan - fanH/2 + row * 46;
-      LAST_POS.set(t.slug, [x, ty]);
-      return {t, k, x, ty, sel: state.selected === t.slug};
-    });
-    // 1) primero TODOS los nervios (quedan debajo de las etiquetas)
-    for (const {x, ty, sel} of leaves) {
-      const nx = xCat + 24, ny = y;
-      const cd = `M ${nx} ${ny+2} C ${nx+54} ${ny+22}, ${x-40} ${ty}, ${x-8} ${ty}`;
-      mk('path', {d: cd, class:'branch' + (sel ? '' : ' draw'),
-        stroke: sel ? '#eef2f7' : `rgba(${hex2rgb(color)},0.55)`, 'stroke-width': sel ? 1.8 : 1.3});
-    }
-    // 2) luego nodos + etiquetas por encima
-    for (const {t, k, x, ty, sel} of leaves) {
-      const lg = mk('g', {class:'node leaf-pop', style:`animation-delay:${Math.min(k*16,420)}ms`,
-        title: t.name + ' · ' + t.year});
-      mk('circle', {class:'kk', cx:x, cy:ty, r: sel ? 7.5 : 6,
-        fill: sel ? '#eef2f7' : color, stroke:'#0b0f17', 'stroke-width':1}, lg);
-      const lbl = mk('text', {x:x+12, y:ty+3.5, class:'leafLbl' + (sel ? ' sel' : '')}, lg);
-      lbl.textContent = `${short(t.name, cols > 1 ? 20 : (compact ? 16 : 24))} · ${t.year}`;
-      lg.addEventListener('click', () => selectTool(t.slug));
-    }
+    const subs = cat.subs || [];
+    if (subs.length) {
+      // segundo anillo: familias (fan vertical propio, clampado al viewport)
+      const ns = subs.length;
+      const spreadS = Math.min(compact ? 44 : 58, (H - 170) / Math.max(ns - 1, 1));
+      let sh = 0;
+      const top0 = y - (ns-1)/2 * spreadS, bot0 = y + (ns-1)/2 * spreadS;
+      if (bot0 > H - 40) sh -= bot0 - (H - 40);
+      if (top0 + sh < 86) sh += 86 - (top0 + sh);
+      const yS = k => y + (k - (ns-1)/2) * spreadS + sh;
 
+      // nervios (salida radial del hub) primero; etiquetas al final (z-order global)
+      subs.forEach((s, k) => {
+        const yy = yS(k);
+        const ax = xSub-xCat, ay = yy-y, al = Math.hypot(ax, ay) || 1;
+        nerve(xCat+26*ax/al, y+26*ay/al, xSub-16, yy, `rgba(${hex2rgb(color)},0.5)`, 1.3, 16);
+      });
+      subs.forEach((s, k) => {
+        const yy = yS(k);
+        const openS = state.sub === s.slug;
+        const sg = mk('g', {class:'node', title: s.label});
+        mk('circle', {class:'kk', cx:xSub, cy:yy, r:14, fill:'#101826', stroke:color, 'stroke-width': openS?2:1.4}, sg);
+        mk('text', {x:xSub, y:yy+3.5, fill:color, 'font-size':8.5, 'text-anchor':'middle', 'font-weight':700}, sg)
+          .textContent = s.count;
+        const onClick = () => {
+          state.sub = openS ? null : s.slug;
+          if (state.selected && toolBySlug[state.selected].sub !== state.sub) state.selected = null;
+          render();
+        };
+        LABELS.push({x: xSub+26, y: yy+3.5, text: short(s.label, compact ? 20 : 28),
+          strong: openS, size: 10.5, dim: '#9aa7ba', halo: 3.5, onClick});
+        sg.addEventListener('click', onClick);
+        if (!openS) return;
+        const tl = D.tools.filter(t => t.sub === s.slug);
+        drawLeaves(tl, xSub+14, yy, xLeaf, color);
+      });
+    } else {
+      // categoría plana (≤ umbral): herramientas directas
+      const tl = D.tools.filter(t => t.cat === cat.slug);
+      drawLeaves(tl, xCat+26, y, xSub, color);
+    }
   });
-  if (state.selected) drawLinksFor(state.selected);
-}
 
-function clampY(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-function hex2rgb(h){const v=parseInt(h.slice(1),16);return `${(v>>16)&255},${(v>>8)&255},${v&255}`;}
+  if (state.selected) drawLinksFor(state.selected);
+
+  // etiquetas al final: por encima de todas las curvas
+  for (const L of LABELS) {
+    const el = mk('text', {x:L.x, y:L.y, 'font-size': L.size,
+      fill: L.strong ? '#eef2f7' : L.dim,
+      style:`paint-order:stroke;stroke:#0b0f17;stroke-width:${L.halo}px;cursor:pointer`});
+    el.textContent = L.text;
+    el.addEventListener('click', L.onClick);
+  }
+}
 
 function drawLinksFor(slug) {
   const t = toolBySlug[slug]; if (!t) return;
@@ -269,7 +316,7 @@ function drawLinksFor(slug) {
 
 function selectTool(slug, {expand=true} = {}) {
   const t = toolBySlug[slug]; if (!t) return;
-  if (expand) state.expanded = t.cat;
+  if (expand) { state.cat = t.cat; state.sub = t.sub || null; }
   state.selected = slug;
   render();
   openPanel(t);
@@ -281,9 +328,11 @@ function openPanel(t) {
   panel.classList.add('is-open');
   panel.setAttribute('aria-hidden','false');
   const cat = catBySlug[t.cat];
+  const sub = t.sub ? (cat.subs.find(s => s.slug === t.sub) || null) : null;
   const years = t.until ? `${t.year} – ${t.until}` : `desde ${t.year}`;
+  const path = [cat ? cat.label : t.cat, sub ? sub.label : null].filter(Boolean).join(' → ');
   pinner.innerHTML = `
-    <div class="panel__meta">${cat ? cat.label : t.cat} · ${years}</div>
+    <div class="panel__meta">${path} · ${years}</div>
     <h2>${t.name}</h2>
     <p class="ctx">${t.ctx}</p>
     ${t.tags.length ? `<h3>Tags</h3><div class="chips">${t.tags.map(g => `<button data-tag="${g}">${g}</button>`).join('')}</div>` : ''}
@@ -300,7 +349,9 @@ function openPanel(t) {
 }
 function closePanel() { document.body.classList.remove('panel-open'); panel.classList.remove('is-open'); panel.setAttribute('aria-hidden','true'); }
 document.getElementById('pclose').addEventListener('click', closePanel);
-document.getElementById('collapse').addEventListener('click', () => { state.expanded = null; state.selected = null; render(); });
+document.getElementById('collapse').addEventListener('click', () => {
+  state.cat = null; state.sub = null; state.selected = null; render();
+});
 
 /* ---------- búsqueda ---------- */
 const INDEX = D.tools.map(t => ({t, hay:(t.name+' '+t.slug+' '+t.tags.join(' ')+' '+t.ctx).toLowerCase()}));
@@ -323,7 +374,9 @@ function runSearch(q) {
   if (!res.length) { ddEl.innerHTML = `<div class="empty">sin resultados para «${q.trim()}»</div>`; ddEl.classList.add('is-open'); return; }
   res.forEach(t => {
     const b = document.createElement('button');
-    b.innerHTML = `${t.name}<span>${(catBySlug[t.cat]||{label:t.cat}).label} · ${t.year}</span>`;
+    const cat = catBySlug[t.cat];
+    const sub = t.sub ? (cat.subs.find(s => s.slug === t.sub) || null) : null;
+    b.innerHTML = `${t.name}<span>${[cat ? cat.label : t.cat, sub ? sub.label : null].filter(Boolean).join(' → ')} · ${t.year}</span>`;
     b.addEventListener('click', () => { ddEl.classList.remove('is-open'); qEl.value=''; selectTool(t.slug); });
     ddEl.appendChild(b);
   });
@@ -343,9 +396,9 @@ document.addEventListener('keydown', e => {
 /* ---------- arranque ---------- */
 render();
 const qs = new URLSearchParams(location.search);
-const dt = qs.get('tool'), dc = qs.get('cat');
+const dt = qs.get('tool'), dc = qs.get('cat'), ds = qs.get('sub');
 if (dt && toolBySlug[dt]) selectTool(dt);
-else if (dc && catBySlug[dc]) { state.expanded = dc; render(); }
+else if (dc && catBySlug[dc]) { state.cat = dc; if (ds) state.sub = ds; render(); }
 })();
 </script>
 </body>

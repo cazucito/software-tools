@@ -5,32 +5,111 @@ window.ST_DATA = {
   {
    "slug": "database",
    "label": "Bases de datos",
-   "count": 4
+   "count": 4,
+   "subs": []
   },
   {
    "slug": "editor",
    "label": "Editores",
-   "count": 10
+   "count": 10,
+   "subs": [
+    {
+     "slug": "ides",
+     "label": "IDEs",
+     "count": 5
+    },
+    {
+     "slug": "editores-de-codigo",
+     "label": "Editores de código",
+     "count": 3
+    },
+    {
+     "slug": "escritura-cientifica",
+     "label": "Escritura científica",
+     "count": 2
+    }
+   ]
   },
   {
    "slug": "infra",
    "label": "Infraestructura",
-   "count": 4
+   "count": 4,
+   "subs": []
   },
   {
    "slug": "lenguaje",
    "label": "Lenguajes",
-   "count": 7
+   "count": 7,
+   "subs": [
+    {
+     "slug": "borland",
+     "label": "Borland",
+     "count": 4
+    },
+    {
+     "slug": "basic",
+     "label": "BASIC",
+     "count": 3
+    }
+   ]
   },
   {
    "slug": "os",
    "label": "Sistemas operativos",
-   "count": 3
+   "count": 3,
+   "subs": []
   },
   {
    "slug": "tool",
    "label": "Herramientas",
-   "count": 29
+   "count": 29,
+   "subs": [
+    {
+     "slug": "navegadores",
+     "label": "Navegadores",
+     "count": 4
+    },
+    {
+     "slug": "correo",
+     "label": "Correo",
+     "count": 2
+    },
+    {
+     "slug": "archivos-y-respaldo",
+     "label": "Archivos y respaldo",
+     "count": 6
+    },
+    {
+     "slug": "diagramacion",
+     "label": "Diagramación y conocimiento",
+     "count": 6
+    },
+    {
+     "slug": "calculo-e-ingenieria",
+     "label": "Cálculo e ingeniería",
+     "count": 5
+    },
+    {
+     "slug": "ofimatica",
+     "label": "Ofimática",
+     "count": 2
+    },
+    {
+     "slug": "arte-ascii",
+     "label": "Arte ASCII",
+     "count": 2
+    },
+    {
+     "slug": "mantenimiento",
+     "label": "Mantenimiento",
+     "count": 1
+    },
+    {
+     "slug": "agentes-ia",
+     "label": "Agentes de IA",
+     "count": 1
+    }
+   ]
   }
  ],
  "tools": [
@@ -40,6 +119,7 @@ window.ST_DATA = {
    "year": 1991,
    "until": 1997,
    "cat": "os",
+   "sub": null,
    "ctx": "El sistema operativo donde aprendí que la computadora hace exactamente lo que le dices, no lo que quieres.",
    "tags": [
     "dos",
@@ -70,6 +150,7 @@ window.ST_DATA = {
    "year": 1991,
    "until": 1998,
    "cat": "tool",
+   "sub": "archivos-y-respaldo",
    "ctx": "El estándar de compresión que definió el formato ZIP. Antes de WinZip, antes de Windows, estaba Phil Katz y su PKZIP en línea de comandos.",
    "tags": [
     "compression",
@@ -91,6 +172,7 @@ window.ST_DATA = {
    "year": 1991,
    "until": 1993,
    "cat": "lenguaje",
+   "sub": "basic",
    "ctx": "Mi primera experiencia con programación. El intérprete incluido en DOS que me enseñó qué era un bucle, una variable, y la satisfacción de hacer que la computadora hiciera lo que yo quería.",
    "tags": [
     "basic",
@@ -111,6 +193,7 @@ window.ST_DATA = {
    "year": 1992,
    "until": 1996,
    "cat": "tool",
+   "sub": "ofimatica",
    "ctx": "La hoja de cálculo dominante antes de Excel. Aprendí a hacer presupuestos y análisis de datos en la interfaz de menús de Lotus.",
    "tags": [
     "spreadsheet",
@@ -132,6 +215,7 @@ window.ST_DATA = {
    "year": 1992,
    "until": 1998,
    "cat": "tool",
+   "sub": "archivos-y-respaldo",
    "ctx": "El gestor de archivos que hizo obsoleto el comando DIR. Dos paneles, comandos rápidos, y la interfaz azul legendaria que aún imitan los file managers modernos.",
    "tags": [
     "file-manager",
@@ -154,6 +238,7 @@ window.ST_DATA = {
    "year": 1992,
    "until": 1996,
    "cat": "lenguaje",
+   "sub": "borland",
    "ctx": "Mi primer entorno de desarrollo C. Aprendí punteros, memoria y estructuras en esa pantalla azul con texto amarillo.",
    "tags": [
     "c",
@@ -178,6 +263,7 @@ window.ST_DATA = {
    "year": 1993,
    "until": 1996,
    "cat": "tool",
+   "sub": "arte-ascii",
    "ctx": "El programa para hacer banners ASCII que usaba en todas las impresiones de la facultad. Mi firma digital antes de que existiera la firma digital.",
    "tags": [
     "ascii-art",
@@ -199,6 +285,7 @@ window.ST_DATA = {
    "year": 1993,
    "until": 1996,
    "cat": "lenguaje",
+   "sub": "borland",
    "ctx": "La evolución de Turbo Pascal con soporte para objetos. Aprendí programación orientada a objetos con este IDE azul legendaria.",
    "tags": [
     "pascal",
@@ -222,6 +309,7 @@ window.ST_DATA = {
    "year": 1993,
    "until": 1997,
    "cat": "tool",
+   "sub": "calculo-e-ingenieria",
    "ctx": "La alternativa canadiense a Mathematica. Más barata, más accesible, y con capacidades simbólicas comparables. Mi herramienta de matemáticas simbólicas preferida.",
    "tags": [
     "maple",
@@ -242,6 +330,7 @@ window.ST_DATA = {
    "year": 1994,
    "until": 1998,
    "cat": "tool",
+   "sub": "correo",
    "ctx": "Mi primer cliente de email serio. En tiempos donde Outlook no existía, Eudora era el estándar para gestionar correo electrónico por POP3.",
    "tags": [
     "email",
@@ -263,6 +352,7 @@ window.ST_DATA = {
    "year": 1994,
    "until": 2000,
    "cat": "tool",
+   "sub": "calculo-e-ingenieria",
    "ctx": "El estándar para computación numérica en ingeniería. Resolví sistemas de ecuaciones, hice simulaciones y grafiqué funciones complejas sin escribir código de bajo nivel.",
    "tags": [
     "matlab",
@@ -286,6 +376,7 @@ window.ST_DATA = {
    "year": 1995,
    "until": 1998,
    "cat": "editor",
+   "sub": "escritura-cientifica",
    "ctx": "Editor científico usado para mi tesis de licenciatura, especialmente valioso por su manejo correcto de caracteres chinos.",
    "tags": [
     "dos",
@@ -308,6 +399,7 @@ window.ST_DATA = {
    "year": 1995,
    "until": 1998,
    "cat": "tool",
+   "sub": "calculo-e-ingenieria",
    "ctx": "Computación simbólica que parecía magia. Resolver integrales simbólicamente, simplificar expresiones algebraicas complejas, y obtener resultados exactos en lugar de aproximaciones numéricas.",
    "tags": [
     "mathematica",
@@ -330,6 +422,7 @@ window.ST_DATA = {
    "year": 1995,
    "until": 1998,
    "cat": "tool",
+   "sub": "navegadores",
    "ctx": "Mi primer navegador web. La ventana al mundo de Internet en tiempos donde la conexión era por modem y hacías cola para usar la computadora con Internet en la facultad.",
    "tags": [
     "browser",
@@ -352,6 +445,7 @@ window.ST_DATA = {
    "year": 1995,
    "until": 1998,
    "cat": "os",
+   "sub": null,
    "ctx": "El sistema operativo que mató a DOS. La transición de la línea de comandos a la interfaz gráfica fue traumática y emocionante a la vez.",
    "tags": [
     "windows",
@@ -378,6 +472,7 @@ window.ST_DATA = {
    "year": 1996,
    "until": null,
    "cat": "lenguaje",
+   "sub": "borland",
    "ctx": "El siguiente paso de Turbo C. Un C++ completo de Borland para cuando los proyectos crecieron más allá del C puro.",
    "tags": [
     "c",
@@ -398,6 +493,7 @@ window.ST_DATA = {
    "year": 1996,
    "until": null,
    "cat": "lenguaje",
+   "sub": "borland",
    "ctx": "La evolución de Borland Pascal hacia RAD. El mismo Pascal que aprendí, ahora con componentes visuales y compilador nativo.",
    "tags": [
     "pascal",
@@ -419,6 +515,7 @@ window.ST_DATA = {
    "year": 1996,
    "until": 2000,
    "cat": "tool",
+   "sub": "calculo-e-ingenieria",
    "ctx": "El laboratorio de electrónica virtual. Armaba circuitos en la pantalla, conectaba osciloscopios virtuales, y veía el comportamiento antes de soldar componentes reales.",
    "tags": [
     "circuit",
@@ -440,6 +537,7 @@ window.ST_DATA = {
    "year": 1996,
    "until": null,
    "cat": "tool",
+   "sub": "arte-ascii",
    "ctx": "El arte ASCII hecho programa. En el mundo Unix encontré lo que Bannermania hacía en DOS: letras grandes desde la terminal.",
    "tags": [
     "ascii-art",
@@ -459,6 +557,7 @@ window.ST_DATA = {
    "year": 1996,
    "until": null,
    "cat": "tool",
+   "sub": "ofimatica",
    "ctx": "La hoja de cálculo que reemplazó a Lotus 1-2-3 en mi trabajo. Cuando la industria migró a Windows, mis presupuestos migraron con ella.",
    "tags": [
     "spreadsheet",
@@ -479,6 +578,7 @@ window.ST_DATA = {
    "year": 1996,
    "until": 2005,
    "cat": "tool",
+   "sub": "archivos-y-respaldo",
    "ctx": "El salvavidas de los administradores de sistemas. Crear imágenes exactas de discos duros y restaurarlas en minutos era magia en la época.",
    "tags": [
     "backup",
@@ -502,6 +602,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "tool",
+   "sub": "diagramacion",
    "ctx": "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004.",
    "tags": [
     "ideas",
@@ -523,6 +624,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": 2004,
    "cat": "tool",
+   "sub": "navegadores",
    "ctx": "El navegador que venía con Windows y dominó los primeros años de la web masiva. Llegó cuando Netscape empezó a ceder.",
    "tags": [
     "browser",
@@ -545,6 +647,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "editor",
+   "sub": "escritura-cientifica",
    "ctx": "El sistema de composición con el que escribir ciencia dejó de ser un problema de formato. Sucesor natural de Chi Writer en mi camino académico.",
    "tags": [
     "latex",
@@ -565,6 +668,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "database",
+   "sub": null,
    "ctx": "La base de datos de escritorio de Office. Rápida para prototipos y formularios, compañera natural de Visual Basic.",
    "tags": [
     "database",
@@ -585,6 +689,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "tool",
+   "sub": "correo",
    "ctx": "El relevo de Eudora en mi escritorio. Outlook juntó correo, calendario y contactos en una sola aplicación.",
    "tags": [
     "email",
@@ -605,6 +710,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "tool",
+   "sub": "diagramacion",
    "ctx": "El estándar corporativo de los mapas mentales (Mindjet, hoy Corel): planear y presentar información en mapas interactivos. Edición 2020.",
    "tags": [
     "mapas-mentales",
@@ -626,6 +732,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "tool",
+   "sub": "diagramacion",
    "ctx": "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain.",
    "tags": [
     "mapas-mentales",
@@ -645,6 +752,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": 2002,
    "cat": "lenguaje",
+   "sub": "basic",
    "ctx": "RAD (Rapid Application Development) en su máxima expresión. Arrastrar, soltar, y tener una aplicación Windows funcionando en minutos. Revolucionario para la época.",
    "tags": [
     "visual-basic",
@@ -668,6 +776,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "tool",
+   "sub": "archivos-y-respaldo",
    "ctx": "El ZIP con ventanas. Cuando dejé el DOS atrás, WinZip hizo cómodo comprimir y descomprimir sin memorizar comandos.",
    "tags": [
     "zip",
@@ -687,6 +796,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "os",
+   "sub": null,
    "ctx": "El Windows de la transición. Con USB y FAT32, fue la base donde vivieron mis herramientas de finales de los 90.",
    "tags": [
     "windows",
@@ -712,6 +822,7 @@ window.ST_DATA = {
    "year": 1998,
    "until": null,
    "cat": "tool",
+   "sub": "archivos-y-respaldo",
    "ctx": "El gestor de archivos que vino con Windows y jubiló a Norton Commander. Menos comandos, más clics — y estaba en todas partes.",
    "tags": [
     "file-manager",
@@ -731,6 +842,7 @@ window.ST_DATA = {
    "year": 1999,
    "until": 2015,
    "cat": "infra",
+   "sub": null,
    "ctx": "La revolución de la virtualización x86. Correr Windows dentro de Windows, o Linux dentro de Windows, sin reiniciar. Cambió mi forma de probar software y sistemas operativos.",
    "tags": [
     "virtualization",
@@ -756,6 +868,7 @@ window.ST_DATA = {
    "year": 2000,
    "until": null,
    "cat": "tool",
+   "sub": "calculo-e-ingenieria",
    "ctx": "La continuación de Electronics Workbench tras su integración a National Instruments. El mismo laboratorio virtual, en otra casa.",
    "tags": [
     "electronics",
@@ -775,6 +888,7 @@ window.ST_DATA = {
    "year": 2000,
    "until": 2018,
    "cat": "editor",
+   "sub": "ides",
    "ctx": "El IDE oficial de Sun (luego Oracle). Usado intensivamente durante mis años de docencia de cursos Oracle. Maven integrado y soporte Java EE nativo.",
    "tags": [
     "ide",
@@ -798,6 +912,7 @@ window.ST_DATA = {
    "year": 2000,
    "until": null,
    "cat": "database",
+   "sub": null,
    "ctx": "El estándar empresarial que estudié y enseñé durante mis años de docencia Oracle. La referencia de las bases de datos relacionales.",
    "tags": [
     "database",
@@ -819,6 +934,7 @@ window.ST_DATA = {
    "year": 2000,
    "until": null,
    "cat": "tool",
+   "sub": "mantenimiento",
    "ctx": "Suite de mantenimiento de Windows de iolo technologies: registro, disco y rendimiento. Se conserva el instalador de la versión 3.2d (2000).",
    "tags": [
     "windows",
@@ -836,6 +952,7 @@ window.ST_DATA = {
    "year": 2001,
    "until": 2009,
    "cat": "editor",
+   "sub": "ides",
    "ctx": "Mi IDE de Java durante 8 años. De lo mejor del software libre, aunque eventualmente el peso de los plugins y la lentitud me hicieron buscar alternativas.",
    "tags": [
     "ide",
@@ -859,6 +976,7 @@ window.ST_DATA = {
    "year": 2001,
    "until": null,
    "cat": "tool",
+   "sub": "diagramacion",
    "ctx": "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2.",
    "tags": [
     "uml",
@@ -879,6 +997,7 @@ window.ST_DATA = {
    "year": 2002,
    "until": 2004,
    "cat": "editor",
+   "sub": "ides",
    "ctx": "IDE de Java ligero y compilado nativamente para Windows, freeware de GExperts (creadores de GExperts para Delphi). Alternativa al JDK puro con autocompletado, ayuda de parámetros y gestión de proyectos.",
    "tags": [
     "ide",
@@ -900,6 +1019,7 @@ window.ST_DATA = {
    "year": 2002,
    "until": null,
    "cat": "lenguaje",
+   "sub": "basic",
    "ctx": "El heredero de VB6 en el mundo .NET. Mismo sabor de BASIC, pero sobre una plataforma moderna de verdad.",
    "tags": [
     "vbnet",
@@ -919,6 +1039,7 @@ window.ST_DATA = {
    "year": 2002,
    "until": 2010,
    "cat": "editor",
+   "sub": "ides",
    "ctx": "El IDE definitivo para desarrollo Microsoft. Cuando tuve que trabajar con C# y .NET, Visual Studio fue la única opción seria. Potente pero pesado.",
    "tags": [
     "ide",
@@ -940,6 +1061,7 @@ window.ST_DATA = {
    "year": 2004,
    "until": 2018,
    "cat": "tool",
+   "sub": "navegadores",
    "ctx": "El navegador que rescató la web del monopolio de Internet Explorer. Extensiones, tabs, y el espíritu open source. Mi navegador principal durante más de una década.",
    "tags": [
     "browser",
@@ -961,6 +1083,7 @@ window.ST_DATA = {
    "year": 2005,
    "until": null,
    "cat": "tool",
+   "sub": "archivos-y-respaldo",
    "ctx": "El heredero de Norton Ghost en mis rutinas de respaldo. Imágenes de disco y restauración confiable, con interfaz moderna.",
    "tags": [
     "backup",
@@ -980,6 +1103,7 @@ window.ST_DATA = {
    "year": 2006,
    "until": 2018,
    "cat": "database",
+   "sub": null,
    "ctx": "La herramienta oficial de Oracle para trabajar con sus bases de datos. Gratuita, completa, y el estándar durante mis años de docencia Oracle. Reemplazó a SQL*Plus para desarrollo.",
    "tags": [
     "oracle",
@@ -1001,6 +1125,7 @@ window.ST_DATA = {
    "year": 2007,
    "until": null,
    "cat": "editor",
+   "sub": "ides",
    "ctx": "El IDE que me hizo dejar Eclipse después de 8 años. Cuando probé el refactoring automático supe que no volvería atrás.",
    "tags": [
     "ide",
@@ -1024,6 +1149,7 @@ window.ST_DATA = {
    "year": 2012,
    "until": null,
    "cat": "editor",
+   "sub": "editores-de-codigo",
    "ctx": "El editor que demostró que la velocidad vuelve a importar. Antes de VS Code, fue el estándar de facto de los editores modernos.",
    "tags": [
     "editor",
@@ -1043,6 +1169,7 @@ window.ST_DATA = {
    "year": 2013,
    "until": null,
    "cat": "infra",
+   "sub": null,
    "ctx": "La revolución de los contenedores. Empaquetar aplicaciones con todas sus dependencias y desplegarlas en cualquier lado. Cambió mi forma de desarrollar y desplegar software.",
    "tags": [
     "docker",
@@ -1064,6 +1191,7 @@ window.ST_DATA = {
    "year": 2013,
    "until": null,
    "cat": "tool",
+   "sub": "diagramacion",
    "ctx": "La octava generación del brain de TheBrain Technologies: búsqueda inteligente, nueva interfaz y servicios en la nube. Instalador 8.0.1.3.",
    "tags": [
     "mapas-mentales",
@@ -1084,6 +1212,7 @@ window.ST_DATA = {
    "year": 2014,
    "until": null,
    "cat": "editor",
+   "sub": "editores-de-codigo",
    "ctx": "El editor hackeable de GitHub. Intentó ser todo para todos, con tecnologías web dentro de un editor.",
    "tags": [
     "editor",
@@ -1103,6 +1232,7 @@ window.ST_DATA = {
    "year": 2015,
    "until": null,
    "cat": "infra",
+   "sub": null,
    "ctx": "El estándar de orquestación de contenedores. Cuando Docker resolvió el empaquetado, Kubernetes resolvió el despliegue a escala. Cambió cómo pienso la infraestructura.",
    "tags": [
     "kubernetes",
@@ -1123,6 +1253,7 @@ window.ST_DATA = {
    "year": 2015,
    "until": null,
    "cat": "infra",
+   "sub": null,
    "ctx": "La virtualización que sobrevive a todo. Cuando VMware se volvió corporativo, VirtualBox siguió siendo el laboratorio gratuito en cualquier máquina.",
    "tags": [
     "virtualization",
@@ -1142,6 +1273,7 @@ window.ST_DATA = {
    "year": 2015,
    "until": null,
    "cat": "editor",
+   "sub": "editores-de-codigo",
    "ctx": "El editor que conquistó al mundo. Ligero, extensible, y gratuito. Pasó de ser el nuevo chico a ser el estándar de facto en pocos años. Mi editor principal desde entonces.",
    "tags": [
     "vscode",
@@ -1163,6 +1295,7 @@ window.ST_DATA = {
    "year": 2017,
    "until": null,
    "cat": "tool",
+   "sub": "diagramacion",
    "ctx": "Wireframes de baja fidelidad con estética de boceto dibujado a mano, hoy «Balsamiq Wireframes». Se conserva el instalador de escritorio 3.5.14.",
    "tags": [
     "wireframes",
@@ -1182,6 +1315,7 @@ window.ST_DATA = {
    "year": 2018,
    "until": null,
    "cat": "database",
+   "sub": null,
    "ctx": "El IDE de bases de datos de JetBrains. Consistencia total con IntelliJ y refactorización de SQL de verdad.",
    "tags": [
     "database",
@@ -1202,6 +1336,7 @@ window.ST_DATA = {
    "year": 2018,
    "until": null,
    "cat": "tool",
+   "sub": "navegadores",
    "ctx": "El navegador de la madurez. Cuando Firefox cedió terreno, Chrome ya era la infraestructura silenciosa de la web.",
    "tags": [
     "browser",
@@ -1221,6 +1356,7 @@ window.ST_DATA = {
    "year": 2025,
    "until": 2026,
    "cat": "tool",
+   "sub": "agentes-ia",
    "ctx": "Asistente personal de IA open source: corre en tu propia máquina y usa tus apps de mensajería como interfaz. Lo usé desde su publicación hasta el 22 de abril de 2026.",
    "tags": [
     "ai",
