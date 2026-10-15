@@ -4,7 +4,7 @@
 
 ## Visión del proyecto
 
-software-tools es mi archivo personal de herramientas utilizadas en más de veinte años de docencia e ingeniería. No es un catálogo genérico: es una **línea de tiempo evolutiva** con historia personal — 48 fichas, de 1991 a hoy.
+software-tools es mi archivo personal de herramientas utilizadas en más de veinte años de docencia e ingeniería. No es un catálogo genérico: es un **mapa evolutivo** (categorías → familias → herramientas, 1991 → hoy) con historia personal — 57 fichas.
 
 ## Voz y decisiones de contenido
 
@@ -18,8 +18,8 @@ Al agregar una herramienta: slug único kebab-case; año preciso si se conoce; 3
 
 ## Estado actual
 
-- **v2 en vivo** (Astro + GitHub Pages): `https://cazucito.github.io/software-tools`
-- **v3 en construcción** (PHP + SQLite + 3 modalidades + descargas + es/en): `https://software-tools.pcabrera.com` (placeholder). Especificación: [docs/SPEC.md](docs/SPEC.md) · ADRs 005–008 · [plan v3](docs/plans/2026-10-05-v3-propuesta-arquitectura.md).
+- **v3 en producción** (PHP + SQLite; home = mapa dendrita, UI única — [ADR-012](docs/adr/012-ui-unica-mapa.md)): `https://software-tools.pcabrera.com`. Especificación: [docs/SPEC.md](docs/SPEC.md) · ADRs 005–012 · [plan v3](docs/plans/2026-10-05-v3-propuesta-arquitectura.md).
+- v2 (Astro + GitHub Pages) **retirada**; vive en el tag `archive/pre-mapa-2026-10-15`.
 - Flujo de contenido y comandos: [AGENTS.md](AGENTS.md) · Estado/handoff para agentes: [.agents/](.agents/).
 
 ## Historia
@@ -27,4 +27,4 @@ Al agregar una herramienta: slug único kebab-case; año preciso si se conoce; 3
 - **2005–2018**: sitio Moodle con enlaces de descarga para cursos Oracle.
 - **2018–2025**: GitHub Pages (Jekyll, en desuso).
 - **2025**: rebirth como archivo histórico personal (v2.0.0).
-- **2026**: v3 — aplicación PHP + SQLite con timeline y modalidades seleccionables.
+- **2026**: v3 — aplicación PHP + SQLite; home como mapa mental dendrita (UI única; las tres modalidades iniciales se retiraron).

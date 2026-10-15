@@ -4,7 +4,7 @@
   "header.search_placeholder": "Buscar…",
   "search.placeholder": "Buscar herramienta por nombre, tag o categoría…",
   "search.submit": "Buscar",
-  "footer.prototype": "prototipo v3 · fase 5 — modalidad «:mode» · datos reales del archivo",
+  "footer.prototype": "prototipo v3 · fase 5 · datos reales del archivo",
   "common.home": "el archivo",
   "tool.since": "desde :year",
   "tool.range": ":from — :to",

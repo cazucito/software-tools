@@ -5,7 +5,7 @@ if (!defined('ST_APP')) {
 /**
  * Ficha de herramienta. Variables: $tool, $related, $neighbours, $succTool,
  * $bodyHtml, $notice, $dloads, $hasDlKey, $commentsEnabled, $commentsList,
- * $commentToken, $assets, $mode.
+ * $commentToken, $assets.
  */
 $used  = $tool['used_until'] !== null ? (int) $tool['used_until'] : null;
 $years = $used !== null
@@ -18,9 +18,9 @@ $maxLen = (int) st_config('comments')['max_len'];
 ?>
 <article class="st-tool">
   <nav class="st-crumb" aria-label="Migas">
-    <a href="<?= e(st_url('', ['modo' => $mode])) ?>">← <?= e(st_t('common.home')) ?></a>
+    <a href="<?= e(st_url('')) ?>">← <?= e(st_t('common.home')) ?></a>
     <span class="st-crumb__sep">/</span>
-    <a href="<?= e(st_url('tools', ['modo' => $mode])) ?>"><?= e(st_t('header.catalog')) ?></a>
+    <a href="<?= e(st_url('tools')) ?>"><?= e(st_t('header.catalog')) ?></a>
   </nav>
 
   <?php if (!empty($notice)): ?>
@@ -50,7 +50,7 @@ $maxLen = (int) st_config('comments')['max_len'];
   <aside class="st-succ">
     <span class="st-succ__label"><?= e(st_t('tool.successor')) ?></span>
     <?php if ($succTool): ?>
-    <a class="st-succ__name" href="<?= e(st_url('tools/' . $succTool['slug'], ['modo' => $mode])) ?>"><?= e($succName) ?></a>
+    <a class="st-succ__name" href="<?= e(st_url('tools/' . $succTool['slug'])) ?>"><?= e($succName) ?></a>
     <?php else: ?>
     <strong class="st-succ__name"><?= e($succName) ?></strong>
     <?php endif; ?>
@@ -62,7 +62,7 @@ $maxLen = (int) st_config('comments')['max_len'];
     <h2 class="st-section-title"><?= e(st_t('tool.related')) ?></h2>
     <div class="st-tags">
       <?php foreach ($related as $rel): ?>
-      <a class="st-tag st-tag--link" href="<?= e(st_url('tools/' . $rel['slug'], ['modo' => $mode])) ?>"><?= e($rel['name']) ?> <span class="st-tag__year"><?= e($rel['year']) ?></span></a>
+      <a class="st-tag st-tag--link" href="<?= e(st_url('tools/' . $rel['slug'])) ?>"><?= e($rel['name']) ?> <span class="st-tag__year"><?= e($rel['year']) ?></span></a>
       <?php endforeach; ?>
     </div>
   </section>
@@ -73,7 +73,7 @@ $maxLen = (int) st_config('comments')['max_len'];
     <h2 class="st-section-title"><?= e(st_t('tool.same_category', ['category' => (string) $tool['category']])) ?></h2>
     <div class="st-tags">
       <?php foreach ($sameCat as $rel): ?>
-      <a class="st-tag st-tag--link" href="<?= e(st_url('tools/' . $rel['slug'], ['modo' => $mode])) ?>"><?= e($rel['name']) ?> <span class="st-tag__year"><?= e($rel['year']) ?></span></a>
+      <a class="st-tag st-tag--link" href="<?= e(st_url('tools/' . $rel['slug'])) ?>"><?= e($rel['name']) ?> <span class="st-tag__year"><?= e($rel['year']) ?></span></a>
       <?php endforeach; ?>
     </div>
   </section>
@@ -330,14 +330,14 @@ $maxLen = (int) st_config('comments')['max_len'];
 
   <nav class="st-neighbours" aria-label="Cronología">
     <?php if ($neighbours['prev']): ?>
-    <a class="st-neigh st-neigh--prev" href="<?= e(st_url('tools/' . $neighbours['prev']['slug'], ['modo' => $mode])) ?>">
+    <a class="st-neigh st-neigh--prev" href="<?= e(st_url('tools/' . $neighbours['prev']['slug'])) ?>">
       <span class="st-neigh__dir"><?= e(st_t('tool.prev')) ?></span>
       <span class="st-neigh__name"><?= e($neighbours['prev']['name']) ?></span>
       <span class="st-neigh__year"><?= e($neighbours['prev']['year']) ?></span>
     </a>
     <?php else: ?><span></span><?php endif; ?>
     <?php if ($neighbours['next']): ?>
-    <a class="st-neigh st-neigh--next" href="<?= e(st_url('tools/' . $neighbours['next']['slug'], ['modo' => $mode])) ?>">
+    <a class="st-neigh st-neigh--next" href="<?= e(st_url('tools/' . $neighbours['next']['slug'])) ?>">
       <span class="st-neigh__dir"><?= e(st_t('tool.next')) ?></span>
       <span class="st-neigh__name"><?= e($neighbours['next']['name']) ?></span>
       <span class="st-neigh__year"><?= e($neighbours['next']['year']) ?></span>

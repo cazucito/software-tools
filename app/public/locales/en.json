@@ -4,7 +4,7 @@
   "header.search_placeholder": "Search…",
   "search.placeholder": "Search tools by name, tag or category…",
   "search.submit": "Search",
-  "footer.prototype": "v3 prototype · phase 5 — mode “:mode” · real archive data",
+  "footer.prototype": "v3 prototype · phase 5 · real archive data",
   "common.home": "the archive",
   "tool.since": "since :year",
   "tool.range": ":from — :to",

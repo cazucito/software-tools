@@ -30,11 +30,6 @@ $config = [
         : dirname(__DIR__) . '/public/assets/tools',               // desarrollo
     'base_path'    => null, // null = autodetectar desde SCRIPT_NAME
 
-    // Modalidades (ADR-006)
-    'modes'        => ['cinta', 'linea', 'maquina'],
-    'mode_labels'  => ['cinta' => 'Cinta', 'linea' => 'Línea', 'maquina' => 'Máquina'],
-    'default_mode' => 'linea',
-
     // URLs: 'query' => index.php?p=tools/eudora | 'pretty' => /tools/eudora (requiere rewrite)
     'url_style'    => 'query',
 

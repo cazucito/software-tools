@@ -63,7 +63,7 @@ $hasFilter = !empty($filters['d']) || !empty($filters['c']) || !empty($filters['
     <ol class="st-list">
       <?php foreach ($rows as $t): ?>
       <li class="st-list__item">
-        <a class="st-list__link" href="<?= e(st_url('tools/' . $t['slug'], ['modo' => $mode])) ?>">
+        <a class="st-list__link" href="<?= e(st_url('tools/' . $t['slug'])) ?>">
           <span class="st-list__art"><?= st_tool_art((string) $t['slug'], (string) $t['name'], (int) $t['year'], $icons) ?></span>
           <span class="st-list__year"><?= e($t['year']) ?></span>
           <span class="st-list__name"><?= e($t['name']) ?></span>

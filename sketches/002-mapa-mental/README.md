@@ -19,7 +19,7 @@ Tres físicas para el FUTURO modo único del sitio (reemplaza Cinta/Línea/Máqu
   subdivide en familias; el resto muestra sus herramientas directas.
   Resultado: Herramientas→9, Editores→3, Lenguajes→2; Bases de datos,
   Infraestructura y Sistemas operativos quedan planas.
-- Taxonomía como DATO en `tools/taxonomy.json` (umbral, etiquetas de categoría,
+- Taxonomía como DATO en `content/taxonomy.json` (compartida con el pipeline de producción) (umbral, etiquetas de categoría,
   familias). Recategorizar o añadir categorías = editar ese JSON (+ el catálogo).
   `prep_data.py` aborta sin escribir ante slugs desconocidos, duplicados o una
   herramienta en la categoría equivocada; las herramientas no listadas van a la

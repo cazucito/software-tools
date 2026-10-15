@@ -1,6 +1,6 @@
 # ADR-006 — Modalidades: «tres lenguajes, un archivo»
 
-**Estado:** aceptada (2026-10-05) · **Relacionada:** [SPEC v3](../SPEC.md) · Fase 1 (maquetas en `sketches/001-direcciones-visuales/`)
+**Estado:** reemplazada por [ADR-012](012-ui-unica-mapa.md) (2026-10-15; las tres modalidades se retiraron en favor del mapa) — se conserva como historia · aceptada originalmente (2026-10-05) · **Relacionada:** [SPEC v3](../SPEC.md) · Fase 1 (maquetas en `sketches/001-direcciones-visuales/`)
 
 ## Contexto
 

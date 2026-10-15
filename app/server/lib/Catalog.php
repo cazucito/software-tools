@@ -211,6 +211,96 @@ final class Catalog
     }
 
     /**
+     * Datos del mapa mental de la home (ADR-012): categorías → familias →
+     * herramientas, con la forma exacta que consume assets/js/mapa.js.
+     * Las familias, etiquetas y colores salen de la BD (los escribe el importador
+     * desde content/taxonomy.json); PHP nunca lee ese JSON.
+     *
+     * @return array{categories:list<array<string,mixed>>,tools:list<array<string,mixed>>}
+     */
+    public static function mapData(): array
+    {
+        $pdo = Db::pdo();
+        $tools = self::tools(); // published, year ASC, name ASC
+
+        $count = [];
+        foreach ($tools as $t) {
+            $count[(string) $t['category']] = ($count[(string) $t['category']] ?? 0) + 1;
+        }
+
+        $famRows = $pdo->query('SELECT category, slug, label FROM families ORDER BY category, position')->fetchAll();
+        $famsOf = [];
+        foreach ($famRows as $r) {
+            $famsOf[(string) $r['category']][(string) $r['slug']] = (string) $r['label'];
+        }
+
+        // Familia efectiva por herramienta. Una categoría subdividida cuya ficha no
+        // tiene familia válida (p. ej. recategorizada en el admin) cae a «sin-clasificar».
+        $familyBySlug = $pdo->query('SELECT slug, family FROM tools')->fetchAll(\PDO::FETCH_KEY_PAIR);
+        $famOfTool = [];
+        $famCount = [];
+        foreach ($tools as $t) {
+            $cat = (string) $t['category'];
+            if (!isset($famsOf[$cat])) {
+                continue;
+            }
+            $fam = (string) ($familyBySlug[$t['slug']] ?? '');
+            if (!isset($famsOf[$cat][$fam])) {
+                $fam = 'sin-clasificar';
+                $famsOf[$cat][$fam] ??= 'Sin clasificar';
+            }
+            $famOfTool[(string) $t['slug']] = $fam;
+            $famCount[$cat][$fam] = ($famCount[$cat][$fam] ?? 0) + 1;
+        }
+
+        $catRows = $pdo->query('SELECT slug, name, label_es, color FROM categories ORDER BY name')->fetchAll();
+        $categories = [];
+        foreach ($catRows as $r) {
+            $slug = (string) $r['slug'];
+            if (empty($count[$slug])) {
+                continue;
+            }
+            $subs = [];
+            foreach ($famsOf[$slug] ?? [] as $fslug => $flabel) {
+                if (!empty($famCount[$slug][$fslug])) {
+                    $subs[] = ['slug' => $fslug, 'label' => $flabel, 'count' => $famCount[$slug][$fslug]];
+                }
+            }
+            $categories[] = [
+                'slug'  => $slug,
+                'label' => (string) (($r['label_es'] ?? '') !== '' ? $r['label_es'] : $r['name']),
+                'count' => $count[$slug],
+                'color' => (string) ($r['color'] ?? ''),
+                'subs'  => $subs,
+            ];
+        }
+
+        $rels = [];
+        foreach ($pdo->query(
+            'SELECT tool_id, related_slug FROM tool_relations ORDER BY tool_id, rowid'
+        )->fetchAll() as $r) {
+            $rels[(int) $r['tool_id']][] = (string) $r['related_slug'];
+        }
+
+        $out = [];
+        foreach ($tools as $t) {
+            $out[] = [
+                'slug'  => (string) $t['slug'],
+                'name'  => (string) $t['name'],
+                'year'  => (int) $t['year'],
+                'until' => $t['used_until'] !== null ? (int) $t['used_until'] : null,
+                'cat'   => (string) $t['category'],
+                'sub'   => $famOfTool[(string) $t['slug']] ?? null,
+                'ctx'   => (string) $t['context'],
+                'tags'  => $t['tags'],
+                'rel'   => $rels[(int) $t['id']] ?? [],
+                'succ'  => $t['successor_slug'] !== null ? (string) $t['successor_slug'] : null,
+            ];
+        }
+        return ['categories' => $categories, 'tools' => $out];
+    }
+
+    /**
      * Estadísticas del archivo para los números del copy.
      *
      * @return array<string,mixed>

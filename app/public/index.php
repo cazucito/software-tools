@@ -41,22 +41,9 @@ try {
     }
     I18n::setLang($lang);
 
-    // ----- Modalidad activa (ADR-006) --------------------------------------
-    $modes = st_config('modes');
-    $mode = (string) ($_GET['modo'] ?? '');
-    if (!in_array($mode, $modes, true)) {
-        $mode = (string) st_config('default_mode');
-    }
-
-    // Parámetros que viajan entre páginas (sin p/modo/y).
-    $params = [];
-    foreach ($_GET as $key => $value) {
-        if (!in_array($key, ['p', 'modo', 'y'], true) && is_string($value)) {
-            $params[$key] = $value;
-        }
-    }
-
-    $common = ['mode' => $mode, 'modes' => $modes, 'params' => $params, 'lang' => $lang];
+    // `?modo=` (las tres modalidades de ADR-006, retiradas en ADR-012) se ignora
+    // en silencio: los enlaces viejos siguen respondiendo la página normal.
+    $common = ['lang' => $lang];
 
     // Mapa de íconos (1 query por página) para listas y fichas — ADR-010.
     $common['icons'] = \St\Ops::iconMap();
@@ -69,16 +56,19 @@ try {
         ]);
     };
 
-    // ----- Home: timeline con modalidades ----------------------------------
+    // ----- Home: mapa mental dendrita (ADR-012) -----------------------------
     if ($segments === []) {
-        $timeline = Catalog::timelineData();
-        $timeline['icons'] = \St\Ops::iconMap();
+        $map = Catalog::mapData();
+        $tools = Catalog::tools();
+        $count = count($tools);
+        $minYear = (int) Catalog::stats()['minYear'];
         $canonical = st_abs_url('');
-        View::page('home', $common + [
+        View::page('mapa', $common + [
             'route'       => '',
-            'title'       => 'software-tools — ' . $timeline['stats']['count'] . ' herramientas, una historia (' . $timeline['stats']['minYear'] . ' → hoy)',
-            'description' => 'Archivo personal de software: ' . $timeline['stats']['count'] . ' herramientas de '
-                . $timeline['stats']['minYear'] . ' a hoy, cada una con su historia de uso.',
+            'isMapa'      => true,
+            'title'       => 'software-tools — ' . $count . ' herramientas, una historia (' . $minYear . ' → hoy)',
+            'description' => 'El archivo como mapa: ' . $count . ' herramientas, ' . $minYear
+                . ' → hoy, agrupadas por categoría y familia, cada una con su historia de uso.',
             'canonical'   => $canonical,
             'ogType'      => 'website',
             'jsonLd'      => json_encode([
@@ -89,15 +79,10 @@ try {
                 'description' => 'Archivo personal de software, 1991 → hoy.',
             ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             'stDataJson'  => json_encode(
-                $timeline,
+                $map,
                 JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
             ),
-            'modeScript'  => $mode,
-            'tools'       => $timeline['tools'],
-            'stats'       => $timeline['stats'],
-            'spotlight'   => Catalog::toolBySlug('eudora'),   // fotograma destacado de «Cinta»
-            'featured'    => Catalog::toolBySlug('turbo-c'),  // estación destacada de «Línea»
-            'current'     => Catalog::toolsBySlugs(['docker', 'intellij-idea', 'kubernetes', 'visual-studio-code']),
+            'tools'       => $tools,
         ]);
         exit;
     }
@@ -220,7 +205,7 @@ try {
         }
         $error = Comments::submit($slug, $_POST);
         $flag = $error ?? (!empty(st_config('comments')['direct']) ? 'ok' : 'held');
-        st_redirect(st_url('tools/' . $slug, ['modo' => $mode, 'c' => $flag]) . '#comentarios');
+        st_redirect(st_url('tools/' . $slug, ['c' => $flag]) . '#comentarios');
     }
 
     // ----- Descargas: desbloqueo por clave ----------------------------------
@@ -232,7 +217,7 @@ try {
         }
         $result = Downloads::unlockAll((string) ($_POST['dl_pass'] ?? ''));
         $flag = $result === null ? 'ok' : ($result === 'rate' ? 'rate' : 'wrong');
-        st_redirect(st_url('tools/' . $slug, ['modo' => $mode, 'd' => $flag]) . '#descargas');
+        st_redirect(st_url('tools/' . $slug, ['d' => $flag]) . '#descargas');
     }
 
     // ----- Descargas: streamer ----------------------------------------------

@@ -3,7 +3,7 @@
 
 Dos anillos: categorías → familias → herramientas.
 
-La taxonomía es DATO, no código: vive en tools/taxonomy.json (umbral,
+La taxonomía es DATO, no código: vive en content/taxonomy.json (umbral,
 etiquetas de categoría y familias curadas). Añadir una categoría o
 recategorizar = editar ese JSON (más el catálogo).
 
@@ -16,10 +16,10 @@ Reglas deterministas:
     duplicados, o una herramienta asignada a una categoría que no es la suya.
   - guarda TOTAL: cada herramienta de una categoría subdividida termina en
     exactamente una familia.
-  - cada categoría emite `color`: paleta fija por slug conocido y, para slugs
-    nuevos, hash determinista sobre una paleta de 8 colores.
+  - cada categoría emite `color`: el de `category_colors` del JSON y, para slugs
+    sin color, hash determinista (crc32) sobre una paleta de 8 colores.
 
-Re-generar tras import_catalog.py o al editar taxonomy.json:
+Re-generar tras import_catalog.py o al editar content/taxonomy.json:
   python3 sketches/002-mapa-mental/tools/prep_data.py
 """
 import json
@@ -30,7 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]  # repo/sketches/002-mapa-mental/tools/
 OUT = Path(__file__).resolve().parents[1] / 'data.js'
-TAXONOMY_JSON = Path(__file__).resolve().parent / 'taxonomy.json'
+TAXONOMY_JSON = ROOT / 'content' / 'taxonomy.json'
 
 UNCLASSIFIED = {'slug': 'sin-clasificar', 'label': 'Sin clasificar'}
 
@@ -40,8 +40,8 @@ PALETTE = ['#7dd3fc', '#a78bfa', '#34d399', '#fbbf24', '#f472b6', '#fb923c', '#2
 
 
 def color_of(slug):
-    """Color fijo si es conocido; si no, hash estable (crc32, no hash() de Python)."""
-    return CAT_COLOR.get(slug) or PALETTE[zlib.crc32(slug.encode('utf-8')) % len(PALETTE)]
+    """Color del JSON, o el fijo si es conocido; si no, hash estable (crc32, no hash() de Python)."""
+    return tax.get('category_colors', {}).get(slug) or CAT_COLOR.get(slug) or PALETTE[zlib.crc32(slug.encode('utf-8')) % len(PALETTE)]
 
 
 def fail(msg):

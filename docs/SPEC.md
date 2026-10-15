@@ -122,7 +122,7 @@ URLs **estables** heredadas de v2 (`/tools/…`, `/tags/…`) para no romper enl
 
 ## 6. Features y criterios de aceptación
 
-- **6.1 Timeline-home + modalidades** — cada modo (cinta/línea/máquina) presenta las 50 fichas como recorrido navegable; selector persistente (`localStorage` + `?modo=`); **solo se carga el bundle del modo activo**; `prefers-reduced-motion` → versión estática; sin JS → contenido legible. Default: `linea`.
+- **6.1 Timeline-home + modalidades** — *(reemplazado por [ADR-012](adr/012-ui-unica-mapa.md): la home es el mapa dendrita y no hay modalidades; texto original abajo)* — cada modo (cinta/línea/máquina) presenta las 50 fichas como recorrido navegable; selector persistente (`localStorage` + `?modo=`); **solo se carga el bundle del modo activo**; `prefers-reduced-motion` → versión estática; sin JS → contenido legible. Default: `linea`.
 - **6.2 Fichas** — todos los campos (name, year, usedUntil «en uso» si null, categoría, tags, contexto, cuerpo, sucesora/siguiente versión, relacionadas, imagen/cover). Sección «Descargas» cuando existan archivos; comentarios al final. Navegación anterior/siguiente por año.
 - **6.3 Búsqueda** — FTS5 sobre nombre/contexto/cuerpo/tags; resultados en tiempo real (fetch + debounce); resaltado; ≥95% de consultas <150 ms en local.
 - **6.4 Índices** — tools/tags/categories/decades listan, cuentan y enlazan.

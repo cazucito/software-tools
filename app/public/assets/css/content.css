@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Páginas de contenido (fichas, catálogo, búsqueda) — ADR-012. Antes
+   «mode-linea.css»: conserva sus tokens (slate profundo + sky, Fraunces +
+   Inter); la home usa mapa.css. Los estilos de la portada de «Línea»
+   (hero, camino, estaciones) se retiraron con las tres modalidades.
+   ========================================================================== */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#020617; --ink:#e2e8f0; --muted:#94a3b8; --faint:#334155;
+  --sky:#38bdf8; --line:rgba(148,163,184,.18);
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+}
+:root{
+  --st-bg:var(--bg); --st-ink:var(--ink); --st-muted:var(--muted); --st-faint:var(--faint);
+  --st-accent:var(--sky); --st-line:var(--line);
+  --st-font-body:var(--sans); --st-font-display:var(--serif); --st-font-mono:var(--sans);
+  --st-header-bg:rgba(2,6,23,.92);
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;overflow-x:hidden}

@@ -1,33 +1,34 @@
 # software-tools
 
-Archivo personal del software: **57 herramientas, 1991 → hoy** — cada una con su historia de uso. Pronto: un timeline navegable con tres modalidades, búsqueda, comentarios y descargas personales.
+Archivo personal del software: **57 herramientas, 1991 → hoy** — cada una con su historia de uso. La home es un **mapa mental** navegable (categorías → familias → herramientas) con búsqueda, y cada ficha puede traer descargas personales.
 
 ## Estado
 
-- **v2 — EN VIVO:** [cazucito.github.io/software-tools](https://cazucito.github.io/software-tools) (sitio estático; se retira al desplegar la v3)
-- **v3 — EN CONSTRUCCIÓN:** `software-tools.pcabrera.com` (placeholder público) — aplicación **PHP + SQLite** con timeline (modalidades *cinta / línea / máquina*), búsqueda FTS5, comentarios, descargas con clave por software e idiomas **es/en**.
+- **v3 — EN PRODUCCIÓN:** `software-tools.pcabrera.com` — aplicación **PHP + SQLite**: home = mapa mental dendrita ([ADR-012](docs/adr/012-ui-unica-mapa.md)), búsqueda FTS5, catálogo, fichas, descargas tras contraseña general y panel admin. Interfaz única (las tres modalidades se retiraron).
+- **v2 (Astro / GitHub Pages)** — retirada; vive en el tag `archive/pre-mapa-2026-10-15`.
 
 ## Estructura
 
 | Ruta | Qué es |
 |---|---|
 | `src/content/tools/` | **Las fichas** (Markdown — fuente de autoría de todo) |
+| `content/taxonomy.json` | **Taxonomía autorada**: umbral, etiquetas/colores de categoría y familias del mapa |
 | `app/` | v3: `public/` (docroot), `server/` (PHP), `data/` (`catalog.sqlite` generado) |
 | `ops/` | Importador, verificación de paridad, deploy, tests, reportes |
 | `docs/` | [SPEC](docs/SPEC.md), [ADRs](docs/adr/), planes, notas |
 | `.agents/` | Continuidad para agentes de IA |
-| `sketches/` | Maquetas de concepto de la Fase 1 (las 3 modalidades) |
+| `sketches/` | Maquetas de concepto (002: mapa mental, origen de la UI actual) |
 
 ## Trabajar aquí
 
 ```bash
-# Contenido → base de datos (v3)
+# Contenido (fichas + taxonomía) → base de datos
 python3 ops/tools/import_catalog.py      # regenera app/data/catalog.sqlite
 python3 ops/tools/verify_parity.py       # verifica que nada se perdió (PARIDAD OK)
 
-# Sitio v2 (el que está en vivo)
-npm ci --legacy-peer-deps && npm run dev  # local
-npm run build                             # build de producción
+# Local (PHP 8.1 + SQLite)
+docker run --rm -d --name st-proto -p 127.0.0.1:8091:8091 -v "$PWD":/srv -w /srv php:8.1-cli php -S 0.0.0.0:8091 -t app/public
+rm -f app/data/ops.sqlite && bash ops/tests/e2e.sh   # e2e (borra el ops.sqlite local: rate-limit de login)
 ```
 
 Guía completa para agentes: [AGENTS.md](AGENTS.md) · Índice de documentación: [docs/README.md](docs/README.md).

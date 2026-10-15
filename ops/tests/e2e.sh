@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-# e2e de la Fase 5 — comentarios, admin, descargas con clave, export.
+# e2e de la Fase 5 — comentarios, admin, descargas con clave, export, home (mapa).
 # Uso:   E2E_ADMIN_PASS=<pass> bash ops/tests/e2e.sh [http://127.0.0.1:8091]
 # Corre contra el prototipo local (php -S). Necesita: curl, python3.
 # Requiere config.local.php de desarrollo con override COMPLETO de 'comments'
@@ -27,7 +27,8 @@ H() { curl -s -o "$TMP/body.html" -w '%{http_code}' "$@"; }
 
 echo "== 1. Páginas base =="
 code=$(H "$BASE/index.php");                assert_eq "home 200" 200 "$code"
-code=$(H "$BASE/index.php?modo=cinta");     assert_eq "home cinta 200" 200 "$code"
+code=$(H "$BASE/index.php?modo=cinta");     assert_eq "enlace legacy ?modo=cinta sigue en 200" 200 "$code"
+assert_contains "enlace legacy ?modo=cinta renderiza el mapa" 'id="st-mapa"' "$(cat "$TMP/body.html")"
 code=$(H "$BASE/index.php?p=tools");        assert_eq "catálogo 200" 200 "$code"
 code=$(H "$BASE/index.php?p=search&q=contenedores"); assert_eq "búsqueda 200" 200 "$code"
 code=$(H "$BASE/index.php?p=admin/login");  assert_eq "admin login 200" 200 "$code"
@@ -41,7 +42,7 @@ nloc=$(printf '%s' "$sitemap" | grep -c '<loc>')
 assert_eq "sitemap 60 urls (home+tools+search+57)" 60 "$nloc"
 
 echo "== 2. Ficha (monograma, comentarios, JSON-LD) =="
-code=$(H "$BASE/index.php?p=tools/eudora&modo=linea"); assert_eq "ficha 200" 200 "$code"
+code=$(H "$BASE/index.php?p=tools/eudora&modo=linea"); assert_eq "ficha 200 (con ?modo legacy ignorado)" 200 "$code"
 body=$(cat "$TMP/body.html")
 assert_contains "ficha con monograma (fallback st-art)" 'st-art--mono' "$body"
 assert_contains "ficha con formulario de comentarios" 'st-cform' "$body"
@@ -229,7 +230,18 @@ assert_eq "pendientes limpiados tras marcar exportado" 0 "$n"
 
 echo "== 7b. Escala (ADR-010): hero, filtros, arte =="
 home=$(curl -s "$BASE/")
-assert_contains "home: buscador hero presente" 'st-hero-search' "$home"
+assert_contains "home: contenedor del mapa presente" 'id="st-mapa"' "$home"
+assert_contains "home: <noscript> con el archivo completo" 'Archivo completo (57 herramientas)' "$home"
+printf '%s' "$home" | python3 -c "
+import sys, re, json
+html = sys.stdin.read()
+m = re.search(r'window\.ST_DATA = (\{.*?\});</script>', html, re.S)
+d = json.loads(m.group(1))
+fams = sum(len(c['subs']) for c in d['categories'])
+print(len(d['tools']), fams)
+" > "$TMP/stdata.txt"
+assert_eq "home: ST_DATA con 57 herramientas y 14 familias" "57 14" "$(cat "$TMP/stdata.txt")"
+assert_eq "home: sin formulario de búsqueda del sitio (la búsqueda es la del mapa)" 0 "$(printf '%s' "$home" | grep -c 'class="st-search"')"
 catp=$(curl -s "$BASE/index.php?p=tools")
 assert_contains "catálogo: barra de filtros" 'st-filters' "$catp"
 catd=$(curl -s "$BASE/index.php?p=tools&decada=1990")

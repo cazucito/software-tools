@@ -10,6 +10,15 @@
     "os": "Sistemas operativos",
     "other": "Otros"
   },
+  "category_colors": {
+    "editor": "#7dd3fc",
+    "lenguaje": "#a78bfa",
+    "database": "#34d399",
+    "infra": "#fbbf24",
+    "os": "#f472b6",
+    "tool": "#94a3b8",
+    "other": "#64748b"
+  },
   "families": {
     "tool": [
       {"slug": "navegadores", "label": "Navegadores",

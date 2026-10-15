@@ -1,0 +1,104 @@
+/* ==========================================================================
+   software-tools v3 — mapa.css (home, ADR-012).
+   Mapa mental «dendrita»: categorías → familias → herramientas en un SVG a
+   pantalla completa, con panel de detalle. Port de
+   sketches/002-mapa-mental/b-dendrita. Se carga después de base.css y solo
+   en la home (body.mode-mapa).
+   ========================================================================== */
+:root{
+  --st-bg:#0b0f17; --st-ink:#eef2f7; --st-muted:#98a2b3; --st-faint:#475467;
+  --st-accent:#7dd3fc; --st-line:rgba(152,162,179,.2);
+  --st-font-body:system-ui,sans-serif; --st-font-display:system-ui,sans-serif;
+  --st-font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --st-header-bg:rgba(11,15,23,.82);
+  --panel-w:380px;
+}
+html,body{height:100%}
+body.mode-mapa{overflow:hidden;line-height:normal}
+body.mode-mapa::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(40rem 40rem at 18% 50%,rgba(125,211,252,.06),transparent 60%)}
+.mode-mapa a{color:var(--st-accent)}
+.mode-mapa a:hover{text-decoration:underline}
+
+/* cabecera (la del layout) a todo el ancho, con la búsqueda del mapa */
+.mode-mapa .st-header{z-index:40}
+.mode-mapa .st-header__inner{max-width:none;padding:.6rem 1rem}
+.mode-mapa .st-header__brand{color:var(--st-ink)}
+.mode-mapa .st-header__link{color:var(--st-muted)}
+.mode-mapa .st-header__link:hover{color:var(--st-accent);text-decoration:none}
+.mapa-ui{display:flex;align-items:center;gap:.8rem}
+.mapa-ui button{background:none;border:1px solid var(--st-line);color:var(--st-muted);border-radius:7px;
+  font-family:var(--st-font-mono);font-size:.68rem;letter-spacing:.08em;padding:.34rem .6rem;cursor:pointer}
+.mapa-ui button:hover{color:var(--st-ink);border-color:var(--st-muted)}
+.hd__search{position:relative;width:min(340px,46vw)}
+.hd__search input{width:100%;background:#121826;border:1px solid var(--st-line);border-radius:8px;
+  color:var(--st-ink);font:inherit;font-size:.85rem;padding:.5rem .8rem .5rem 2rem;outline:none}
+.hd__search input:focus{border-color:var(--st-accent)}
+.hd__search::before{content:"⌕";position:absolute;left:.62rem;top:50%;transform:translateY(-54%);
+  color:var(--st-muted);font-size:1rem}
+.dd{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#0f1520;border:1px solid var(--st-line);
+  border-radius:8px;max-height:320px;overflow:auto;display:none;z-index:50}
+.dd.is-open{display:block}
+.dd button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--st-ink);
+  font:inherit;font-size:.82rem;padding:.5rem .8rem;cursor:pointer;border-radius:0;letter-spacing:normal}
+.dd button:hover{background:rgba(125,211,252,.12);color:var(--st-ink)}
+.dd button span{display:block;color:var(--st-muted);font-size:.68rem;font-family:var(--st-font-mono)}
+.dd .empty{color:var(--st-muted);font-size:.78rem;padding:.6rem .8rem}
+
+svg#map{position:fixed;inset:0;width:100%;height:100%;display:block}
+.branch{fill:none;stroke-width:1.6;stroke-linecap:round}
+.branch.draw{stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw .8s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.leaf-pop{animation:pop .38s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.node{cursor:pointer}
+.node:hover .kk{filter:brightness(1.4)}
+svg#map text{font-family:var(--st-font-mono)}
+.leafLbl{font-size:10px;fill:#b7c2d1;pointer-events:none;paint-order:stroke;stroke:#0b0f17;stroke-width:3px;stroke-linejoin:round}
+.leafLbl.sel{fill:var(--st-ink);font-weight:700}
+.link{fill:none;stroke-width:1;opacity:0;animation:fadein .6s ease forwards}
+@keyframes fadein{to{opacity:.85}}
+
+.panel{position:fixed;top:0;right:0;bottom:0;width:var(--panel-w);background:#0e1420;border-left:1px solid var(--st-line);
+  z-index:45;transform:translateX(102%);transition:transform .28s ease;display:flex;flex-direction:column}
+.panel.is-open{transform:none}
+.panel__inner{overflow:auto;padding:4.4rem 1.4rem 2rem}
+.panel__close{position:absolute;top:.7rem;right:.8rem;background:none;border:1px solid var(--st-line);color:var(--st-muted);
+  border-radius:8px;width:2rem;height:2rem;font-size:1rem;cursor:pointer}
+.panel__close:hover{color:var(--st-ink)}
+.panel__meta{font-family:var(--st-font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--st-muted)}
+.panel h2{font-size:1.35rem;margin:.25rem 0 .7rem}
+.panel p.ctx{font-size:.9rem;line-height:1.6}
+.panel h3{font-family:var(--st-font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--st-muted);margin:1.1rem 0 .4rem}
+.chips{display:flex;flex-wrap:wrap;gap:.32rem}
+.chips button{background:rgba(152,162,179,.1);border:1px solid var(--st-line);border-radius:999px;color:var(--st-muted);
+  font-family:var(--st-font-mono);font-size:.68rem;padding:.16rem .55rem;cursor:pointer}
+.chips button:hover{color:var(--st-accent);border-color:var(--st-accent)}
+.rel{display:flex;flex-direction:column;gap:.3rem}
+.rel button{text-align:left;background:none;border:0;color:var(--st-accent);font:inherit;font-size:.85rem;cursor:pointer;padding:.1rem 0}
+.rel button:hover{text-decoration:underline}
+.panel .live{display:inline-block;margin-top:1.2rem;font-family:var(--st-font-mono);font-size:.72rem}
+
+.hint{position:fixed;bottom:.7rem;left:1rem;z-index:30;color:var(--st-muted);
+  font-family:var(--st-font-mono);font-size:.66rem;letter-spacing:.05em;max-width:82vw}
+.mode-mapa .st-footer{position:fixed;right:1rem;bottom:.7rem;z-index:30;padding:0;pointer-events:none;
+  font-size:.58rem;color:var(--st-faint)}
+@media (max-width:760px){
+  .mode-mapa .st-header__link:last-child{display:none}
+  .mapa-ui button{display:none}
+  .hd__search{width:min(340px,40vw)}
+  .panel{top:auto;left:0;right:0;width:auto;max-height:62vh;border-left:0;border-top:1px solid var(--st-line);
+    transform:translateY(103%)}
+  .panel.is-open{transform:none}
+  .panel__inner{padding:3.4rem 1.1rem 1.4rem}
+  .mode-mapa .st-footer{right:auto;left:1rem;bottom:1.9rem}
+}
+.noanim *{animation:none!important;transition:none!important}
+.noanim .branch.draw{stroke-dasharray:none;stroke-dashoffset:0}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media (min-width: 761px){
+  .panel-open .st-header__right{padding-right:calc(var(--panel-w) + .25rem)}
+  .panel-open .hint{max-width:calc(100vw - var(--panel-w) - 2rem)}
+  .panel-open.mode-mapa .st-footer{right:calc(var(--panel-w) + 1rem)}
+}

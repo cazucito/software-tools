@@ -73,8 +73,8 @@ function e($value): string
 
 /**
  * Construye una URL interna.
- * Estilo 'query':  /index.php?p=tools/eudora&modo=cinta
- * Estilo 'pretty': /tools/eudora?modo=cinta  (requiere rewrite en el server)
+ * Estilo 'query':  /index.php?p=tools/eudora&x=1
+ * Estilo 'pretty': /tools/eudora?x=1  (requiere rewrite en el server)
  */
 function st_url(string $route = '', array $params = []): string
 {
