@@ -60,11 +60,13 @@ del modo, sustituyendo el selector de modalidades; las páginas `/tools/<slug>` 
 ## Presupuestos de layout y límites conocidos (b-dendrita)
 
 - Abanico de hojas: la última columna nunca pasa de `xMax = W − (panel abierto ? 380 : 24)`
-  (en móvil el panel es una hoja inferior, no resta ancho). Se abren columnas antes de
-  comprimir el paso (`SP` 40 → mínimo `MIN_SP` 24); si ni así caben, se muestran `slots−1`
-  hojas y un chip `+N más · usar búsqueda` (enfoca `#q`). Invariante: visibles + N == total.
-- El tope depende del estado del panel en el momento del render (el panel es un overlay);
-  al cerrarlo, el abanico no se recompone hasta el siguiente render.
+  (en móvil el panel es una hoja inferior, no resta ancho). Invariante `xLeaf <= xMax`: si las
+  columnas no caben, se desplazan en bloque a la izquierda (o se comprimen si el tronco saldría
+  de x=24). Se abren columnas antes de comprimir el paso (`SP` 40 → mínimo `MIN_SP` 24); si ni
+  así caben, se muestran `slots−1` hojas y un chip `+N más · ver lista` que abre el desplegable
+  con las N ocultas y enfoca `#q`. Invariante: visibles + N == total.
+- El tope depende del estado del panel en el momento del render; abrir o cerrar el panel
+  re-renderiza (el estado se conserva).
 - Verificación numérica: `?selftest=1` expone `window.__fanPlan` (función pura de layout).
 - Compromiso aceptado: la comprobación de mismo origen de `?data=` solo valida la URL
   inicial; una redirección same-origin podría servir un script clásico de otro origen

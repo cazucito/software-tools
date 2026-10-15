@@ -136,6 +136,8 @@ else {
   const sc = document.createElement('script');
   sc.src = dataUrl.href;
   const validData = d => !!d && Array.isArray(d.categories) && Array.isArray(d.tools)
+    && d.categories.every(c => c && typeof c.slug === 'string' && typeof c.count === 'number'
+      && Array.isArray(c.subs) && c.subs.every(s => s && typeof s.slug === 'string'))
     && d.tools.every(t => t && typeof t.slug === 'string' && typeof t.name === 'string');
   sc.onload = () => validData(window.ST_DATA)
     ? init(window.ST_DATA) : fatal('Datos inválidos: falta window.ST_DATA.');
@@ -143,7 +145,14 @@ else {
   document.head.appendChild(sc);
 }
 
-function init(D) {
+function init(raw) {
+// el resto de campos es opcional: se normalizan con valores por defecto
+const D = {
+  categories: raw.categories.map(c => ({...c, label: c.label ?? c.slug,
+    subs: c.subs.map(s => ({...s, label: s.label ?? s.slug, count: s.count ?? 0}))})),
+  tools: raw.tools.map(t => ({...t, year: t.year ?? '—', ctx: t.ctx ?? '',
+    tags: Array.isArray(t.tags) ? t.tags : [], rel: Array.isArray(t.rel) ? t.rel : []})),
+};
 const CAT_COLOR = {editor:'#7dd3fc',lenguaje:'#a78bfa',database:'#34d399',infra:'#fbbf24',
                    os:'#f472b6',tool:'#94a3b8',other:'#64748b'};
 const PALETTE = ['#7dd3fc','#a78bfa','#34d399','#fbbf24','#f472b6','#fb923c','#2dd4bf','#a3e635'];
@@ -160,11 +169,23 @@ const panelIsOpen = () => document.getElementById('panel').classList.contains('i
 const isMobile = () => window.innerWidth <= 760;
 
 // columnas del árbol; en móvil estrecho se comprimen para que la columna de hojas quede dentro del viewport
-const xCols = (compact, W) => {
+// límite derecho del abanico: en móvil el panel es una hoja inferior, no cubre columnas
+const xMaxOf = (W, compact, open) => W - (open && !compact ? 380 : 24);
+const xCols = (compact, W, open) => {
   const xCat = compact ? 170 : 268, xSub = xCat + (compact ? 150 : 205);
   const xLeaf = xSub + (compact ? 165 : 228);
-  if (compact && xLeaf > W - 32) return {xRoot: 44, xCat: 112, xSub: 212, xLeaf: 317, tight: true};
-  return {xRoot: compact ? 64 : 104, xCat, xSub, xLeaf, tight: false};
+  const c = (compact && xLeaf > W - 32)
+    ? {xRoot: 44, xCat: 112, xSub: 212, xLeaf: 317, tight: true}
+    : {xRoot: compact ? 64 : 104, xCat, xSub, xLeaf, tight: false};
+  // invariante: xLeaf <= xMax. Desplazamiento uniforme a la izquierda; si el tronco
+  // saldría de xRoot >= 24, se comprime el resto de columnas en vez de desplazar.
+  const xMax = xMaxOf(W, compact, open), shift = c.xLeaf - xMax;
+  if (shift <= 0) return c;
+  if (c.xRoot - shift >= 24) {
+    return {xRoot: c.xRoot - shift, xCat: c.xCat - shift, xSub: c.xSub - shift, xLeaf: xMax, tight: c.tight};
+  }
+  const k = Math.max(xMax - 24, 0) / (c.xLeaf - c.xRoot), f = x => 24 + (x - c.xRoot) * k;
+  return {xRoot: 24, xCat: f(c.xCat), xSub: f(c.xSub), xLeaf: Math.max(xMax, 24), tight: c.tight};
 };
 
 // abanico de hojas: 1 columna hasta FAN_SINGLE; más → multicolumna con tope de alto y de ancho.
@@ -172,7 +193,7 @@ const xCols = (compact, W) => {
 const FAN_SINGLE = 14, SP = 40, MAX_COLS = 4;
 const fanPlan = (n, availH, xCol, W, compact, open) => {
   const colW = compact ? 150 : 200;
-  const xMax = W - (open && !compact ? 380 : 24);  // en móvil el panel es una hoja inferior, no cubre columnas
+  const xMax = xMaxOf(W, compact, open);
   const maxCols = Math.max(1, Math.floor((xMax - 8 - xCol) / colW) + 1);
   const colsCap = Math.min(MAX_COLS, maxCols);
   const rowsMax = Math.max(4, Math.floor(availH / SP) + 1);
@@ -224,7 +245,7 @@ function render() {
   svg.innerHTML = '';
   const LABELS = [];
   const compact = isMobile();
-  const {xRoot, xCat, xSub, xLeaf, tight} = xCols(compact, W);
+  const {xRoot, xCat, xSub, xLeaf, tight} = xCols(compact, W, panelIsOpen());
   const cy = H/2 + 6;
 
   const cats = D.categories;
@@ -256,7 +277,7 @@ function render() {
     if (!tl.length) return;
     const availTop = 84, availBot = H - 48;
     const {cols, rpc, sp, shown, overflow, xMax} = fanLayout(tl.length, availBot - availTop, xCol);
-    const total = tl.length;
+    const total = tl.length, tl0 = tl;
     tl = tl.slice(0, shown);
     const fanH = (rpc - 1) * sp;
     const cyF = Math.max(availTop + fanH/2, Math.min(availBot - fanH/2, srcY));
@@ -290,8 +311,12 @@ function render() {
       mk('rect', {x:cx0, y:ty-11, width:cw, height:22, rx:11,
         fill:'#101826', stroke:color, 'stroke-width':1.2, 'stroke-dasharray':'4 3'}, og);
       mk('text', {x:cx0+12, y:ty+3.5, class:'leafLbl'}, og).textContent =
-        `+${overflow} más · usar búsqueda`;
-      og.addEventListener('click', () => { qEl.focus(); });
+        `+${overflow} más · ver lista`;
+      const hidden = tl0.slice(shown);
+      og.addEventListener('click', e => {
+        e.stopPropagation();  // el listener global de documento cerraría el desplegable
+        qEl.value = ''; showToolList(hidden); qEl.focus();
+      });
       nerve(srcX, srcY, x - 8, ty, `rgba(${hex2rgb(color)},0.35)`, 1.1, 16);
     }
   };
@@ -436,7 +461,7 @@ function openPanel(t) {
   }));
   pinner.scrollTop = 0;
 }
-function closePanel() { document.body.classList.remove('panel-open'); panel.classList.remove('is-open'); panel.setAttribute('aria-hidden','true'); }
+function closePanel() { document.body.classList.remove('panel-open'); panel.classList.remove('is-open'); panel.setAttribute('aria-hidden','true'); render(); }
 document.getElementById('pclose').addEventListener('click', closePanel);
 document.getElementById('collapse').addEventListener('click', () => {
   state.cat = null; state.sub = null; state.selected = null; render();
@@ -461,7 +486,12 @@ function runSearch(q) {
   ddEl.innerHTML='';
   if (!q.trim()) { ddEl.classList.remove('is-open'); return; }
   if (!res.length) { ddEl.innerHTML = `<div class="empty">sin resultados para «${q.trim()}»</div>`; ddEl.classList.add('is-open'); return; }
-  res.forEach(t => {
+  showToolList(res);
+}
+// desplegable de herramientas (resultados de búsqueda o hojas ocultas de un abanico)
+function showToolList(list) {
+  ddEl.innerHTML = '';
+  list.forEach(t => {
     const b = document.createElement('button');
     const cat = catBySlug[t.cat];
     const sub = t.sub && cat ? ((cat.subs || []).find(s => s.slug === t.sub) || null) : null;
