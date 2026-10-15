@@ -17,7 +17,7 @@ if (!defined('ST_APP')) {
     <div class="panel__inner" id="pinner"></div>
   </aside>
 
-  <div class="hint mapa-ui">clic en categoría → familias · clic en familia → herramientas · clic en herramienta → ficha · hilos = relacionadas</div>
+  <div class="hint mapa-ui" id="hint">clic en categoría → familias · clic en familia → herramientas · clic en herramienta → ficha · hilos = relacionadas</div>
 </div>
 
 <?php if (!empty($tools)): ?>

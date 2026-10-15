@@ -30,6 +30,9 @@ body.mode-mapa::before{content:"";position:fixed;inset:0;pointer-events:none;
 .mapa-ui button{background:none;border:1px solid var(--st-line);color:var(--st-muted);border-radius:7px;
   font-family:var(--st-font-mono);font-size:.68rem;letter-spacing:.08em;padding:.34rem .6rem;cursor:pointer}
 .mapa-ui button:hover{color:var(--st-ink);border-color:var(--st-muted)}
+/* cápsula de controles (clase propia: .mapa-ui también está en la pista y en reglas noscript/móvil) */
+.mode-mapa .hd-controls{background:rgba(18,24,38,.55);border:1px solid rgba(152,162,179,.22);
+  border-radius:11px;padding:.3rem .45rem .3rem .55rem;box-shadow:0 2px 14px rgba(0,0,0,.35)}
 .hd__search{position:relative;width:min(340px,46vw)}
 .hd__search input{width:100%;background:#121826;border:1px solid var(--st-line);border-radius:8px;
   color:var(--st-ink);font:inherit;font-size:.85rem;padding:.5rem .8rem .5rem 2rem;outline:none}
@@ -87,6 +90,7 @@ svg#map text{font-family:var(--st-font-mono)}
 @media (max-width:760px){
   .mode-mapa .st-header__link:last-child{display:none}
   .mapa-ui button{display:none}
+  .mode-mapa .hd-controls{padding:.25rem .3rem}
   .hd__search{width:min(340px,40vw)}
   .panel{top:auto;left:0;right:0;width:auto;max-height:62vh;border-left:0;border-top:1px solid var(--st-line);
     transform:translateY(103%)}

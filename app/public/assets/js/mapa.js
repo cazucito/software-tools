@@ -4,7 +4,9 @@
    Port de sketches/002-mapa-mental/b-dendrita, sin dependencias. Lee
    window.ST_DATA = Catalog::mapData() (embebido por el servidor) y nunca
    abandona la página: la ficha se abre en un panel con enlace a la real.
-   Parámetro de depuración: ?static desactiva las animaciones (capturas/QA).
+   Parámetros de depuración: ?static desactiva las animaciones (capturas/QA);
+   ?all arranca en el modo «expandir todo» (equivale a pulsar #expand).
+   window.__mapa = {state, D, render} es un gancho de QA (no forma parte de la API).
    ========================================================================== */
 (() => {
 'use strict';
@@ -108,7 +110,15 @@ const pinner=document.getElementById('pinner');
 const qEl  = document.getElementById('q');
 const ddEl = document.getElementById('dd');
 
-const state = { cat: null, sub: null, selected: null };
+// mode 'normal': a lo sumo una categoría y una familia abiertas (conjuntos de 0–1 elementos);
+// mode 'all': vista completa; los clics solo podan/reabren ramas (toggles locales).
+const state = { mode: 'normal', openCats: new Set(), openSubs: new Set(), selected: null };
+const first = set => set.values().next().value ?? null;
+const hintEl = document.getElementById('hint');
+const HINTS = {
+  normal: hintEl ? hintEl.textContent : '',
+  all: 'vista completa · clic en categoría o familia para plegar · clic en herramienta → ficha · hilos = relacionadas',
+};
 const LAST_POS = new Map();
 let W, H;
 
@@ -130,6 +140,9 @@ function layout() {
 }
 
 function render() {
+  if (hintEl) hintEl.textContent = HINTS[state.mode];
+  if (state.mode === 'all') { renderAll(); return; }
+  const openCat = first(state.openCats), openSub = first(state.openSubs);
   LAST_POS.clear();
   layout();
   svg.innerHTML = '';
@@ -214,7 +227,7 @@ function render() {
   cats.forEach((cat, i) => {
     const y = yOf(i);
     const color = colorOf(cat);
-    const open = state.cat === cat.slug;
+    const open = openCat === cat.slug;
     const rC = clamp(spread * 0.30, 10, 24);  // el nodo se achica si hay muchas categorías
 
     // rama principal (curva orgánica), arranca en el borde del tronco
@@ -233,9 +246,9 @@ function render() {
       'text-anchor':'middle', 'font-weight':700}, g)
       .textContent = cat.count;
     const onCatClick = () => {
-      state.cat = open ? null : cat.slug;
-      state.sub = null;
-      if (state.selected && toolBySlug[state.selected].cat !== state.cat) state.selected = null;
+      state.openCats.clear(); state.openSubs.clear();
+      if (!open) state.openCats.add(cat.slug);
+      if (state.selected && toolBySlug[state.selected].cat !== first(state.openCats)) state.selected = null;
       render();
     };
     if (spread >= LABEL_CAT_MIN || open)
@@ -265,15 +278,16 @@ function render() {
       });
       subs.forEach((s, k) => {
         const yy = yS(k);
-        const openS = state.sub === s.slug;
+        const openS = openSub === s.slug;
         const sg = mk('g', {class:'node'});
         tip(sg, `${s.label} · ${s.count}`);
         mk('circle', {class:'kk', cx:xSub, cy:yy, r:rS, fill:'#101826', stroke:color, 'stroke-width': openS?2:1.4}, sg);
         if (rS >= 10) mk('text', {x:xSub, y:yy+3.5, fill:color, 'font-size':8.5, 'text-anchor':'middle', 'font-weight':700}, sg)
           .textContent = s.count;
         const onClick = () => {
-          state.sub = openS ? null : s.slug;
-          if (state.selected && toolBySlug[state.selected].sub !== state.sub) state.selected = null;
+          state.openSubs.clear();
+          if (!openS) state.openSubs.add(s.slug);
+          if (state.selected && toolBySlug[state.selected].sub !== first(state.openSubs)) state.selected = null;
           render();
         };
         if (spreadS >= LABEL_MIN || openS)
@@ -303,6 +317,170 @@ function render() {
   }
 }
 
+/* ---------- modo «expandir todo»: árbol completo en bandas ---------- */
+// Cada categoría recibe una banda vertical proporcional a sus filas (familias, o herramientas si es plana).
+// Orden de capas: nervios → nodos → etiquetas. Ningún recorte silencioso: lo que no cabe va a un chip.
+function renderAll() {
+  LAST_POS.clear();
+  layout();
+  svg.innerHTML = '';
+  const LABELS = [], NODES = [];
+  const compact = isMobile(), open = panelIsOpen();
+  const {xRoot, xCat, xSub, xLeaf, tight} = xCols(compact, W, open);
+  const xMax = xMaxOf(W, compact, open);
+  const cy = H/2 + 6;
+  const availTop = 84, availBot = H - 48;
+  const cats = D.categories;
+
+  const nerve = (x1, y1, x2, y2, stroke, w, dy0=2) => {
+    const bow = (y2 >= y1 ? 1 : -1) * 22;
+    mk('path', {d: `M ${x1} ${y1+dy0} C ${x1+56} ${y1+bow}, ${x2-40} ${y2}, ${x2-8} ${y2}`,
+      class:'branch draw', stroke, 'stroke-width': w});
+  };
+  const toolsOf = c => D.tools.filter(t => t.cat === c.slug);
+
+  // bandas por categoría
+  const units = cats.map(c => c.subs.length || toolsOf(c).length || 1);
+  const totalUnits = units.reduce((a, b) => a + b, 0);
+  let acc = availTop;
+  const bands = units.map(u => { const h = (availBot - availTop) * u / totalUnits; const b = {top: acc, h}; acc += h; return b; });
+
+  // tronco
+  const tg = mk('g', {});
+  mk('circle', {cx:xRoot, cy, r:34, fill:'#121a29', stroke:'#7dd3fc', 'stroke-width':2.2}, tg);
+  mk('text', {x:xRoot, y:cy+5, fill:'#7dd3fc', 'font-size':14, 'font-weight':700, 'text-anchor':'middle'}, tg)
+    .textContent = 'st';
+  mk('text', {x:xRoot, y:cy+56, fill:'#eef2f7', 'font-size':11.5, 'text-anchor':'middle',
+    style:'paint-order:stroke;stroke:#0b0f17;stroke-width:3px'}, tg)
+    .textContent = 'software-tools';
+
+  // columna de hojas dentro de [top, top+h]; devuelve nada. Los nodos se difieren (z-order).
+  const leafColumn = (tl, x, top, h, srcX, srcY, color, labelMin) => {
+    const n = tl.length; if (!n) return;
+    const maxShown = Math.floor(h / 7) + 1;
+    let shown = n, overflow = 0;
+    if (n > maxShown) { shown = Math.max(maxShown - 1, 0); overflow = n - shown; }
+    const slots = shown + (overflow ? 1 : 0);
+    const sp = clamp(h / slots, 7, 26);
+    const y0 = top + h/2 - (slots - 1) * sp / 2;
+    for (let k = 0; k < shown; k++) {
+      const t = tl[k], ty = y0 + k * sp, sel = state.selected === t.slug;
+      LAST_POS.set(t.slug, [x, ty]);
+      nerve(srcX, srcY, x - 8, ty, sel ? '#eef2f7' : `rgba(${hex2rgb(color)},0.32)`, sel ? 1.8 : 0.9, 16);
+      NODES.push(() => {
+        const lg = mk('g', {class:'node leaf-pop'});
+        tip(lg, t.name + ' · ' + t.year);
+        mk('circle', {class:'kk', cx:x, cy:ty, r: sel ? 7 : 3.5, fill: sel ? '#eef2f7' : color,
+          stroke:'#0b0f17', 'stroke-width':1}, lg);
+        lg.addEventListener('click', () => selectTool(t.slug));
+      });
+      if (sp >= labelMin || sel)
+        LABELS.push({x: x + 12, y: ty + 3.5, cls: 'leafLbl' + (sel ? ' sel' : ''),
+          text: `${short(t.name, compact ? 14 : 22)} · ${t.year}`, onClick: () => selectTool(t.slug)});
+    }
+    if (overflow > 0) {
+      const ty = y0 + shown * sp, hidden = tl.slice(shown);
+      nerve(srcX, srcY, x - 8, ty, `rgba(${hex2rgb(color)},0.35)`, 1.1, 16);
+      NODES.push(() => {
+        const og = mk('g', {class:'node leaf-pop overflow', 'data-overflow': overflow});
+        tip(og, `${overflow} de ${n} herramientas sin mostrar`);
+        const cw = compact ? 150 : 172, cx0 = Math.min(x - 8, xMax - cw);
+        mk('rect', {x:cx0, y:ty-11, width:cw, height:22, rx:11,
+          fill:'#101826', stroke:color, 'stroke-width':1.2, 'stroke-dasharray':'4 3'}, og);
+        mk('text', {x:cx0+12, y:ty+3.5, class:'leafLbl'}, og).textContent = `+${overflow} más · ver lista`;
+        og.addEventListener('click', e => {
+          e.stopPropagation();  // el listener global de documento cerraría el desplegable
+          qEl.value = ''; showToolList(hidden); qEl.focus();
+        });
+      });
+    }
+  };
+
+  cats.forEach((cat, i) => {
+    const {top, h: bandH} = bands[i];
+    const y = top + bandH/2;
+    const color = colorOf(cat);
+    const isOpen = state.openCats.has(cat.slug);
+    const rC = clamp(bandH * 0.30, 6, 24);
+
+    const dxT = xCat - xRoot, dyT = y - cy, lenT = Math.hypot(dxT, dyT) || 1;
+    const sx0 = xRoot + 34*dxT/lenT, sy0 = cy + 34*dyT/lenT;
+    const c1x = xRoot + (xCat - xRoot)*0.45, c1y = y + (i%2 ? 26 : -26);
+    const d = `M ${sx0} ${sy0} C ${c1x} ${cy}, ${c1x} ${c1y}, ${xCat} ${y}`;
+    mk('path', {d, class:'branch' + (isOpen ? '' : ' draw'), stroke: `rgba(${hex2rgb(color)},${isOpen?0.9:0.5})`});
+    if (isOpen) mk('path', {d, class:'branch draw', stroke: color, 'stroke-width': 2});
+
+    const onCatClick = () => {
+      if (state.openCats.has(cat.slug)) {
+        state.openCats.delete(cat.slug);
+        if (state.selected && toolBySlug[state.selected].cat === cat.slug) state.selected = null;
+      } else state.openCats.add(cat.slug);
+      render();
+    };
+    NODES.push(() => {
+      const g = mk('g', {class:'node'});
+      tip(g, `${cat.label} · ${cat.count}`);
+      mk('circle', {class:'kk', cx:xCat, cy:y, r:rC, fill:'#101826', stroke:color, 'stroke-width': isOpen?2.4:1.6}, g);
+      mk('text', {x:xCat, y:y+(rC < 16 ? 3 : 4), fill:color, 'font-size': rC < 16 ? 8 : 10.5,
+        'text-anchor':'middle', 'font-weight':700}, g).textContent = cat.count;
+      g.addEventListener('click', onCatClick);
+    });
+    if (bandH >= 18 || isOpen)
+      LABELS.push({x: xCat+rC+6, y: rC < 16 ? y+4 : y-9, text: cat.label, strong: isOpen,
+        size: 12, dim: '#98a2b3', halo: 3, onClick: onCatClick});
+
+    if (!isOpen) return;
+    const subs = cat.subs;
+    if (subs.length) {
+      const ns = subs.length, pitchF = bandH / ns;
+      const rS = clamp(pitchF * 0.35, 7, 14);
+      const total = Math.max(toolsOf(cat).length, 1);
+      let subTop = top;
+      subs.forEach((s, k) => {
+        const yy = top + (k + 0.5) * pitchF;
+        const openS = state.openSubs.has(s.slug);
+        const tl = D.tools.filter(t => t.cat === cat.slug && t.sub === s.slug);
+        const hF = bandH * tl.length / total;
+        const ax = xSub-xCat, ay = yy-y, al = Math.hypot(ax, ay) || 1;
+        nerve(xCat+(rC+2)*ax/al, y+(rC+2)*ay/al, xSub-rS-2, yy, `rgba(${hex2rgb(color)},0.5)`, 1.3, 16);
+        const onClick = () => {
+          if (state.openSubs.has(s.slug)) {
+            state.openSubs.delete(s.slug);
+            if (state.selected && toolBySlug[state.selected].sub === s.slug) state.selected = null;
+          } else state.openSubs.add(s.slug);
+          render();
+        };
+        NODES.push(() => {
+          const sg = mk('g', {class:'node'});
+          tip(sg, `${s.label} · ${s.count}`);
+          mk('circle', {class:'kk', cx:xSub, cy:yy, r:rS, fill:'#101826', stroke:color, 'stroke-width': openS?2:1.4}, sg);
+          if (rS >= 10) mk('text', {x:xSub, y:yy+3.5, fill:color, 'font-size':8.5, 'text-anchor':'middle', 'font-weight':700}, sg)
+            .textContent = s.count;
+          sg.addEventListener('click', onClick);
+        });
+        if (pitchF >= 20)
+          LABELS.push({x: xSub+rS+12, y: yy+3.5, text: short(s.label, tight ? 11 : compact ? 20 : 28),
+            strong: openS, size: 10.5, dim: '#9aa7ba', halo: 3.5, onClick});
+        if (openS) leafColumn(tl, xLeaf, subTop, hF, xSub+rS, yy, color, 15);
+        subTop += hF;
+      });
+    } else {
+      leafColumn(toolsOf(cat), xSub, top, bandH, xCat+rC+2, y, color, 20);
+    }
+  });
+
+  for (const f of NODES) f();
+  if (state.selected) drawLinksFor(state.selected);
+  for (const L of LABELS) {
+    const el = L.cls
+      ? mk('text', {x:L.x, y:L.y, class:L.cls, style:'cursor:pointer'})
+      : mk('text', {x:L.x, y:L.y, 'font-size': L.size, fill: L.strong ? '#eef2f7' : L.dim,
+          style:`paint-order:stroke;stroke:#0b0f17;stroke-width:${L.halo}px;cursor:pointer`});
+    el.textContent = L.text;
+    el.addEventListener('click', L.onClick);
+  }
+}
+
 function drawLinksFor(slug) {
   const t = toolBySlug[slug]; if (!t) return;
   const pos = LAST_POS;
@@ -320,7 +498,16 @@ function drawLinksFor(slug) {
 
 function selectTool(slug, {expand=true} = {}) {
   const t = toolBySlug[slug]; if (!t) return;
-  if (expand) { state.cat = t.cat; state.sub = t.sub || null; }
+  if (expand) {
+    if (state.mode === 'all') {   // vista completa: sin exclusividad, solo se garantiza la rama visible
+      state.openCats.add(t.cat);
+      if (t.sub) state.openSubs.add(t.sub);
+    } else {
+      state.openCats.clear(); state.openSubs.clear();
+      state.openCats.add(t.cat);
+      if (t.sub) state.openSubs.add(t.sub);
+    }
+  }
   state.selected = slug;
   openPanel(t);   // antes de render(): el presupuesto horizontal depende del estado del panel
   render();
@@ -353,9 +540,17 @@ function openPanel(t) {
 }
 function closePanel() { document.body.classList.remove('panel-open'); panel.classList.remove('is-open'); panel.setAttribute('aria-hidden','true'); render(); }
 document.getElementById('pclose').addEventListener('click', closePanel);
+const expandAll = () => {
+  state.mode = 'all';
+  state.openCats = new Set(D.categories.map(c => c.slug));
+  state.openSubs = new Set(D.categories.flatMap(c => c.subs.map(s => s.slug)));
+  render();
+};
 document.getElementById('collapse').addEventListener('click', () => {
-  state.cat = null; state.sub = null; state.selected = null; render();
+  state.mode = 'normal'; state.openCats.clear(); state.openSubs.clear(); state.selected = null; render();
 });
+const expandBtn = document.getElementById('expand');
+if (expandBtn) expandBtn.addEventListener('click', expandAll);
 
 /* ---------- búsqueda ---------- */
 const INDEX = D.tools.map(t => ({t, hay:(t.name+' '+t.slug+' '+t.tags.join(' ')+' '+t.ctx).toLowerCase()}));
@@ -403,6 +598,7 @@ document.addEventListener('keydown', e => {
 });
 
 /* ---------- arranque ---------- */
-render();
+window.__mapa = { state, D, render };   // gancho de QA (consola/CDP)
+if (new URLSearchParams(location.search).has('all')) expandAll(); else render();
 }
 })();

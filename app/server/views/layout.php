@@ -67,7 +67,8 @@ $isMapa      = !empty($isMapa);
     <a class="st-header__brand" href="<?= e(st_url('')) ?>">software-tools</a>
     <div class="st-header__right">
 <?php if ($isMapa): ?>
-      <div class="mapa-ui">
+      <div class="mapa-ui hd-controls">
+        <button type="button" id="expand" title="Mostrar el árbol completo: todas las categorías, familias y herramientas">expandir todo</button>
         <button type="button" id="collapse">contraer todo</button>
         <div class="hd__search">
           <input id="q" type="search" placeholder="Buscar herramienta, tag, contexto…" autocomplete="off" aria-label="Buscar en el mapa">
