@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Maqueta 002 · Mapa mental — software-tools</title>
+<style>
+:root{--bg:#0b0f17;--ink:#eef2f7;--muted:#98a2b3;--accent:#7dd3fc;--line:rgba(152,162,179,.2)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;line-height:1.6;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+main{max-width:880px;width:100%}
+h1{font-size:1.5rem;margin-bottom:.3rem}
+h1 small{display:block;color:var(--muted);font-weight:400;font-size:.72rem;font-family:ui-monospace;
+  letter-spacing:.14em;text-transform:uppercase;margin-top:.35rem}
+p.intro{color:var(--muted);font-size:.92rem;margin:1rem 0 1.6rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.9rem}
+a.card{display:block;border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.2rem;
+  text-decoration:none;color:inherit;transition:border-color .2s,transform .2s}
+a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+a.card b{font-size:1rem}
+a.card span{display:block;color:var(--muted);font-size:.8rem;margin-top:.4rem;font-family:ui-monospace}
+footer{margin-top:1.6rem;color:var(--muted);font-size:.74rem;font-family:ui-monospace}
+</style>
+</head>
+<body>
+<main>
+  <h1>Mapa mental — 3 físicas para elegir<small>maqueta 002 · software-tools</small></h1>
+  <p class="intro">Misma información (6 categorías → 57 herramientas), tres formas de habitarla. En todas: clic en un nodo
+  para expandir, clic en una herramienta abre su ficha en la misma página, y la búsqueda navega el mapa.</p>
+  <div class="cards">
+    <a class="card" href="a-plex/"><b>A · Plex radial</b><span>nodo activo al centro · vecindario alrededor · linaje TheBrain/PersonalBrain</span></a>
+    <a class="card" href="b-dendrita/"><b>B · Dendrita</b><span>ramas que crecen al expandir · hojas por columna · linaje MindManager</span></a>
+    <a class="card" href="c-constelacion/"><b>C · Constelación</b><span>cerebro nocturno · clusters + sinapsis · zoom y paneo libre</span></a>
+  </div>
+  <footer>datos reales del catálogo (57 fichas) · deep-links: ?tool=umlet · ?cat=editor</footer>
+</main>
+</body>
+</html>

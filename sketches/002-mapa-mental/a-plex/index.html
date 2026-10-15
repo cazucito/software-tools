@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Maqueta A · Plex — software-tools (mapa mental)</title>
+<style>
+:root{
+  --st-bg:#0b0f17; --st-ink:#eef2f7; --st-muted:#98a2b3; --st-faint:#475467;
+  --st-accent:#7dd3fc; --st-line:rgba(152,162,179,.2); --st-radius:10px;
+  --st-font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --panel-w:380px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--st-bg);color:var(--st-ink);font-family:system-ui,sans-serif;overflow:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(46rem 46rem at 50% 52%,rgba(125,211,252,.07),transparent 62%)}
+a{color:var(--st-accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- cabecera ---------- */
+.hd{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:.9rem;
+  padding:.6rem 1rem;background:rgba(11,15,23,.82);border-bottom:1px solid var(--st-line);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.hd__brand{font-weight:600;font-size:.92rem;white-space:nowrap}
+.hd__brand small{color:var(--st-muted);font-weight:400;font-family:var(--st-font-mono);font-size:.66rem;
+  letter-spacing:.12em;text-transform:uppercase;margin-left:.45rem}
+.hd__search{position:relative;margin-left:auto;width:min(360px,52vw)}
+.hd__search input{width:100%;background:#121826;border:1px solid var(--st-line);border-radius:8px;
+  color:var(--st-ink);font:inherit;font-size:.85rem;padding:.5rem .8rem .5rem 2rem;outline:none}
+.hd__search input:focus{border-color:var(--st-accent)}
+.hd__search::before{content:"⌕";position:absolute;left:.62rem;top:50%;transform:translateY(-54%);
+  color:var(--st-muted);font-size:1rem}
+.dd{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#0f1520;border:1px solid var(--st-line);
+  border-radius:8px;max-height:320px;overflow:auto;display:none;z-index:50}
+.dd.is-open{display:block}
+.dd button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--st-ink);
+  font:inherit;font-size:.82rem;padding:.5rem .8rem;cursor:pointer}
+.dd button:hover,.dd button.is-sel{background:rgba(125,211,252,.12)}
+.dd button span{display:block;color:var(--st-muted);font-size:.68rem;font-family:var(--st-font-mono)}
+.dd .empty{color:var(--st-muted);font-size:.78rem;padding:.6rem .8rem}
+
+/* ---------- migas ---------- */
+.trail{position:fixed;top:3.6rem;left:1rem;z-index:30;display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;max-width:60vw}
+.trail button{background:none;border:0;color:var(--st-muted);font-family:var(--st-font-mono);font-size:.68rem;
+  letter-spacing:.06em;cursor:pointer;padding:.14rem .3rem;border-radius:5px}
+.trail button:hover{color:var(--st-ink);background:rgba(152,162,179,.12)}
+.trail button.is-now{color:var(--st-accent)}
+.trail i{color:var(--st-faint);font-style:normal;font-size:.68rem}
+
+/* ---------- mapa ---------- */
+svg#map{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:grab}
+.edge{stroke-width:1;fill:none}
+.node{cursor:pointer}
+.node circle{transition:filter .15s}
+.node:hover circle.main{filter:brightness(1.35)}
+.node .mono{font-family:var(--st-font-mono);font-weight:700;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.node .lbl{font-family:var(--st-font-mono);font-size:10.5px;text-anchor:middle;fill:var(--st-muted);pointer-events:none;paint-order:stroke;stroke:#0b0f17;stroke-width:3px;stroke-linejoin:round}
+.node .cnt{font-family:var(--st-font-mono);font-size:9px;text-anchor:middle;fill:var(--st-bg);font-weight:700}
+.pop{animation:pop .42s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.edge.fade{animation:fadein .5s ease both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+#map text.tag{font-size:9.5px}
+
+/* ---------- panel de ficha ---------- */
+.panel{position:fixed;top:0;right:0;bottom:0;width:var(--panel-w);background:#0e1420;border-left:1px solid var(--st-line);
+  z-index:45;transform:translateX(102%);transition:transform .28s ease;display:flex;flex-direction:column}
+.panel.is-open{transform:none}
+.panel__inner{overflow:auto;padding:4.4rem 1.4rem 2rem}
+.panel__close{position:absolute;top:.7rem;right:.8rem;background:none;border:1px solid var(--st-line);color:var(--st-muted);
+  border-radius:8px;width:2rem;height:2rem;font-size:1rem;cursor:pointer}
+.panel__close:hover{color:var(--st-ink);border-color:var(--st-muted)}
+.panel__meta{font-family:var(--st-font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--st-muted)}
+.panel h2{font-size:1.35rem;margin:.25rem 0 .7rem}
+.panel p.ctx{color:var(--st-ink);font-size:.9rem;line-height:1.6}
+.panel h3{font-family:var(--st-font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--st-muted);margin:1.1rem 0 .4rem}
+.chips{display:flex;flex-wrap:wrap;gap:.32rem}
+.chips button{background:rgba(152,162,179,.1);border:1px solid var(--st-line);border-radius:999px;color:var(--st-muted);
+  font-family:var(--st-font-mono);font-size:.68rem;padding:.16rem .55rem;cursor:pointer}
+.chips button:hover{color:var(--st-accent);border-color:var(--st-accent)}
+.rel{display:flex;flex-direction:column;gap:.3rem}
+.rel button{text-align:left;background:none;border:0;color:var(--st-accent);font:inherit;font-size:.85rem;cursor:pointer;padding:.1rem 0}
+.rel button:hover{text-decoration:underline}
+.panel .live{display:inline-block;margin-top:1.2rem;font-family:var(--st-font-mono);font-size:.72rem}
+
+/* ---------- pista ---------- */
+.hint{position:fixed;bottom:.7rem;left:1rem;z-index:30;color:var(--st-faint);
+  font-family:var(--st-font-mono);font-size:.66rem;letter-spacing:.05em;max-width:80vw}
+
+@media (max-width:760px){
+  .hd__brand small{display:none}
+  .trail{max-width:92vw}
+  .panel{top:auto;left:0;right:0;width:auto;max-height:62vh;border-left:0;border-top:1px solid var(--st-line);
+    transform:translateY(103%)}
+  .panel.is-open{transform:none}
+  .panel__inner{padding:3.4rem 1.1rem 1.4rem}
+}
+.noanim *{animation:none!important;transition:none!important}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media (min-width: 761px){.panel-open .hd{padding-right:calc(var(--panel-w) + 1rem)}}
+</style>
+</head>
+<body>
+<header class="hd">
+  <div class="hd__brand">software-tools<small>mapa · plex</small></div>
+  <div class="hd__search">
+    <input id="q" type="search" placeholder="Buscar herramienta, tag, contexto…" autocomplete="off"
+           aria-label="Buscar en el archivo">
+    <div class="dd" id="dd" role="listbox"></div>
+  </div>
+</header>
+
+<nav class="trail" id="trail" aria-label="Ruta"></nav>
+<svg id="map" role="application" aria-label="Mapa mental del archivo"></svg>
+
+<aside class="panel" id="panel" aria-hidden="true">
+  <button class="panel__close" id="pclose" aria-label="Cerrar">×</button>
+  <div class="panel__inner" id="pinner"></div>
+</aside>
+
+<div class="hint">clic en un nodo para expandir · clic en una herramienta abre su ficha · Editar = volver al nodo superior</div>
+
+<script src="../data.js"></script>
+<script>
+(() => {
+'use strict';
+const D = window.ST_DATA;
+if (new URLSearchParams(location.search).get('static')) document.documentElement.classList.add('noanim');
+const CAT_COLOR = {editor:'#7dd3fc',lenguaje:'#a78bfa',database:'#34d399',infra:'#fbbf24',
+                   os:'#f472b6',tool:'#94a3b8',other:'#64748b'};
+const catBySlug  = Object.fromEntries(D.categories.map(c => [c.slug, c]));
+const toolBySlug = Object.fromEntries(D.tools.map(t => [t.slug, t]));
+const colorOf    = c => CAT_COLOR[c] || '#94a3b8';
+const ROOT = {id:'root', kind:'root', name:'software-tools'};
+
+const svg   = document.getElementById('map');
+const panel = document.getElementById('panel');
+const pinner= document.getElementById('pinner');
+const trail = document.getElementById('trail');
+const qEl   = document.getElementById('q');
+const ddEl  = document.getElementById('dd');
+
+const state = { focus: ROOT, path: [] };
+let W = 0, H = 0;
+const isMobile = () => window.innerWidth <= 760;
+
+function resize() {
+  W = window.innerWidth; H = window.innerHeight;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  render();
+}
+window.addEventListener('resize', resize);
+
+/* ---------- modelo de vecindario ---------- */
+function childrenOf(focus) {
+  if (focus.kind === 'root') {
+    return D.categories.map(c => ({id:'c:'+c.slug, kind:'cat', ref:c}));
+  }
+  if (focus.kind === 'cat') {
+    return D.tools.filter(t => t.cat === focus.ref.slug)
+                  .map(t => ({id:'t:'+t.slug, kind:'tool', ref:t}));
+  }
+  // herramienta: relacionadas + sucesora (anillo interior) y tags (anillo exterior)
+  const t = focus.ref;
+  const primary = [];
+  for (const r of t.rel) if (toolBySlug[r]) primary.push({id:'t:'+r, kind:'tool', ref:toolBySlug[r]});
+  if (t.succ && toolBySlug[t.succ]) primary.push({id:'t:'+t.succ, kind:'tool', ref:toolBySlug[t.succ], succ:true});
+  const tags = t.tags.map(tag => ({id:'g:'+tag, kind:'tag', ref:tag}));
+  return {primary, tags};
+}
+
+function initials(name) {
+  const m = name.replace(/[^A-Za-z0-9. ]/g,'').split(/\s+/).filter(Boolean);
+  return (m.length > 1 ? m[0][0] + m[1][0] : name.slice(0,2)).toUpperCase();
+}
+function short(name, n=17) { return name.length > n ? name.slice(0, n-1) + '…' : name; }
+
+/* ---------- render ---------- */
+function render() {
+  const focus = state.focus;
+  const cx = W/2 - ((panel.classList.contains('is-open') && !isMobile()) ? 190 : 0);
+  const cy = H/2 + (isMobile() ? -30 : 10);
+  svg.innerHTML = '';
+
+  const kids = childrenOf(focus);
+  const prim = Array.isArray(kids) ? kids : kids.primary;
+  const tags = Array.isArray(kids) ? [] : kids.tags;
+
+  const n = prim.length;
+  const rIn = focus.kind === 'root'
+      ? Math.max(170, Math.min(W,H) * 0.30)
+      : Math.max(185, Math.min((n * 74) / (2*Math.PI), Math.min(W,H) * 0.42));
+  const rTag = tags.length ? rIn + 92 : 0;
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const mk = (tag, attrs, parent) => {
+    const el = document.createElementNS(NS, tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(el);
+    return el;
+  };
+
+  // punto central
+  const focusColor = focus.kind === 'root' ? '#7dd3fc'
+    : focus.kind === 'cat' ? colorOf(focus.ref.slug) : colorOf(focus.ref.cat);
+  const cg = mk('g', {class:'node pop', 'data-role':'center'});
+  mk('circle', {class:'main', cx, cy, r: focus.kind === 'root' ? 44 : 36,
+    fill:'#121a29', stroke: focusColor, 'stroke-width': 2.2}, cg);
+  mk('text', {class:'mono', x:cx, y:cy+1, fill: focusColor, 'font-size': focus.kind==='root' ? 15 : 12},
+    cg).textContent = focus.kind === 'root' ? 'st' : initials(focus.ref.name);
+  mk('text', {class:'lbl', x:cx, y:cy+(focus.kind==='root'?62:54), fill:'#eef2f7', 'font-size':'12px'}, cg)
+    .textContent = focus.kind === 'root' ? 'software-tools' : short(focus.ref.name, 22);
+  if (focus.kind !== 'root') {
+    cg.style.cursor = 'pointer'; cg.setAttribute('title', 'volver al nivel superior');
+    cg.addEventListener('click', goUp);
+  }
+
+  // aristas + nodos primarios
+  const start = -Math.PI/2;
+  prim.forEach((node, i) => {
+    const a = start + (i / Math.max(n,1)) * Math.PI * 2;
+    const x = cx + Math.cos(a) * rIn, y = cy + Math.sin(a) * rIn;
+    const color = node.kind === 'cat' ? colorOf(node.ref.slug)
+                : node.kind === 'tool' ? colorOf(node.ref.cat) : '#64748b';
+    mk('line', {class:'edge fade', x1:cx, y1:cy, x2:x, y2:y,
+      stroke: node.succ ? 'rgba(251,191,36,.5)' : 'rgba(152,162,179,.28)',
+      'stroke-dasharray': node.succ ? '5 4' : 'none', style:`animation-delay:${i*14}ms`});
+    const g = mk('g', {class:'node pop', style:`animation-delay:${i*22}ms;transform-origin:${x}px ${y}px`});
+    const r = node.kind === 'cat' ? 30 : 21;
+    mk('circle', {class:'main', cx:x, cy:y, r, fill:'#101826', stroke:color, 'stroke-width': node.kind==='cat'?2:1.5}, g);
+    mk('text', {class:'mono', x, y:y+1, fill:color, 'font-size': node.kind==='cat'?12:9.5}, g)
+      .textContent = node.kind === 'cat' ? node.ref.count : initials(node.ref.name);
+    const lbl = mk('text', {class:'lbl', x, y:y + r + (n >= 16 && i % 2 ? 27 : 14)}, g);
+    lbl.textContent = node.kind === 'cat' ? node.ref.label : short(node.ref.name, 18);
+    if (node.kind === 'cat') {
+      mk('text', {class:'cnt', x: x + r*0.72, y: y - r*0.72, fill:color, 'font-size':'9px'}, g)
+        .textContent = node.ref.count;
+    }
+    const title = node.kind === 'cat' ? node.ref.label
+      : node.ref.name + (node.succ ? ' · sucesora' : '');
+    g.setAttribute('title', title);
+    g.addEventListener('click', () => node.kind === 'cat' ? focusCat(node.ref) : selectTool(node.ref.slug));
+  });
+
+  // anillo de tags
+  tags.forEach((tnode, i) => {
+    const a = start + (i / Math.max(tags.length,1)) * Math.PI * 2 + 0.2;
+    const x = cx + Math.cos(a) * rTag, y = cy + Math.sin(a) * rTag;
+    mk('line', {class:'edge fade', x1:cx, y1:cy, x2:x, y2:y, stroke:'rgba(125,211,252,.34)',
+      'stroke-dasharray':'3 4', style:`animation-delay:${120 + i*12}ms`});
+    const g = mk('g', {class:'node pop', style:`animation-delay:${120 + i*16}ms`});
+    mk('circle', {cx:x, cy:y, r:13, fill:'#0e1622', stroke:'rgba(125,211,252,.35)', 'stroke-width':1}, g);
+    mk('text', {class:'tag', x, y:y+13+11, fill:'#8fa0b8', 'text-anchor':'middle', style:'paint-order:stroke;stroke:#0b0f17;stroke-width:3px'}, g).textContent = tnode.ref;
+    g.addEventListener('click', () => { qEl.value = tnode.ref; runSearch(tnode.ref); qEl.focus(); });
+  });
+
+  renderTrail();
+}
+
+/* ---------- navegación ---------- */
+function focusCat(cat) {
+  state.focus = {kind:'cat', ref:cat};
+  state.path = [ROOT, state.focus];
+  patchPanel();
+  render();
+}
+function selectTool(slug, {open=true} = {}) {
+  const t = toolBySlug[slug]; if (!t) return;
+  const catNode = {kind:'cat', ref: catBySlug[t.cat] || {slug:t.cat, label:t.cat}};
+  state.focus = {kind:'tool', ref:t};
+  state.path = [ROOT, catNode, state.focus];
+  render();
+  if (open) openPanel(t);
+}
+function goUp() {
+  const f = state.focus;
+  if (f.kind === 'tool') focusCat(catBySlug[f.ref.cat] || {slug:f.ref.cat,label:f.ref.cat});
+  else if (f.kind === 'cat') { state.focus = ROOT; state.path = []; patchPanel(); render(); }
+}
+function renderTrail() {
+  trail.innerHTML = '';
+  const items = [{label:'inicio', target:() => { state.focus = ROOT; state.path = []; patchPanel(); render(); }}]
+    .concat(state.path.map((p, idx) => ({
+      label: p.kind === 'root' ? 'software-tools' : (p.ref.label || p.ref.name),
+      isNow: idx === state.path.length - 1,
+      target: () => {
+        if (p.kind === 'root') { state.focus = ROOT; state.path = []; patchPanel(); render(); }
+        else if (p.kind === 'cat') focusCat(p.ref);
+        else selectTool(p.ref.slug, {open:false});
+      }
+    })));
+  items.forEach((it, i) => {
+    if (i) { const sep = document.createElement('i'); sep.textContent = '›'; trail.appendChild(sep); }
+    const b = document.createElement('button');
+    b.textContent = it.label;
+    if (it.isNow) b.className = 'is-now';
+    b.addEventListener('click', it.target);
+    trail.appendChild(b);
+  });
+}
+
+/* ---------- panel de ficha ---------- */
+function openPanel(t) {
+  document.body.classList.add('panel-open');
+  panel.classList.add('is-open');
+  panel.setAttribute('aria-hidden', 'false');
+  const cat = catBySlug[t.cat];
+  const years = t.until ? `${t.year} – ${t.until}` : `desde ${t.year}`;
+  pinner.innerHTML = `
+    <div class="panel__meta">${cat ? cat.label : t.cat} · ${years}</div>
+    <h2>${t.name}</h2>
+    <p class="ctx">${t.ctx}</p>
+    ${t.tags.length ? `<h3>Tags</h3><div class="chips">${t.tags.map(g =>
+        `<button data-tag="${g}">${g}</button>`).join('')}</div>` : ''}
+    ${t.rel.length || t.succ ? `<h3>Relacionadas</h3><div class="rel">` +
+        t.rel.map(r => toolBySlug[r] ? `<button data-go="${r}">↗ ${toolBySlug[r].name}</button>` : '').join('') +
+        (t.succ && toolBySlug[t.succ] ? `<button data-go="${t.succ}">→ sucesora: ${toolBySlug[t.succ].name}</button>` : '') +
+        `</div>` : ''}
+    <a class="live" href="https://software-tools.pcabrera.com/tools/${t.slug}" target="_blank" rel="noopener">ver ficha completa ↗</a>`;
+  pinner.querySelectorAll('[data-go]').forEach(b =>
+    b.addEventListener('click', () => selectTool(b.dataset.go)));
+  pinner.querySelectorAll('[data-tag]').forEach(b =>
+    b.addEventListener('click', () => { qEl.value = b.dataset.tag; runSearch(b.dataset.tag); qEl.focus(); }));
+  pinner.scrollTop = 0;
+  render();
+}
+function closePanel() {
+  document.body.classList.remove('panel-open');
+  panel.classList.remove('is-open');
+  panel.setAttribute('aria-hidden', 'true');
+  render();
+}
+function patchPanel() { if (!panel.classList.contains('is-open')) return; }
+document.getElementById('pclose').addEventListener('click', closePanel);
+
+/* ---------- búsqueda (requerida) ---------- */
+const INDEX = D.tools.map(t => ({
+  t, hay: (t.name + ' ' + t.slug + ' ' + t.tags.join(' ') + ' ' + t.ctx).toLowerCase()
+}));
+function searchTools(q) {
+  q = q.trim().toLowerCase();
+  if (!q) return [];
+  const out = [];
+  for (const {t, hay} of INDEX) {
+    const name = t.name.toLowerCase();
+    let s = -1;
+    if (name.startsWith(q)) s = 0;
+    else if (name.includes(q)) s = 1;
+    else if (t.tags.some(g => g.toLowerCase().includes(q))) s = 2;
+    else if (hay.includes(q)) s = 3;
+    if (s >= 0) out.push({t, s});
+  }
+  return out.sort((a,b) => a.s - b.s || a.t.name.localeCompare(b.t.name)).slice(0, 8).map(x => x.t);
+}
+function runSearch(q) {
+  const res = searchTools(q);
+  ddEl.innerHTML = '';
+  if (!q.trim()) { ddEl.classList.remove('is-open'); return; }
+  if (!res.length) { ddEl.innerHTML = `<div class="empty">sin resultados para «${q.trim()}»</div>`; ddEl.classList.add('is-open'); return; }
+  res.forEach(t => {
+    const b = document.createElement('button');
+    b.setAttribute('role','option');
+    b.innerHTML = `${t.name}<span>${(catBySlug[t.cat] || {label:t.cat}).label} · ${t.year}</span>`;
+    b.addEventListener('click', () => { ddEl.classList.remove('is-open'); qEl.value = ''; selectTool(t.slug); });
+    ddEl.appendChild(b);
+  });
+  ddEl.classList.add('is-open');
+}
+qEl.addEventListener('input', () => runSearch(qEl.value));
+qEl.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { ddEl.classList.remove('is-open'); qEl.blur(); }
+  if (e.key === 'Enter') { const first = ddEl.querySelector('button'); if (first) first.click(); }
+});
+document.addEventListener('click', e => { if (!e.target.closest('.hd__search')) ddEl.classList.remove('is-open'); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (panel.classList.contains('is-open')) closePanel(); }
+  if (e.key === '/' && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
+});
+
+/* ---------- arranque (deep-link ?tool= / ?cat=) ---------- */
+resize();
+const qs = new URLSearchParams(location.search);
+const deepTool = qs.get('tool');
+const deepCat  = qs.get('cat');
+if (deepTool && toolBySlug[deepTool]) selectTool(deepTool);
+else if (deepCat && catBySlug[deepCat]) focusCat(catBySlug[deepCat]);
+})();
+</script>
+</body>
+</html>
