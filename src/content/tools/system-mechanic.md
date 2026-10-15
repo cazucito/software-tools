@@ -27,6 +27,6 @@ El producto sigue publicándose hoy (System Mechanic Ultimate Defense, `iolo.com
 
 ## Presencia en esta colección
 
-Se conserva el instalador de la versión — originalmente nombrado `System Mechanic 3.2d - Feb 8, 00.exe`, servido como `System Mechanic 3.2d - Feb 8 00.exe` (las comas no son válidas en las rutas de descarga): un instalador de **16 bits** (chequeo «Windows 3.1 o superior»), estampa de su época.
+Se conserva el instalador de la versión — originalmente nombrado `System Mechanic 3.2d - Feb 8, 00.exe`, servido como `System_Mechanic_3.2d_-_Feb_8_00.exe` (comas y espacios se sustituyen por guiones bajos: ni el registro de descargas ni el hosting aceptan esas rutas): un instalador de **16 bits** (chequeo «Windows 3.1 o superior»), estampa de su época.
 
 > **Nota de fechas**: la fecha 2000-02-08 proviene del **nombre original del archivo** (no hay fecha embebida legible en el binario) y de la serie 3.x documentada en el Internet Archive — es la mejor evidencia disponible.
