@@ -162,7 +162,7 @@ Subida PHP 2 MB → subida directa ≤1.5 MB; archivos grandes por FTP; ejecuci�
 - [ ] SEO ✓; **URLs de v2 intactas**.
 - [ ] Seguridad §7 verificada; cero accesos directos a archivos.
 - [ ] Deploy reproducible y **restauración de backup probada**.
-- [ ] GitHub Pages retirado; placeholder reemplazado.
+- [x] GitHub Pages retirado (2026-10-15, la URL responde 404; `pages-build-deployment` es workflow de sistema) y placeholder reemplazado por la v3 en la raíz.
 
 ## 11. Futuro (v3.x, no bloqueante)
 

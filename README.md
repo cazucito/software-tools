@@ -28,6 +28,9 @@ python3 ops/tools/verify_parity.py       # verifica que nada se perdió (PARIDAD
 # Local (PHP 8.1 + SQLite)
 docker run --rm -d --name st-proto -p 127.0.0.1:8091:8091 -v "$PWD":/srv -w /srv php:8.1-cli php -S 0.0.0.0:8091 -t app/public
 rm -f app/data/ops.sqlite && bash ops/tests/e2e.sh   # e2e (borra el ops.sqlite local: rate-limit de login)
+
+# Deploy a producción (catálogo con el patrón .uploading + RENAME — ver ops/README.md)
+python3 ops/deploy/deploy.py --root
 ```
 
 Guía completa para agentes: [AGENTS.md](AGENTS.md) · Índice de documentación: [docs/README.md](docs/README.md).

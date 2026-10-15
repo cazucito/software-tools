@@ -175,7 +175,7 @@ Las tres direcciones de la Fase 1 (Cinta / Línea / Máquina) conviven como **mo
 
 - Contenido, tono personal, slugs y el español como idioma base (el inglés es capa nueva).
 - Identidad (tema oscuro, tipografía display coherente) — evoluciona en F1, no se pierde.
-- [ADR-003](../adr/003-modelo-de-datos.md): Markdown como fuente de autoría (el importador es su evolución natural).
+- ADR-003 *(retirado; preservado en la historia de git y el tag `v2.0.0`)*: Markdown como fuente de autoría (el importador es su evolución natural).
 - El repo en GitHub como fuente del código y de la historia (el tag `v2.0.0` conserva el pasado íntegro).
 
 ---

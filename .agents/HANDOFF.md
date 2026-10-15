@@ -25,8 +25,8 @@ rm -f app/data/ops.sqlite && bash ops/tests/e2e.sh     # esperar 70/70 (default 
 python3 ops/deploy/deploy.py                     # sandbox /proto/
 python3 ops/deploy/deploy.py --catalog           # + catálogo (solo tras exportar ediciones vivas)
 python3 ops/deploy/deploy.py --root --catalog    # producción (raíz); el catálogo sube ANTES del código (desde 173c0e2); renombra a _bak-* si reaparecen
-# regenerar config viva (nueva pass/secret): cap/write_live_config.py — scratch/st-f4 se autopurga a las 24 h;
-# el admin pass de producción debe conservarse en BWS
+# config viva (admin pass/app_secret): no hay script en el repo (los de cap/ se retiraron en la limpieza) —
+# patrón: openssl rand → password_hash (php:8.1, env nunca argv) → config.local.php (comillas simples) → FTP; valores SIEMPRE a BWS
 ```
 
 ## Cuidados

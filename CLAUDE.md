@@ -4,7 +4,7 @@
 
 ## Visión del proyecto
 
-software-tools es mi archivo personal de herramientas utilizadas en más de veinte años de docencia e ingeniería. No es un catálogo genérico: es un **mapa evolutivo** (categorías → familias → herramientas, 1991 → hoy) con historia personal — 57 fichas.
+software-tools es mi archivo personal de herramientas utilizadas en más de veinte años de docencia e ingeniería. No es un catálogo genérico: es un **mapa evolutivo** (categorías → familias → herramientas, 1991 → hoy) con historia personal — 58 fichas.
 
 ## Voz y decisiones de contenido
 
