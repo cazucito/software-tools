@@ -135,7 +135,9 @@ if (dataUrl.origin !== location.origin) fatal('Datos: solo se admiten rutas del 
 else {
   const sc = document.createElement('script');
   sc.src = dataUrl.href;
-  sc.onload = () => (window.ST_DATA && window.ST_DATA.categories && window.ST_DATA.tools)
+  const validData = d => !!d && Array.isArray(d.categories) && Array.isArray(d.tools)
+    && d.tools.every(t => t && typeof t.slug === 'string' && typeof t.name === 'string');
+  sc.onload = () => validData(window.ST_DATA)
     ? init(window.ST_DATA) : fatal('Datos inválidos: falta window.ST_DATA.');
   sc.onerror = () => fatal('No se pudo cargar ' + dataUrl.pathname);
   document.head.appendChild(sc);
@@ -150,8 +152,45 @@ const toolBySlug = Object.fromEntries(D.tools.map(t => [t.slug, t]));
 // color de categoría: dato → mapa local → hash determinista del slug
 const slugHash = s => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
 const colorOf = c => c.color || CAT_COLOR[c.slug] || PALETTE[slugHash(c.slug) % PALETTE.length];
-const LABEL_MIN = 30;  // separación mínima (px) para mostrar etiquetas no activas
+const LABEL_MIN = 30;      // separación mínima (px) para etiquetas no activas (familias y hojas)
+const LABEL_CAT_MIN = 34;  // ídem para categorías
+const MIN_SP = 24;         // paso vertical mínimo (px) del abanico antes de recortar con chip de desborde
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const panelIsOpen = () => document.getElementById('panel').classList.contains('is-open');
 const isMobile = () => window.innerWidth <= 760;
+
+// columnas del árbol; en móvil estrecho se comprimen para que la columna de hojas quede dentro del viewport
+const xCols = (compact, W) => {
+  const xCat = compact ? 170 : 268, xSub = xCat + (compact ? 150 : 205);
+  const xLeaf = xSub + (compact ? 165 : 228);
+  if (compact && xLeaf > W - 32) return {xRoot: 44, xCat: 112, xSub: 212, xLeaf: 317, tight: true};
+  return {xRoot: compact ? 64 : 104, xCat, xSub, xLeaf, tight: false};
+};
+
+// abanico de hojas: 1 columna hasta FAN_SINGLE; más → multicolumna con tope de alto y de ancho.
+// Presupuesto horizontal: la última columna debe quedar a la izquierda de xMax (el panel es un overlay).
+const FAN_SINGLE = 14, SP = 40, MAX_COLS = 4;
+const fanPlan = (n, availH, xCol, W, compact, open) => {
+  const colW = compact ? 150 : 200;
+  const xMax = W - (open && !compact ? 380 : 24);  // en móvil el panel es una hoja inferior, no cubre columnas
+  const maxCols = Math.max(1, Math.floor((xMax - 8 - xCol) / colW) + 1);
+  const colsCap = Math.min(MAX_COLS, maxCols);
+  const rowsMax = Math.max(4, Math.floor(availH / SP) + 1);
+  const cap = Math.min(620, availH);
+  let cols = Math.min(colsCap, n > FAN_SINGLE ? Math.max(2, Math.ceil(n / rowsMax)) : 1);
+  let rpc = Math.ceil(n / cols);
+  // primero se abren columnas (hasta colsCap); comprimir el paso es el último recurso
+  while ((rpc - 1) * SP > cap && cols < colsCap) { cols++; rpc = Math.ceil(n / cols); }
+  let shown = n, overflow = 0;
+  const rows = Math.floor(cap / MIN_SP) + 1;
+  if (rpc > rows) {
+    // no cabe ni comprimido a MIN_SP: se muestran slots-1 hojas + 1 chip de desborde
+    shown = cols * rows - 1; overflow = n - shown; rpc = rows;
+  }
+  const sp = rpc > 1 ? Math.min(SP, cap / (rpc - 1)) : SP;
+  return {cols, rpc, sp, shown, overflow, xMax, colW};
+};
+if (qs.get('selftest')) window.__fanPlan = fanPlan;  // gancho de la verificación numérica (README)
 
 const svg  = document.getElementById('map');
 const panel= document.getElementById('panel');
@@ -185,10 +224,7 @@ function render() {
   svg.innerHTML = '';
   const LABELS = [];
   const compact = isMobile();
-  const xRoot = compact ? 64 : 104;
-  const xCat  = compact ? 170 : 268;
-  const xSub  = xCat + (compact ? 150 : 205);
-  const xLeaf = xSub + (compact ? 165 : 228);
+  const {xRoot, xCat, xSub, xLeaf, tight} = xCols(compact, W);
   const cy = H/2 + 6;
 
   const cats = D.categories;
@@ -212,25 +248,16 @@ function render() {
     style:'paint-order:stroke;stroke:#0b0f17;stroke-width:3px'}, tg)
     .textContent = 'software-tools';
 
-  // abanico de hojas: 1 columna hasta FAN_SINGLE; más → multicolumna con tope de alto
-  const FAN_SINGLE = 14, SP = 40, MAX_COLS = 4;
   const colW = compact ? 150 : 200;
-  const fanLayout = (n, availH) => {
-    const rowsMax = Math.max(4, Math.floor(availH / SP) + 1);
-    let cols = n > FAN_SINGLE ? Math.max(2, Math.ceil(n / rowsMax)) : 1;
-    let rpc = Math.ceil(n / cols);
-    const cap = Math.min(620, availH);
-    while ((rpc - 1) * SP > cap && cols < MAX_COLS) { cols++; rpc = Math.ceil(n / cols); }
-    // si aun así no cabe, se comprime el paso vertical (y las etiquetas se ocultan bajo LABEL_MIN)
-    const sp = rpc > 1 ? Math.min(SP, cap / (rpc - 1)) : SP;
-    return {cols, rpc, sp};
-  };
+  const fanLayout = (n, availH, xCol) => fanPlan(n, availH, xCol, W, compact, panelIsOpen());
 
   // hojas de una lista: primero TODOS los nervios, luego nodos+etiquetas
   const drawLeaves = (tl, srcX, srcY, xCol, color) => {
     if (!tl.length) return;
     const availTop = 84, availBot = H - 48;
-    const {cols, rpc, sp} = fanLayout(tl.length, availBot - availTop);
+    const {cols, rpc, sp, shown, overflow, xMax} = fanLayout(tl.length, availBot - availTop, xCol);
+    const total = tl.length;
+    tl = tl.slice(0, shown);
     const fanH = (rpc - 1) * sp;
     const cyF = Math.max(availTop + fanH/2, Math.min(availBot - fanH/2, srcY));
     const showAll = sp >= LABEL_MIN;
@@ -254,13 +281,26 @@ function render() {
       }
       lg.addEventListener('click', () => selectTool(t.slug));
     }
+    if (overflow > 0) {
+      const col = Math.floor(shown / rpc), row = shown % rpc;
+      const x = xCol + col * colW, ty = cyF - fanH/2 + row * sp;
+      const og = mk('g', {class:'node leaf-pop overflow', 'data-overflow': overflow});
+      tip(og, `${overflow} de ${total} herramientas sin mostrar`);
+      const cw = compact ? 150 : 172, cx0 = Math.min(x - 8, xMax - cw);  // el chip nunca pasa de xMax
+      mk('rect', {x:cx0, y:ty-11, width:cw, height:22, rx:11,
+        fill:'#101826', stroke:color, 'stroke-width':1.2, 'stroke-dasharray':'4 3'}, og);
+      mk('text', {x:cx0+12, y:ty+3.5, class:'leafLbl'}, og).textContent =
+        `+${overflow} más · usar búsqueda`;
+      og.addEventListener('click', () => { qEl.focus(); });
+      nerve(srcX, srcY, x - 8, ty, `rgba(${hex2rgb(color)},0.35)`, 1.1, 16);
+    }
   };
 
   cats.forEach((cat, i) => {
     const y = yOf(i);
     const color = colorOf(cat);
     const open = state.cat === cat.slug;
-    const rC = Math.max(8, Math.min(24, spread / 2 - 2));  // el nodo se achica si hay muchas categorías
+    const rC = clamp(spread * 0.30, 10, 24);  // el nodo se achica si hay muchas categorías
 
     // rama principal (curva orgánica), arranca en el borde del tronco
     const dxT = xCat - xRoot, dyT = y - cy, lenT = Math.hypot(dxT, dyT) || 1;
@@ -283,7 +323,7 @@ function render() {
       if (state.selected && toolBySlug[state.selected].cat !== state.cat) state.selected = null;
       render();
     };
-    if (spread >= LABEL_MIN || open)
+    if (spread >= LABEL_CAT_MIN || open)
       LABELS.push({x: xCat+rC+6, y: rC < 16 ? y+4 : y-9, text: cat.label, strong: open,
         size: 12, dim: '#98a2b3', halo: 3, onClick: onCatClick});
     g.addEventListener('click', onCatClick);
@@ -300,7 +340,7 @@ function render() {
       if (bot0 > H - 40) sh -= bot0 - (H - 40);
       if (top0 + sh < 86) sh += 86 - (top0 + sh);
       const yS = k => y + (k - (ns-1)/2) * spreadS + sh;
-      const rS = Math.max(6, Math.min(14, spreadS / 2 - 1));
+      const rS = clamp(spreadS * 0.33, 7, 14);
 
       // nervios (salida radial del hub) primero; etiquetas al final (z-order global)
       subs.forEach((s, k) => {
@@ -322,7 +362,7 @@ function render() {
           render();
         };
         if (spreadS >= LABEL_MIN || openS)
-          LABELS.push({x: xSub+rS+12, y: yy+3.5, text: short(s.label, compact ? 20 : 28),
+          LABELS.push({x: xSub+rS+12, y: yy+3.5, text: short(s.label, tight ? 11 : compact ? 20 : 28),
             strong: openS, size: 10.5, dim: '#9aa7ba', halo: 3.5, onClick});
         sg.addEventListener('click', onClick);
         if (!openS) return;
@@ -367,8 +407,8 @@ function selectTool(slug, {expand=true} = {}) {
   const t = toolBySlug[slug]; if (!t) return;
   if (expand) { state.cat = t.cat; state.sub = t.sub || null; }
   state.selected = slug;
+  openPanel(t);   // antes de render(): el presupuesto horizontal depende del estado del panel
   render();
-  openPanel(t);
 }
 
 /* ---------- panel ---------- */

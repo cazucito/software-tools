@@ -49,7 +49,9 @@ def fail(msg):
 
 
 tax = json.loads(TAXONOMY_JSON.read_text(encoding='utf-8'))
-THRESHOLD = tax['threshold']  # > THRESHOLD herramientas en una categoría → se subdivide
+THRESHOLD = tax.get('threshold')  # > THRESHOLD herramientas en una categoría → se subdivide
+if isinstance(THRESHOLD, bool) or not isinstance(THRESHOLD, int) or not 1 <= THRESHOLD <= 50:
+    fail(f'taxonomy.json: threshold debe ser un entero 1..50 (recibido: {THRESHOLD!r})')
 LABELS = tax.get('category_labels', {})
 FAMILIES = tax.get('families', {})
 
@@ -59,6 +61,8 @@ con.row_factory = sqlite3.Row
 # --- validación del JSON contra el catálogo (antes de escribir nada) ---
 cat_of = {r['slug']: r['category'] for r in con.execute("SELECT slug, category FROM tools")}
 cat_slugs = {r['slug'] for r in con.execute("SELECT slug FROM categories")}
+for k in sorted(set(LABELS) - cat_slugs):
+    print(f'AVISO: category_labels «{k}» no coincide con ninguna categoría de la BD (se ignora)')
 assigned = {}  # slug de herramienta -> (categoría, familia) según el JSON
 for cslug, fams in FAMILIES.items():
     if cslug not in cat_slugs:

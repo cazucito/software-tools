@@ -56,3 +56,16 @@ del modo, sustituyendo el selector de modalidades; las páginas `/tools/<slug>` 
   fixture sintético (14 categorías, 173 herramientas, familia de 40, categoría
   plana de 25) se regenera con `python3 tools/make_stress_data.py`.
 - `?static=1` — sin animaciones (capturas).
+
+## Presupuestos de layout y límites conocidos (b-dendrita)
+
+- Abanico de hojas: la última columna nunca pasa de `xMax = W − (panel abierto ? 380 : 24)`
+  (en móvil el panel es una hoja inferior, no resta ancho). Se abren columnas antes de
+  comprimir el paso (`SP` 40 → mínimo `MIN_SP` 24); si ni así caben, se muestran `slots−1`
+  hojas y un chip `+N más · usar búsqueda` (enfoca `#q`). Invariante: visibles + N == total.
+- El tope depende del estado del panel en el momento del render (el panel es un overlay);
+  al cerrarlo, el abanico no se recompone hasta el siguiente render.
+- Verificación numérica: `?selftest=1` expone `window.__fanPlan` (función pura de layout).
+- Compromiso aceptado: la comprobación de mismo origen de `?data=` solo valida la URL
+  inicial; una redirección same-origin podría servir un script clásico de otro origen
+  (sin fuga de datos; el fixture es una maqueta local).

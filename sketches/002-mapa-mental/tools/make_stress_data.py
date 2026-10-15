@@ -32,9 +32,11 @@ def load(path):
 
 
 def synth_tool(n, name, cat, sub, tags):
+    year = 1991 + (n * 7) % 35
     return {
-        'slug': f'stress-{n:03d}', 'name': name, 'year': 1991 + (n * 7) % 35,
-        'until': None if n % 3 else 1995 + (n * 5) % 30, 'cat': cat, 'sub': sub,
+        'slug': f'stress-{n:03d}', 'name': name, 'year': year,
+        'until': None if n % 3 else year + 1 + (n * 5) % 10,  # always until > year
+        'cat': cat, 'sub': sub,
         'ctx': f'Herramienta sintética #{n} para probar el motor con volumen. '
                f'No existe en el catálogo real; solo ejercita el layout.',
         'tags': tags, 'rel': [], 'succ': None,
