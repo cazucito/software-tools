@@ -2,7 +2,7 @@
 
 **Versión:** 3.0 (borrador de implementación) · **Fecha:** 2026-10-05
 **Estado:** vigente. Sustituye a la especificación v2 (era del sitio estático en GitHub Pages — preservada en la historia de git y en el tag `v2.0.0`).
-**Documentos rectores:** [ADRs 005–009](adr/) · [Plan v3 v1.3](plans/2026-10-05-v3-propuesta-arquitectura.md).
+**Documentos rectores:** [ADRs 005–012](adr/) (la 006 está reemplazada por la [012](adr/012-ui-unica-mapa.md)) · [Plan v3 v1.3](plans/2026-10-05-v3-propuesta-arquitectura.md).
 
 ---
 
@@ -10,16 +10,17 @@
 
 | Aspecto | Descripción |
 |---|---|
-| **Propósito** | Archivo personal del software usado por el dueño (**50 herramientas, 1991 → hoy**): timeline navegable, fichas, búsqueda, comentarios y descargas personales; lo redistribuible se ofrece público |
+| **Propósito** | Archivo personal del software usado por el dueño (**57 herramientas, 1991 → hoy**): mapa dendrita navegable, fichas, búsqueda, comentarios y descargas personales; lo redistribuible se ofrece público |
 | **Hosting** | `software-tools.pcabrera.com` — PHP **8.1** + **SQLite** (LiteSpeed; FTS5 verificado en Fase 0) |
 | **Autoría** | Markdown en git (**fuente**) → importador → `catalog.sqlite` (espejo de lectura) · datos operativos en `ops.sqlite` (ADR-009) · panel admin (ADR-008) |
 | **Idiomas** | Español (raíz) · Inglés (`/en/`) |
-| **Modos** | `cinta` · `linea` (default) · `maquina` — seleccionables (ADR-006) |
+| **UI** | Única: la home es el **mapa dendrita** (categorías → familias → herramientas; [ADR-012](adr/012-ui-unica-mapa.md)). Sin modalidades ni selector |
+| **Build** | Sin npm: el único paso es el importador (fichas + `taxonomy.json` → `catalog.sqlite`) |
 | **Fuera de** | GitHub Pages (se retira al desplegar), subidas públicas, cuentas de usuario |
 
 ## 2. Alcance
 
-**Dentro:** timeline-home con 3 modos + selector · fichas · índices (herramientas, etiquetas, categorías, décadas) · búsqueda FTS instantánea · comentarios moderados · descargas con clave individual por software (ADR-007) · assets por herramienta (ícono/logo/cover) · i18n es/en · SEO · panel admin (catálogo/descargas/comentarios) · respaldos.
+**Dentro:** home = mapa dendrita (UI única) · fichas · índices (herramientas, etiquetas, categorías, décadas) · búsqueda FTS instantánea · comentarios moderados · descargas con clave individual por software (ADR-007) · assets por herramienta (ícono/logo/cover) · i18n es/en · SEO · panel admin (catálogo/descargas/comentarios) · respaldos.
 
 **Fuera:** subidas de visitantes (**regla**), cuentas públicas, e-commerce, analytics de terceros, notificaciones por correo (v1), RSS (futuro opcional).
 
@@ -43,7 +44,7 @@ software-tools/
 └── AGENTS.md · README.md
 ```
 
-**Contenido autorado:** `content/tools/*.md` (fichas) y `content/taxonomy.json` (familias del mapa, [ADR-012](adr/012-ui-unica-mapa.md)). El importador acepta `--source` y `--taxonomy`.
+**Contenido autorado:** `content/tools/*.md` (fichas) y `content/taxonomy.json` (umbral, etiquetas/colores de categoría y familias del mapa, [ADR-012](adr/012-ui-unica-mapa.md)). Las categorías con más de `threshold` (>6) herramientas se subdividen en familias (14 hoy); las demás son planas. El importador acepta `--source` y `--taxonomy`.
 
 **Flujo de datos:**
 `content/tools/*.md` + `content/taxonomy.json` (git = fuente) → `ops/tools/import_catalog.py` → `app/data/catalog.sqlite` → app (lectura). Los **datos operativos** (comentarios, descargas, claves, assets, ediciones del admin) viven aparte en `app/data/ops.sqlite`, que se auto-inicializa y **nunca lo toca el importador ni el deploy** ([ADR-009](adr/009-datos-operativos.md)); **export a Markdown** para volcar al repo ([ADR-008](adr/008-admin.md)).
@@ -60,12 +61,15 @@ CREATE TABLE tools(
   id INTEGER PRIMARY KEY,
   slug TEXT UNIQUE NOT NULL, name TEXT NOT NULL, year INTEGER NOT NULL,
   used_until INTEGER, category TEXT NOT NULL, context TEXT NOT NULL, body TEXT NOT NULL DEFAULT '',
-  image TEXT, successor TEXT, successor_slug TEXT, next_version TEXT,
+  family TEXT, image TEXT, successor TEXT, successor_slug TEXT, next_version TEXT,
   published INTEGER NOT NULL DEFAULT 1, created_at TEXT, updated_at TEXT);
 CREATE TABLE tool_i18n(
   tool_id INTEGER NOT NULL REFERENCES tools(id) ON DELETE CASCADE,
   lang TEXT NOT NULL, context TEXT, body TEXT, PRIMARY KEY(tool_id, lang));
-CREATE TABLE categories(slug TEXT PRIMARY KEY, name TEXT NOT NULL);
+CREATE TABLE categories(slug TEXT PRIMARY KEY, name TEXT NOT NULL, label_es TEXT, color TEXT);
+CREATE TABLE families(
+  category TEXT NOT NULL, slug TEXT NOT NULL, label TEXT NOT NULL, position INTEGER NOT NULL,
+  PRIMARY KEY(category, slug));
 CREATE TABLE tags(id INTEGER PRIMARY KEY, name TEXT UNIQUE NOT NULL);
 CREATE TABLE tool_tags(tool_id INTEGER NOT NULL REFERENCES tools(id) ON DELETE CASCADE,
   tag_id INTEGER NOT NULL REFERENCES tags(id), PRIMARY KEY(tool_id, tag_id));
@@ -107,7 +111,7 @@ Notas: `used_until`/`successor*` nulos = **sin fecha de fin registrada** (posibl
 
 | Ruta | Qué |
 |---|---|
-| `/` | Home: timeline con el modo activo |
+| `/` | Home: mapa dendrita |
 | `/tools` | Índice completo de herramientas |
 | `/tools/<slug>` | Ficha de herramienta |
 | `/tags` · `/tags/<tag>` | Índices por etiqueta |
@@ -122,7 +126,7 @@ URLs **estables** heredadas de v2 (`/tools/…`, `/tags/…`) para no romper enl
 
 ## 6. Features y criterios de aceptación
 
-- **6.1 Timeline-home + modalidades** — *(reemplazado por [ADR-012](adr/012-ui-unica-mapa.md): la home es el mapa dendrita y no hay modalidades; texto original abajo)* — cada modo (cinta/línea/máquina) presenta las 50 fichas como recorrido navegable; selector persistente (`localStorage` + `?modo=`); **solo se carga el bundle del modo activo**; `prefers-reduced-motion` → versión estática; sin JS → contenido legible. Default: `linea`.
+- **6.1 Home = mapa dendrita** ([ADR-012](adr/012-ui-unica-mapa.md)) — las 57 fichas como mapa mental (categorías → familias → herramientas, datos de `Catalog::mapData()` leídos de la BD; PHP nunca lee el JSON en runtime); `prefers-reduced-motion` y `?static` → versión sin animaciones; sin JS → contenido legible (`<noscript>`). *(Reemplaza a las tres modalidades cinta/línea/máquina del [ADR-006](adr/006-modalidades.md), retiradas; viven en el tag `archive/pre-mapa-2026-10-15`.)*
 - **6.2 Fichas** — todos los campos (name, year, usedUntil «en uso» si null, categoría, tags, contexto, cuerpo, sucesora/siguiente versión, relacionadas, imagen/cover). Sección «Descargas» cuando existan archivos; comentarios al final. Navegación anterior/siguiente por año.
 - **6.3 Búsqueda** — FTS5 sobre nombre/contexto/cuerpo/tags; resultados en tiempo real (fetch + debounce); resaltado; ≥95% de consultas <150 ms en local.
 - **6.4 Índices** — tools/tags/categories/decades listan, cuentan y enlazan.
@@ -132,7 +136,7 @@ URLs **estables** heredadas de v2 (`/tools/…`, `/tags/…`) para no romper enl
 - **6.8 i18n** — cadenas UI en `locales/{es,en}.json` (módulo listo; extracción completa de cadenas en Fase 6); contenido traducido en `tool_i18n`; switcher cuando el inglés esté publicado (Fase 6).
 - **6.9 SEO** — canonical por idioma, `hreflang`, JSON-LD (WebSite, SoftwareApplication), Open Graph, sitemap; el prototipo permanece `noindex` hasta la Fase 7.
 - **6.10 Admin** — según [ADR-008](adr/008-admin.md): login con rate-limit; comentarios (moderar), descargas (archivos + claves + visibilidad), catálogo (editar/despublicar) y **export a Markdown**; las ediciones marcan `catalog_dirty` hasta exportarse.
-- **6.11 Configuración** — `config.php` con flags: modos habilitados, comentarios on/off, idiomas, límites; secretos en `config.local.php` (no versionado).
+- **6.11 Configuración** — `config.php` con flags: comentarios on/off, idiomas, límites; secretos en `config.local.php` (no versionado).
 
 ## 7. Seguridad
 
@@ -141,17 +145,17 @@ Pass admin en **BWS/config.local.php** (nunca en repo); argon2id (con fallback b
 ## 8. Operación
 
 - **Local:** `docker run … php:8.1-cli php -S 127.0.0.1:8091 -t app/public` (o cualquier PHP 8.1) + importador.
-- **Deploy:** `ops/deploy/deploy.py` (ftplib + BWS; **solo complementa, nunca borra**); el catálogo se sube solo con bandera explícita; `ops.sqlite` y `config.local.php` **nunca** se suben.
+- **Deploy:** `ops/deploy/deploy.py` (ftplib + BWS; **solo complementa, nunca borra**); el catálogo se sube solo con bandera explícita (`--catalog`) y **antes** que el código, para no observar código nuevo con BD vieja; `ops.sqlite` y `config.local.php` **nunca** se suben.
 - **Respaldos:** snapshot programado del SQLite (patrón kofro): `ops.sqlite` (preciado) + `catalog.sqlite` (reconstruible).
-- **Tests:** `ops/tests/` (lint PHP, smoke con curl, paridad de contenido); matriz UI mínima: 3 modos × 2 idiomas × desktop/móvil.
+- **Tests:** `ops/tests/` (lint PHP, smoke con curl, paridad de contenido); matriz UI mínima: 2 idiomas × desktop/móvil (mapa dendrita).
 
 ## 9. Rendimiento (límites del hosting)
 
-Subida PHP 2 MB → subida directa ≤1.5 MB; archivos grandes por FTP; ejecución 30 s → nada pesado en request; JS diferido y por modo; imágenes optimizadas; cache headers para assets; el contenido renderiza antes de cualquier animación.
+Subida PHP 2 MB → subida directa ≤1.5 MB; archivos grandes por FTP; ejecución 30 s → nada pesado en request; JS diferido (vanilla, sin dependencias de build); imágenes optimizadas; cache headers para assets; el contenido renderiza antes de cualquier animación.
 
 ## 10. Criterios de aceptación globales (gate previo al deploy, Fase 7)
 
-- [ ] **Paridad 48/48** verificada (`ops/reports/`, checksum por ficha) — nada del contenido v2 se pierde.
+- [x] **Paridad 57/57** verificada (`ops/tools/verify_parity.py` → `ops/reports/`: campos y checksum por ficha, FTS, familias y categorías) — nada del contenido se pierde.
 - [x] Home = mapa dendrita funcionando (desktop + móvil, reduced-motion, sin JS vía `<noscript>`) — ADR-012; sustituye a las 3 modalidades.
 - [ ] Búsqueda, índices, comentarios, descargas con clave y admin según §6.
 - [ ] i18n operativa (ES completo; EN tras revisión).
@@ -162,4 +166,4 @@ Subida PHP 2 MB → subida directa ≤1.5 MB; archivos grandes por FTP; ejecuci�
 
 ## 11. Futuro (v3.x, no bloqueante)
 
-TOTP en el admin · RSS · más modos · API pública de solo lectura · métricas propias sin terceros · subida fragmentada (chunking) en el admin.
+TOTP en el admin · RSS · API pública de solo lectura · métricas propias sin terceros · subida fragmentada (chunking) en el admin.
