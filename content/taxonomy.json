@@ -29,7 +29,7 @@
       {"slug": "diagramacion", "label": "Diagramación y conocimiento",
        "tools": ["axon-idea-processor", "balsamiq-mockups", "mindmanager", "personal-brain", "thebrain-8", "umlet"]},
       {"slug": "calculo-e-ingenieria", "label": "Cálculo e ingeniería",
-       "tools": ["maple-v", "mathematica", "matlab", "electronic-workbench", "multisim"]},
+       "tools": ["maple-v", "mathematica", "matlab", "electronic-workbench", "multisim", "program-cc"]},
       {"slug": "ofimatica", "label": "Ofimática", "tools": ["lotus-1-2-3", "microsoft-excel"]},
       {"slug": "arte-ascii", "label": "Arte ASCII", "tools": ["bannermania", "figlet"]},
       {"slug": "mantenimiento", "label": "Mantenimiento", "tools": ["system-mechanic"]},

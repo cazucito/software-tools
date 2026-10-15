@@ -1,6 +1,6 @@
 # CONTEXT — software-tools
 
-**Qué es:** archivo personal del software usado por cazucito. **57 fichas** (1991 → hoy), cada una con historia de uso. El Markdown es la fuente de autoría.
+**Qué es:** archivo personal del software usado por cazucito. **58 fichas** (1991 → hoy), cada una con historia de uso. El Markdown es la fuente de autoría.
 
 **Dónde vive:**
 - Repo: `cazucito/software-tools` (público) · local: `/mnt/thoth/projects/software-tools`.

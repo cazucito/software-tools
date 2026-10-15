@@ -10,7 +10,7 @@
 
 | Aspecto | Descripción |
 |---|---|
-| **Propósito** | Archivo personal del software usado por el dueño (**57 herramientas, 1991 → hoy**): mapa dendrita navegable, fichas, búsqueda, comentarios y descargas personales; lo redistribuible se ofrece público |
+| **Propósito** | Archivo personal del software usado por el dueño (**58 herramientas, 1991 → hoy**): mapa dendrita navegable, fichas, búsqueda, comentarios y descargas personales; lo redistribuible se ofrece público |
 | **Hosting** | `software-tools.pcabrera.com` — PHP **8.1** + **SQLite** (LiteSpeed; FTS5 verificado en Fase 0) |
 | **Autoría** | Markdown en git (**fuente**) → importador → `catalog.sqlite` (espejo de lectura) · datos operativos en `ops.sqlite` (ADR-009) · panel admin (ADR-008) |
 | **Idiomas** | Español (raíz) · Inglés (`/en/`) |
@@ -126,7 +126,7 @@ URLs **estables** heredadas de v2 (`/tools/…`, `/tags/…`) para no romper enl
 
 ## 6. Features y criterios de aceptación
 
-- **6.1 Home = mapa dendrita** ([ADR-012](adr/012-ui-unica-mapa.md)) — las 57 fichas como mapa mental (categorías → familias → herramientas, datos de `Catalog::mapData()` leídos de la BD; PHP nunca lee el JSON en runtime); `prefers-reduced-motion` y `?static` → versión sin animaciones; sin JS → contenido legible (`<noscript>`). *(Reemplaza a las tres modalidades cinta/línea/máquina del [ADR-006](adr/006-modalidades.md), retiradas; viven en el tag `archive/pre-mapa-2026-10-15`.)*
+- **6.1 Home = mapa dendrita** ([ADR-012](adr/012-ui-unica-mapa.md)) — las 58 fichas como mapa mental (categorías → familias → herramientas, datos de `Catalog::mapData()` leídos de la BD; PHP nunca lee el JSON en runtime); `prefers-reduced-motion` y `?static` → versión sin animaciones; sin JS → contenido legible (`<noscript>`). *(Reemplaza a las tres modalidades cinta/línea/máquina del [ADR-006](adr/006-modalidades.md), retiradas; viven en el tag `archive/pre-mapa-2026-10-15`.)*
 - **6.2 Fichas** — todos los campos (name, year, usedUntil «en uso» si null, categoría, tags, contexto, cuerpo, sucesora/siguiente versión, relacionadas, imagen/cover). Sección «Descargas» cuando existan archivos; comentarios al final. Navegación anterior/siguiente por año.
 - **6.3 Búsqueda** — FTS5 sobre nombre/contexto/cuerpo/tags; resultados en tiempo real (fetch + debounce); resaltado; ≥95% de consultas <150 ms en local.
 - **6.4 Índices** — tools/tags/categories/decades listan, cuentan y enlazan.
@@ -155,7 +155,7 @@ Subida PHP 2 MB → subida directa ≤1.5 MB; archivos grandes por FTP; ejecuci�
 
 ## 10. Criterios de aceptación globales (gate previo al deploy, Fase 7)
 
-- [x] **Paridad 57/57** verificada (`ops/tools/verify_parity.py` → `ops/reports/`: campos y checksum por ficha, FTS, familias y categorías) — nada del contenido se pierde.
+- [x] **Paridad 58/58** verificada (`ops/tools/verify_parity.py` → `ops/reports/`: campos y checksum por ficha, FTS, familias y categorías) — nada del contenido se pierde.
 - [x] Home = mapa dendrita funcionando (desktop + móvil, reduced-motion, sin JS vía `<noscript>`) — ADR-012; sustituye a las 3 modalidades.
 - [ ] Búsqueda, índices, comentarios, descargas con clave y admin según §6.
 - [ ] i18n operativa (ES completo; EN tras revisión).

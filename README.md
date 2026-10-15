@@ -1,6 +1,6 @@
 # software-tools
 
-Archivo personal del software: **57 herramientas, 1991 → hoy** — cada una con su historia de uso. La home es un **mapa mental** navegable (categorías → familias → herramientas) con búsqueda; cada ficha puede traer descargas personales.
+Archivo personal del software: **58 herramientas, 1991 → hoy** — cada una con su historia de uso. La home es un **mapa mental** navegable (categorías → familias → herramientas) con búsqueda; cada ficha puede traer descargas personales.
 
 ## Estado
 

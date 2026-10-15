@@ -2,7 +2,7 @@
 
 ## Proyecto
 
-**software-tools**: archivo personal del software usado por cazucito (**57 fichas, 1991 → hoy**). La **v3** (PHP + SQLite en `software-tools.pcabrera.com`) está **en producción**; su home es el **mapa mental dendrita** y es la única UI ([ADR-012](docs/adr/012-ui-unica-mapa.md)). Las generaciones anteriores del sitio están retiradas: viven en el tag `archive/pre-mapa-2026-10-15`.
+**software-tools**: archivo personal del software usado por cazucito (**58 fichas, 1991 → hoy**). La **v3** (PHP + SQLite en `software-tools.pcabrera.com`) está **en producción**; su home es el **mapa mental dendrita** y es la única UI ([ADR-012](docs/adr/012-ui-unica-mapa.md)). Las generaciones anteriores del sitio están retiradas: viven en el tag `archive/pre-mapa-2026-10-15`.
 
 ## Fuentes de verdad
 
@@ -27,7 +27,8 @@ sketches/       → maqueta 002 (mapa mental, origen de la UI)
    Si cambia una categoría/familia: editar `content/taxonomy.json` (el importador valida y aborta ante slugs desconocidos/duplicados).
 2. `python3 ops/tools/import_catalog.py` — regenera `app/data/catalog.sqlite` (incluye familias, etiquetas y colores del mapa).
 3. `python3 ops/tools/verify_parity.py` — **debe dar PARIDAD OK** (exit 0).
-4. Commit convencional (inglés) + push.
+4. Si la herramienta trae binario: subirlo a `downloads/<slug>/` (FTP) y registrar su fila (admin → Descargas, o edición de `ops.sqlite` con el patrón seguro `.uploading` + RENAME).
+5. Commit convencional (inglés) + push; deploy del catálogo con el patrón seguro (`data/catalog.sqlite.uploading` + verificar tamaño + RENAME). Los conteos fijos del e2e (sitemap, bundle, ST_DATA) suben con cada ficha — actualizarlos.
 
 ## Comandos
 

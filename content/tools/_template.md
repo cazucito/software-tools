@@ -82,19 +82,16 @@ Tu historia específica con esta herramienta:
 
 ## COMANDOS POST-AGREGADO
 
-Después de crear el archivo, ejecuta:
+Después de crear `content/tools/<slug>.md`, ejecuta:
 
 ```bash
-npm run generate-data      # Regenera el JSON de datos
-npm run build              # Verifica que el build funcione
+python3 ops/tools/import_catalog.py   # regenera app/data/catalog.sqlite (incluye la taxonomía del mapa)
+python3 ops/tools/verify_parity.py    # debe salir «PARIDAD OK»
+bash ops/tests/e2e.sh                 # 0 fallos; los conteos fijos (sitemap/bundle/ST_DATA) suben con cada ficha
 ```
 
-Luego haz commit:
+Si la herramienta entra a una categoría con familias (regla: >6 ⇒ subdividir), agrega su slug a la familia correspondiente en `content/taxonomy.json`.
 
-```bash
-git add src/content/tools/tu-herramienta.md
-git commit -m "content: agrega [Nombre de la Herramienta]"
-git push origin main
-```
+Luego haz commit (inglés, Conventional Commits) y push. El deploy va aparte, con el patrón seguro: catálogo (`data/catalog.sqlite.uploading` + verificar tamaño + RENAME) y, si hay binario, subida a `downloads/<slug>/` + su fila registrada — ver [README](../../README.md) y [ops/README](../../ops/README.md).
 
-El sitio se actualizará automáticamente en GitHub Pages.
+El sitio en producción se actualiza con ese deploy (GitHub Pages quedó retirado).

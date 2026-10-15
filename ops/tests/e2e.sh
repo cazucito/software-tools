@@ -39,7 +39,7 @@ assert_contains "home con JSON-LD WebSite" 'application/ld+json' "$body"
 sitemap=$(curl -s "$BASE/index.php?p=sitemap.xml")
 assert_contains "sitemap con loc" '<loc>' "$sitemap"
 nloc=$(printf '%s' "$sitemap" | grep -c '<loc>')
-assert_eq "sitemap 60 urls (home+tools+search+57)" 60 "$nloc"
+assert_eq "sitemap 61 urls (home+tools+search+58)" 61 "$nloc"
 
 echo "== 2. Ficha (monograma, comentarios, JSON-LD) =="
 code=$(H "$BASE/index.php?p=tools/eudora&modo=linea"); assert_eq "ficha 200 (con ?modo legacy ignorado)" 200 "$code"
@@ -218,7 +218,7 @@ else
 fi
 bundle=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/export&bundle=1")
 nb=$(printf '%s' "$bundle" | grep -c '^slug:')
-assert_eq "bundle contiene 57 fichas" 57 "$nb"
+assert_eq "bundle contiene 58 fichas" 58 "$nb"
 exportpage=$(curl -s -b "$JAR" "$BASE/index.php?p=admin/export")
 assert_contains "pendiente visible en Export" 'eudora' "$exportpage"
 csrf_x=$(grab 'name="csrf" value="[0-9a-f]{32}"' "$exportpage" | grep -oE '[0-9a-f]{32}')
@@ -231,7 +231,7 @@ assert_eq "pendientes limpiados tras marcar exportado" 0 "$n"
 echo "== 7b. Escala (ADR-010): hero, filtros, arte =="
 home=$(curl -s "$BASE/")
 assert_contains "home: contenedor del mapa presente" 'id="st-mapa"' "$home"
-assert_contains "home: <noscript> con el archivo completo" 'Archivo completo (57 herramientas)' "$home"
+assert_contains "home: <noscript> con el archivo completo" 'Archivo completo (58 herramientas)' "$home"
 printf '%s' "$home" | python3 -c "
 import sys, re, json
 html = sys.stdin.read()
@@ -240,7 +240,7 @@ d = json.loads(m.group(1))
 fams = sum(len(c['subs']) for c in d['categories'])
 print(len(d['tools']), fams)
 " > "$TMP/stdata.txt"
-assert_eq "home: ST_DATA con 57 herramientas y 14 familias" "57 14" "$(cat "$TMP/stdata.txt")"
+assert_eq "home: ST_DATA con 58 herramientas y 14 familias" "58 14" "$(cat "$TMP/stdata.txt")"
 assert_eq "home: sin formulario de búsqueda del sitio (la búsqueda es la del mapa)" 0 "$(printf '%s' "$home" | grep -c 'class="st-search"')"
 catp=$(curl -s "$BASE/index.php?p=tools")
 assert_contains "catálogo: barra de filtros" 'st-filters' "$catp"

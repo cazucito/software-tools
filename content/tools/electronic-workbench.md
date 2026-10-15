@@ -8,7 +8,7 @@ context: "El laboratorio de electrónica virtual. Armaba circuitos en la pantall
 usedUntil: 2000
 successor: "Multisim"
 successorSlug: "multisim"
-related: ["matlab", "mathematica", "multisim"]
+related: ["matlab", "mathematica", "multisim", "program-cc"]
 published: true
 ---
 
