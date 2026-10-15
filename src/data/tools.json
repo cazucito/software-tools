@@ -22,6 +22,31 @@
       "published": true
     },
     {
+      "name": "MindManager",
+      "slug": "mindmanager",
+      "year": 2020,
+      "decade": "2020s",
+      "category": "tool",
+      "tags": [
+        "mapas-mentales",
+        "gestión",
+        "productividad",
+        "windows",
+        "comercial"
+      ],
+      "image": null,
+      "context": "El estándar corporativo de los mapas mentales (Mindjet, hoy Corel): planear y presentar información en mapas interactivos. Edición 2020.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "axon-idea-processor",
+        "personal-brain",
+        "thebrain-8"
+      ],
+      "published": true
+    },
+    {
       "name": "DataGrip",
       "slug": "datagrip",
       "year": 2018,
@@ -65,6 +90,53 @@
       "related": [
         "mozilla-firefox",
         "internet-explorer"
+      ],
+      "published": true
+    },
+    {
+      "name": "Balsamiq Mockups",
+      "slug": "balsamiq-mockups",
+      "year": 2017,
+      "decade": "2010s",
+      "category": "tool",
+      "tags": [
+        "wireframes",
+        "prototipado",
+        "ui",
+        "diseño",
+        "windows"
+      ],
+      "image": null,
+      "context": "Wireframes de baja fidelidad con estética de boceto dibujado a mano, hoy «Balsamiq Wireframes». Se conserva el instalador de escritorio 3.5.14.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "umlet"
+      ],
+      "published": true
+    },
+    {
+      "name": "UMLet",
+      "slug": "umlet",
+      "year": 2016,
+      "decade": "2010s",
+      "category": "tool",
+      "tags": [
+        "uml",
+        "diagramas",
+        "java",
+        "open-source",
+        "eclipse"
+      ],
+      "image": null,
+      "context": "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "balsamiq-mockups",
+        "eclipse"
       ],
       "published": true
     },
@@ -189,6 +261,30 @@
       "published": true
     },
     {
+      "name": "TheBrain 8",
+      "slug": "thebrain-8",
+      "year": 2013,
+      "decade": "2010s",
+      "category": "tool",
+      "tags": [
+        "mapas-mentales",
+        "conocimiento",
+        "bases-de-conocimiento",
+        "windows"
+      ],
+      "image": null,
+      "context": "La octava generación del brain de TheBrain Technologies: búsqueda inteligente, nueva interfaz y servicios en la nube. Instalador 8.0.1.3.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "personal-brain",
+        "mindmanager",
+        "axon-idea-processor"
+      ],
+      "published": true
+    },
+    {
       "name": "Sublime Text",
       "slug": "sublime-text",
       "year": 2012,
@@ -287,6 +383,31 @@
       "published": true
     },
     {
+      "name": "Axon Idea Processor",
+      "slug": "axon-idea-processor",
+      "year": 2004,
+      "decade": "2000s",
+      "category": "tool",
+      "tags": [
+        "ideas",
+        "mapas-mentales",
+        "prolog",
+        "visualización",
+        "shareware",
+        "windows"
+      ],
+      "image": null,
+      "context": "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "mindmanager",
+        "thebrain-8"
+      ],
+      "published": true
+    },
+    {
       "name": "Mozilla Firefox",
       "slug": "mozilla-firefox",
       "year": 2004,
@@ -308,6 +429,29 @@
         "netscape-navigator",
         "internet-explorer",
         "google-chrome"
+      ],
+      "published": true
+    },
+    {
+      "name": "PersonalBrain",
+      "slug": "personal-brain",
+      "year": 2004,
+      "decade": "2000s",
+      "category": "tool",
+      "tags": [
+        "mapas-mentales",
+        "conocimiento",
+        "bases-de-conocimiento",
+        "windows"
+      ],
+      "image": null,
+      "context": "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain.",
+      "usedUntil": null,
+      "successor": "TheBrain 8",
+      "successorSlug": "thebrain-8",
+      "related": [
+        "thebrain-8",
+        "mindmanager"
       ],
       "published": true
     },
@@ -406,7 +550,8 @@
         "gel",
         "netbeans",
         "visual-studio",
-        "intellij-idea"
+        "intellij-idea",
+        "umlet"
       ],
       "published": true
     },
@@ -483,6 +628,27 @@
         "datagrip",
         "ms-access"
       ],
+      "published": true
+    },
+    {
+      "name": "System Mechanic",
+      "slug": "system-mechanic",
+      "year": 2000,
+      "decade": "2000s",
+      "category": "tool",
+      "tags": [
+        "windows",
+        "mantenimiento",
+        "utilidades",
+        "iolo",
+        "comercial"
+      ],
+      "image": null,
+      "context": "Suite de mantenimiento de Windows de iolo technologies: registro, disco y rendimiento. Se conserva el instalador de la versión 3.2d (2000).",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [],
       "published": true
     },
     {
@@ -1350,14 +1516,91 @@
       ]
     },
     "open-source": {
-      "count": 6,
+      "count": 7,
       "tools": [
         "atom",
         "eclipse",
         "mozilla-firefox",
         "netbeans",
         "openclaw",
+        "umlet",
         "visual-studio-code"
+      ]
+    },
+    "ideas": {
+      "count": 1,
+      "tools": [
+        "axon-idea-processor"
+      ]
+    },
+    "mapas-mentales": {
+      "count": 4,
+      "tools": [
+        "axon-idea-processor",
+        "mindmanager",
+        "personal-brain",
+        "thebrain-8"
+      ]
+    },
+    "prolog": {
+      "count": 1,
+      "tools": [
+        "axon-idea-processor"
+      ]
+    },
+    "visualización": {
+      "count": 1,
+      "tools": [
+        "axon-idea-processor"
+      ]
+    },
+    "shareware": {
+      "count": 1,
+      "tools": [
+        "axon-idea-processor"
+      ]
+    },
+    "windows": {
+      "count": 14,
+      "tools": [
+        "axon-idea-processor",
+        "balsamiq-mockups",
+        "delphi",
+        "gel",
+        "mindmanager",
+        "personal-brain",
+        "system-mechanic",
+        "thebrain-8",
+        "visual-basic-6",
+        "visual-studio",
+        "windows-95",
+        "windows-98",
+        "windows-explorer",
+        "winzip"
+      ]
+    },
+    "wireframes": {
+      "count": 1,
+      "tools": [
+        "balsamiq-mockups"
+      ]
+    },
+    "prototipado": {
+      "count": 1,
+      "tools": [
+        "balsamiq-mockups"
+      ]
+    },
+    "ui": {
+      "count": 1,
+      "tools": [
+        "balsamiq-mockups"
+      ]
+    },
+    "diseño": {
+      "count": 1,
+      "tools": [
+        "balsamiq-mockups"
       ]
     },
     "ascii-art": {
@@ -1513,19 +1756,6 @@
         "oracle-sql-developer"
       ]
     },
-    "windows": {
-      "count": 8,
-      "tools": [
-        "delphi",
-        "gel",
-        "visual-basic-6",
-        "visual-studio",
-        "windows-95",
-        "windows-98",
-        "windows-explorer",
-        "winzip"
-      ]
-    },
     "rapid": {
       "count": 1,
       "tools": [
@@ -1567,12 +1797,13 @@
       ]
     },
     "java": {
-      "count": 4,
+      "count": 5,
       "tools": [
         "eclipse",
         "gel",
         "intellij-idea",
-        "netbeans"
+        "netbeans",
+        "umlet"
       ]
     },
     "ibm": {
@@ -1868,6 +2099,25 @@
         "microsoft-outlook"
       ]
     },
+    "gestión": {
+      "count": 1,
+      "tools": [
+        "mindmanager"
+      ]
+    },
+    "productividad": {
+      "count": 1,
+      "tools": [
+        "mindmanager"
+      ]
+    },
+    "comercial": {
+      "count": 2,
+      "tools": [
+        "mindmanager",
+        "system-mechanic"
+      ]
+    },
     "mozilla": {
       "count": 1,
       "tools": [
@@ -2019,6 +2269,20 @@
         "oracle-sql-developer"
       ]
     },
+    "conocimiento": {
+      "count": 2,
+      "tools": [
+        "personal-brain",
+        "thebrain-8"
+      ]
+    },
+    "bases-de-conocimiento": {
+      "count": 2,
+      "tools": [
+        "personal-brain",
+        "thebrain-8"
+      ]
+    },
     "compression": {
       "count": 2,
       "tools": [
@@ -2081,10 +2345,46 @@
         "sublime-text"
       ]
     },
+    "mantenimiento": {
+      "count": 1,
+      "tools": [
+        "system-mechanic"
+      ]
+    },
+    "utilidades": {
+      "count": 1,
+      "tools": [
+        "system-mechanic"
+      ]
+    },
+    "iolo": {
+      "count": 1,
+      "tools": [
+        "system-mechanic"
+      ]
+    },
     "compiler": {
       "count": 1,
       "tools": [
         "turbo-c"
+      ]
+    },
+    "uml": {
+      "count": 1,
+      "tools": [
+        "umlet"
+      ]
+    },
+    "diagramas": {
+      "count": 1,
+      "tools": [
+        "umlet"
+      ]
+    },
+    "eclipse": {
+      "count": 1,
+      "tools": [
+        "umlet"
       ]
     },
     "vm": {
@@ -2229,6 +2529,7 @@
     ],
     "2000s": [
       "acronis-true-image",
+      "axon-idea-processor",
       "eclipse",
       "gel",
       "intellij-idea",
@@ -2237,20 +2538,26 @@
       "netbeans",
       "oracle-database",
       "oracle-sql-developer",
+      "personal-brain",
+      "system-mechanic",
       "visual-basic-net",
       "visual-studio"
     ],
     "2010s": [
       "atom",
+      "balsamiq-mockups",
       "datagrip",
       "docker",
       "google-chrome",
       "kubernetes",
       "sublime-text",
+      "thebrain-8",
+      "umlet",
       "virtualbox",
       "visual-studio-code"
     ],
     "2020s": [
+      "mindmanager",
       "openclaw"
     ]
   },
@@ -2270,6 +2577,8 @@
     ],
     "tool": [
       "acronis-true-image",
+      "axon-idea-processor",
+      "balsamiq-mockups",
       "bannermania",
       "electronic-workbench",
       "eudora",
@@ -2282,13 +2591,18 @@
       "matlab",
       "microsoft-excel",
       "microsoft-outlook",
+      "mindmanager",
       "mozilla-firefox",
       "multisim",
       "netscape-navigator",
       "norton-commander",
       "norton-ghost",
       "openclaw",
+      "personal-brain",
       "pkzip",
+      "system-mechanic",
+      "thebrain-8",
+      "umlet",
       "windows-explorer",
       "winzip"
     ],
@@ -2320,8 +2634,8 @@
     ]
   },
   "meta": {
-    "generatedAt": "2026-10-09T19:46:03.407Z",
-    "totalTools": 51,
-    "totalPublished": 51
+    "generatedAt": "2026-10-15T15:44:25.860Z",
+    "totalTools": 58,
+    "totalPublished": 58
   }
 }

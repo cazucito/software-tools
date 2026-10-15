@@ -15,6 +15,21 @@
     "context": "Asistente personal de IA open source: corre en tu propia máquina y usa tus apps de mensajería como interfaz. Lo usé desde su publicación hasta el 22 de abril de 2026."
   },
   {
+    "name": "MindManager",
+    "slug": "mindmanager",
+    "year": 2020,
+    "decade": "2020s",
+    "category": "tool",
+    "tags": [
+      "mapas-mentales",
+      "gestión",
+      "productividad",
+      "windows",
+      "comercial"
+    ],
+    "context": "El estándar corporativo de los mapas mentales (Mindjet, hoy Corel): planear y presentar información en mapas interactivos. Edición 2020."
+  },
+  {
     "name": "DataGrip",
     "slug": "datagrip",
     "year": 2018,
@@ -41,6 +56,36 @@
       "web"
     ],
     "context": "El navegador de la madurez. Cuando Firefox cedió terreno, Chrome ya era la infraestructura silenciosa de la web."
+  },
+  {
+    "name": "Balsamiq Mockups",
+    "slug": "balsamiq-mockups",
+    "year": 2017,
+    "decade": "2010s",
+    "category": "tool",
+    "tags": [
+      "wireframes",
+      "prototipado",
+      "ui",
+      "diseño",
+      "windows"
+    ],
+    "context": "Wireframes de baja fidelidad con estética de boceto dibujado a mano, hoy «Balsamiq Wireframes». Se conserva el instalador de escritorio 3.5.14."
+  },
+  {
+    "name": "UMLet",
+    "slug": "umlet",
+    "year": 2016,
+    "decade": "2010s",
+    "category": "tool",
+    "tags": [
+      "uml",
+      "diagramas",
+      "java",
+      "open-source",
+      "eclipse"
+    ],
+    "context": "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2."
   },
   {
     "name": "Kubernetes",
@@ -116,6 +161,20 @@
     "context": "La revolución de los contenedores. Empaquetar aplicaciones con todas sus dependencias y desplegarlas en cualquier lado. Cambió mi forma de desarrollar y desplegar software."
   },
   {
+    "name": "TheBrain 8",
+    "slug": "thebrain-8",
+    "year": 2013,
+    "decade": "2010s",
+    "category": "tool",
+    "tags": [
+      "mapas-mentales",
+      "conocimiento",
+      "bases-de-conocimiento",
+      "windows"
+    ],
+    "context": "La octava generación del brain de TheBrain Technologies: búsqueda inteligente, nueva interfaz y servicios en la nube. Instalador 8.0.1.3."
+  },
+  {
     "name": "Sublime Text",
     "slug": "sublime-text",
     "year": 2012,
@@ -174,6 +233,22 @@
     "context": "El heredero de Norton Ghost en mis rutinas de respaldo. Imágenes de disco y restauración confiable, con interfaz moderna."
   },
   {
+    "name": "Axon Idea Processor",
+    "slug": "axon-idea-processor",
+    "year": 2004,
+    "decade": "2000s",
+    "category": "tool",
+    "tags": [
+      "ideas",
+      "mapas-mentales",
+      "prolog",
+      "visualización",
+      "shareware",
+      "windows"
+    ],
+    "context": "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004."
+  },
+  {
     "name": "Mozilla Firefox",
     "slug": "mozilla-firefox",
     "year": 2004,
@@ -187,6 +262,20 @@
       "open-source"
     ],
     "context": "El navegador que rescató la web del monopolio de Internet Explorer. Extensiones, tabs, y el espíritu open source. Mi navegador principal durante más de una década."
+  },
+  {
+    "name": "PersonalBrain",
+    "slug": "personal-brain",
+    "year": 2004,
+    "decade": "2000s",
+    "category": "tool",
+    "tags": [
+      "mapas-mentales",
+      "conocimiento",
+      "bases-de-conocimiento",
+      "windows"
+    ],
+    "context": "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain."
   },
   {
     "name": "GEL",
@@ -289,6 +378,21 @@
       "enterprise"
     ],
     "context": "El estándar empresarial que estudié y enseñé durante mis años de docencia Oracle. La referencia de las bases de datos relacionales."
+  },
+  {
+    "name": "System Mechanic",
+    "slug": "system-mechanic",
+    "year": 2000,
+    "decade": "2000s",
+    "category": "tool",
+    "tags": [
+      "windows",
+      "mantenimiento",
+      "utilidades",
+      "iolo",
+      "comercial"
+    ],
+    "context": "Suite de mantenimiento de Windows de iolo technologies: registro, disco y rendimiento. Se conserva el instalador de la versión 3.2d (2000)."
   },
   {
     "name": "VMware Workstation",
