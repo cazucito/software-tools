@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T10:10:18",
+  "generated_at": "2026-10-15T10:24:40",
   "base_url": "https://software-tools.pcabrera.com",
   "tools": {
     "axon-idea-processor": [
@@ -17,13 +17,35 @@
       {
         "filename": "axon-idea-r3.2.oficial.link",
         "version": "R3.2",
-        "variant": "Edición R3.2 Lite (Internet Archive)",
+        "variant": "Primera edición conservada (R3.2 Lite · 2000)",
         "year": "2000",
         "visibility": "enlace",
         "size": "1 B",
         "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
         "license": "Freeware (Lite) — Internet Archive",
         "source_url": "https://archive.org/download/axon3-2_zip/axon3-2.zip"
+      },
+      {
+        "filename": "axon-r2.20.oficial.link",
+        "version": "",
+        "variant": "Última edición publicada (2013 R2.20) — referencia archivada",
+        "year": "2013",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Shareware — referencia Softpedia (archivada)",
+        "source_url": "https://web.archive.org/2024/https://www.softpedia.com/get/Others/Finances-Business/Axon-Idea-Processor.shtml"
+      },
+      {
+        "filename": "axon-sitio.oficial.link",
+        "version": "",
+        "variant": "Sitio oficial histórico (SingNet · archivado)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Freeware (Lite) — Axon Research (archivo)",
+        "source_url": "https://web.archive.org/web/20060101022437/http://web.singnet.com.sg:80/~axon2000/"
       }
     ],
     "balsamiq-mockups": [
@@ -39,6 +61,17 @@
         "source_url": ""
       },
       {
+        "filename": "balsamiq-mockups-2.oficial.link",
+        "version": "2",
+        "variant": "Build más antigua conservada (Mockups 2)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial (archivo oficial) — Balsamiq",
+        "source_url": "https://build_archives.s3.amazonaws.com/Mockups/Mockups-2/Balsamiq-Mockups-2-Win-Bundled.zip"
+      },
+      {
         "filename": "balsamiq-mockups.oficial.link",
         "version": "",
         "variant": "Builds oficiales (archivo Balsamiq)",
@@ -48,6 +81,28 @@
         "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
         "license": "Comercial (archivo oficial) — Balsamiq",
         "source_url": "https://balsamiq.com/product/desktop/archives/"
+      },
+      {
+        "filename": "balsamiq-sitio.oficial.link",
+        "version": "",
+        "variant": "Sitio oficial (Balsamiq Wireframes)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — Balsamiq",
+        "source_url": "https://balsamiq.com/wireframes/desktop/"
+      },
+      {
+        "filename": "balsamiq-wireframes-4.8.6.oficial.link",
+        "version": "4.8.6",
+        "variant": "Última versión (Wireframes 4.8.6)",
+        "year": "2025",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — Balsamiq",
+        "source_url": "https://balsamiq.com/wireframes/desktop/release-notes/"
       }
     ],
     "gel": [
@@ -261,6 +316,17 @@
         "sha256": "3bf27b8c6a9e1807811a66a58cb1659631b38f13cbe06dd65126f02abb927212",
         "license": "Comercial — Corel Corporation (Mindjet)",
         "source_url": ""
+      },
+      {
+        "filename": "mindmanager-9.1.oficial.link",
+        "version": "9.1",
+        "variant": "Primera copia conservada (v9.1 · 2010) — Internet Archive",
+        "year": "2010",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — Mindjet (copia archivada)",
+        "source_url": "https://archive.org/details/20240819_20240819_0748"
       },
       {
         "filename": "mindmanager.oficial.link",
@@ -795,6 +861,28 @@
         "source_url": ""
       },
       {
+        "filename": "personal-brain-4.oficial.link",
+        "version": "4",
+        "variant": "Últimas ediciones de la era PersonalBrain (4.x · 2007) — Internet Archive",
+        "year": "2007",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — TheBrain Technologies (copia archivada)",
+        "source_url": "https://archive.org/details/personal-brain-4"
+      },
+      {
+        "filename": "personal-brain-descargas.oficial.link",
+        "version": "",
+        "variant": "Descargas actuales (TheBrain 14)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — TheBrain Technologies",
+        "source_url": "https://www.thebrain.com/download"
+      },
+      {
         "filename": "personal-brain.oficial.link",
         "version": "",
         "variant": "Sitio oficial de la línea (TheBrain)",
@@ -819,6 +907,17 @@
         "source_url": ""
       },
       {
+        "filename": "system-mechanic-3.5e.oficial.link",
+        "version": "3.5e",
+        "variant": "Primera copia conservada (3.5e · 2000) — Internet Archive",
+        "year": "2000",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — iolo technologies (copia archivada)",
+        "source_url": "https://archive.org/download/smech35e_zip/smech35e.zip"
+      },
+      {
         "filename": "system-mechanic.oficial.link",
         "version": "",
         "variant": "Sitio oficial (iolo)",
@@ -827,7 +926,7 @@
         "size": "1 B",
         "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
         "license": "Comercial — iolo technologies",
-        "source_url": "https://www.iolo.com/"
+        "source_url": "https://www.iolo.com/products/system-mechanic/"
       }
     ],
     "thebrain-8": [
@@ -841,6 +940,28 @@
         "sha256": "e8470647332dfe331deee41a5522fda565f630ab79ae3d5b9a387f9ed48d3050",
         "license": "Comercial — TheBrain Technologies",
         "source_url": ""
+      },
+      {
+        "filename": "thebrain-8-0-1-8.oficial.link",
+        "version": "8.0.1.8",
+        "variant": "Build 8.0.1.8 conservada — Internet Archive",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — TheBrain Technologies (copia archivada)",
+        "source_url": "https://archive.org/details/the-brain-v-8.0.1.8"
+      },
+      {
+        "filename": "thebrain-8-descargas.oficial.link",
+        "version": "",
+        "variant": "Descargas actuales (TheBrain 14)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — TheBrain Technologies",
+        "source_url": "https://www.thebrain.com/download"
       },
       {
         "filename": "thebrain-8.oficial.link",
@@ -865,6 +986,28 @@
         "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
         "license": "GPLv3 — open source (umlet.com)",
         "source_url": "https://umlet.com/download/umlet_14_2/umlet-standalone-14.2.zip"
+      },
+      {
+        "filename": "umlet-15.1.oficial.link",
+        "version": "15.1",
+        "variant": "Última versión (15.1)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "GPLv3 — open source",
+        "source_url": "https://umlet.com/download/umlet_15_1/umlet-standalone-15.1.zip"
+      },
+      {
+        "filename": "umlet-sitio.oficial.link",
+        "version": "",
+        "variant": "Sitio oficial",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "GPLv3 — open source",
+        "source_url": "https://umlet.com/"
       },
       {
         "filename": "umlet-standalone-14.2.zip",
