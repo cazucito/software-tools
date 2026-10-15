@@ -19,9 +19,11 @@ Tres físicas para el FUTURO modo único del sitio (reemplaza Cinta/Línea/Máqu
   subdivide en familias; el resto muestra sus herramientas directas.
   Resultado: Herramientas→9, Editores→3, Lenguajes→2; Bases de datos,
   Infraestructura y Sistemas operativos quedan planas.
-- Taxonomía curada en `tools/prep_data.py` (dict `TAXONOMY`), con validación
-  estricta: cobertura completa de cada categoría subdividida, sin duplicados,
-  o el script aborta sin escribir.
+- Taxonomía como DATO en `tools/taxonomy.json` (umbral, etiquetas de categoría,
+  familias). Recategorizar o añadir categorías = editar ese JSON (+ el catálogo).
+  `prep_data.py` aborta sin escribir ante slugs desconocidos, duplicados o una
+  herramienta en la categoría equivocada; las herramientas no listadas van a la
+  familia «Sin clasificar» y el script imprime sus slugs.
 - Dendrita v2: clic categoría → familias · clic familia → herramientas · clic
   herramienta → ficha (breadcrumb «categoría → familia» en el panel).
 
@@ -50,3 +52,7 @@ google-chrome --headless=new --window-size=1440,900 --virtual-time-budget=5000 \
 
 Pendiente (al aprobar una física): producción es `app/server/views/modes/mapa.php` + assets
 del modo, sustituyendo el selector de modalidades; las páginas `/tools/<slug>` se conservan.
+- `?data=../stress-data.js` — carga otro conjunto de datos (mismo origen). El
+  fixture sintético (14 categorías, 173 herramientas, familia de 40, categoría
+  plana de 25) se regenera con `python3 tools/make_stress_data.py`.
+- `?static=1` — sin animaciones (capturas).

@@ -5,12 +5,14 @@ window.ST_DATA = {
   {
    "slug": "database",
    "label": "Bases de datos",
+   "color": "#34d399",
    "count": 4,
    "subs": []
   },
   {
    "slug": "editor",
    "label": "Editores",
+   "color": "#7dd3fc",
    "count": 10,
    "subs": [
     {
@@ -33,12 +35,14 @@ window.ST_DATA = {
   {
    "slug": "infra",
    "label": "Infraestructura",
+   "color": "#fbbf24",
    "count": 4,
    "subs": []
   },
   {
    "slug": "lenguaje",
    "label": "Lenguajes",
+   "color": "#a78bfa",
    "count": 7,
    "subs": [
     {
@@ -56,12 +60,14 @@ window.ST_DATA = {
   {
    "slug": "os",
    "label": "Sistemas operativos",
+   "color": "#f472b6",
    "count": 3,
    "subs": []
   },
   {
    "slug": "tool",
    "label": "Herramientas",
+   "color": "#94a3b8",
    "count": 29,
    "subs": [
     {

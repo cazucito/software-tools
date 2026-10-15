@@ -1,0 +1,42 @@
+{
+  "threshold": 6,
+  "category_labels": {
+    "editor": "Editores",
+    "lenguaje": "Lenguajes",
+    "database": "Bases de datos",
+    "infra": "Infraestructura",
+    "framework": "Frameworks",
+    "tool": "Herramientas",
+    "os": "Sistemas operativos",
+    "other": "Otros"
+  },
+  "families": {
+    "tool": [
+      {"slug": "navegadores", "label": "Navegadores",
+       "tools": ["netscape-navigator", "internet-explorer", "mozilla-firefox", "google-chrome"]},
+      {"slug": "correo", "label": "Correo", "tools": ["eudora", "microsoft-outlook"]},
+      {"slug": "archivos-y-respaldo", "label": "Archivos y respaldo",
+       "tools": ["pkzip", "winzip", "norton-commander", "windows-explorer", "norton-ghost", "acronis-true-image"]},
+      {"slug": "diagramacion", "label": "Diagramación y conocimiento",
+       "tools": ["axon-idea-processor", "balsamiq-mockups", "mindmanager", "personal-brain", "thebrain-8", "umlet"]},
+      {"slug": "calculo-e-ingenieria", "label": "Cálculo e ingeniería",
+       "tools": ["maple-v", "mathematica", "matlab", "electronic-workbench", "multisim"]},
+      {"slug": "ofimatica", "label": "Ofimática", "tools": ["lotus-1-2-3", "microsoft-excel"]},
+      {"slug": "arte-ascii", "label": "Arte ASCII", "tools": ["bannermania", "figlet"]},
+      {"slug": "mantenimiento", "label": "Mantenimiento", "tools": ["system-mechanic"]},
+      {"slug": "agentes-ia", "label": "Agentes de IA", "tools": ["openclaw"]}
+    ],
+    "editor": [
+      {"slug": "ides", "label": "IDEs",
+       "tools": ["eclipse", "gel", "intellij-idea", "netbeans", "visual-studio"]},
+      {"slug": "editores-de-codigo", "label": "Editores de código",
+       "tools": ["atom", "sublime-text", "visual-studio-code"]},
+      {"slug": "escritura-cientifica", "label": "Escritura científica", "tools": ["chi-writer", "latex"]}
+    ],
+    "lenguaje": [
+      {"slug": "borland", "label": "Borland",
+       "tools": ["turbo-c", "borland-cpp", "borland-pascal-7", "delphi"]},
+      {"slug": "basic", "label": "BASIC", "tools": ["qbasic", "visual-basic-6", "visual-basic-net"]}
+    ]
+  }
+}

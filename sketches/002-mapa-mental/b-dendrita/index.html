@@ -117,17 +117,40 @@ text{font-family:var(--st-font-mono)}
 
 <div class="hint">clic en categoría → familias · clic en familia → herramientas · clic en herramienta → ficha · hilos = relacionadas</div>
 
-<script src="../data.js"></script>
 <script>
 (() => {
 'use strict';
-const D = window.ST_DATA;
-if (new URLSearchParams(location.search).get('static')) document.documentElement.classList.add('noanim');
+// Bootstrap: los datos se cargan dinámicamente (?data=<ruta>, por defecto ../data.js)
+// y el motor arranca recién en onload. Solo se aceptan rutas del mismo origen.
+const qs = new URLSearchParams(location.search);
+if (qs.get('static')) document.documentElement.classList.add('noanim');
+const dataUrl = new URL(qs.get('data') || '../data.js', location.href);
+function fatal(msg) {
+  const d = document.createElement('div');
+  d.className = 'hint'; d.style.cssText = 'top:4rem;bottom:auto;color:#f87171';
+  d.id = 'data-error'; d.textContent = msg;
+  document.body.appendChild(d);
+}
+if (dataUrl.origin !== location.origin) fatal('Datos: solo se admiten rutas del mismo origen.');
+else {
+  const sc = document.createElement('script');
+  sc.src = dataUrl.href;
+  sc.onload = () => (window.ST_DATA && window.ST_DATA.categories && window.ST_DATA.tools)
+    ? init(window.ST_DATA) : fatal('Datos inválidos: falta window.ST_DATA.');
+  sc.onerror = () => fatal('No se pudo cargar ' + dataUrl.pathname);
+  document.head.appendChild(sc);
+}
+
+function init(D) {
 const CAT_COLOR = {editor:'#7dd3fc',lenguaje:'#a78bfa',database:'#34d399',infra:'#fbbf24',
                    os:'#f472b6',tool:'#94a3b8',other:'#64748b'};
+const PALETTE = ['#7dd3fc','#a78bfa','#34d399','#fbbf24','#f472b6','#fb923c','#2dd4bf','#a3e635'];
 const catBySlug  = Object.fromEntries(D.categories.map(c => [c.slug, c]));
 const toolBySlug = Object.fromEntries(D.tools.map(t => [t.slug, t]));
-const colorOf    = c => CAT_COLOR[c] || '#94a3b8';
+// color de categoría: dato → mapa local → hash determinista del slug
+const slugHash = s => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
+const colorOf = c => c.color || CAT_COLOR[c.slug] || PALETTE[slugHash(c.slug) % PALETTE.length];
+const LABEL_MIN = 30;  // separación mínima (px) para mostrar etiquetas no activas
 const isMobile = () => window.innerWidth <= 760;
 
 const svg  = document.getElementById('map');
@@ -147,6 +170,7 @@ function mk(tag, attrs, parent) {
   (parent || svg).appendChild(el);
   return el;
 }
+function tip(g, text) { mk('title', {}, g).textContent = text; }
 function short(n, w=20) { return n.length > w ? n.slice(0, w-1) + '…' : n; }
 function hex2rgb(h){const v=parseInt(h.slice(1),16);return `${(v>>16)&255},${(v>>8)&255},${v&255}`;}
 
@@ -188,36 +212,55 @@ function render() {
     style:'paint-order:stroke;stroke:#0b0f17;stroke-width:3px'}, tg)
     .textContent = 'software-tools';
 
+  // abanico de hojas: 1 columna hasta FAN_SINGLE; más → multicolumna con tope de alto
+  const FAN_SINGLE = 14, SP = 40, MAX_COLS = 4;
+  const colW = compact ? 150 : 200;
+  const fanLayout = (n, availH) => {
+    const rowsMax = Math.max(4, Math.floor(availH / SP) + 1);
+    let cols = n > FAN_SINGLE ? Math.max(2, Math.ceil(n / rowsMax)) : 1;
+    let rpc = Math.ceil(n / cols);
+    const cap = Math.min(620, availH);
+    while ((rpc - 1) * SP > cap && cols < MAX_COLS) { cols++; rpc = Math.ceil(n / cols); }
+    // si aun así no cabe, se comprime el paso vertical (y las etiquetas se ocultan bajo LABEL_MIN)
+    const sp = rpc > 1 ? Math.min(SP, cap / (rpc - 1)) : SP;
+    return {cols, rpc, sp};
+  };
+
   // hojas de una lista: primero TODOS los nervios, luego nodos+etiquetas
   const drawLeaves = (tl, srcX, srcY, xCol, color) => {
     if (!tl.length) return;
-    const sp = 40;
-    const fanH = (tl.length - 1) * sp;
     const availTop = 84, availBot = H - 48;
+    const {cols, rpc, sp} = fanLayout(tl.length, availBot - availTop);
+    const fanH = (rpc - 1) * sp;
     const cyF = Math.max(availTop + fanH/2, Math.min(availBot - fanH/2, srcY));
+    const showAll = sp >= LABEL_MIN;
     for (const [k, t] of tl.entries()) {
-      const ty = cyF - fanH/2 + k * sp;
-      LAST_POS.set(t.slug, [xCol, ty]);
+      const col = Math.floor(k / rpc), row = k % rpc;
+      const x = xCol + col * colW, ty = cyF - fanH/2 + row * sp;
+      LAST_POS.set(t.slug, [x, ty]);
       const sel = state.selected === t.slug;
-      nerve(srcX, srcY, xCol - 8, ty, sel ? '#eef2f7' : `rgba(${hex2rgb(color)},0.55)`, sel ? 1.8 : 1.3, 16);
+      nerve(srcX, srcY, x - 8, ty, sel ? '#eef2f7' : `rgba(${hex2rgb(color)},0.55)`, sel ? 1.8 : 1.3, 16);
     }
     for (const [k, t] of tl.entries()) {
       const [lx, ty] = LAST_POS.get(t.slug);
       const sel = state.selected === t.slug;
-      const lg = mk('g', {class:'node leaf-pop', style:`animation-delay:${Math.min(k*16,420)}ms`,
-        title: t.name + ' · ' + t.year});
-      mk('circle', {class:'kk', cx:lx, cy:ty, r: sel ? 7.5 : 6,
+      const lg = mk('g', {class:'node leaf-pop', style:`animation-delay:${Math.min(k*16,420)}ms`});
+      tip(lg, t.name + ' · ' + t.year);
+      mk('circle', {class:'kk', cx:lx, cy:ty, r: sel ? 7.5 : (showAll ? 6 : 4),
         fill: sel ? '#eef2f7' : color, stroke:'#0b0f17', 'stroke-width':1}, lg);
-      const lbl = mk('text', {x:lx+12, y:ty+3.5, class:'leafLbl' + (sel ? ' sel' : '')}, lg);
-      lbl.textContent = `${short(t.name, compact ? 16 : 24)} · ${t.year}`;
+      if (showAll || sel) {
+        const lbl = mk('text', {x:lx+12, y:ty+3.5, class:'leafLbl' + (sel ? ' sel' : '')}, lg);
+        lbl.textContent = `${short(t.name, cols > 1 ? (compact ? 14 : 20) : (compact ? 16 : 24))} · ${t.year}`;
+      }
       lg.addEventListener('click', () => selectTool(t.slug));
     }
   };
 
   cats.forEach((cat, i) => {
     const y = yOf(i);
-    const color = colorOf(cat.slug);
+    const color = colorOf(cat);
     const open = state.cat === cat.slug;
+    const rC = Math.max(8, Math.min(24, spread / 2 - 2));  // el nodo se achica si hay muchas categorías
 
     // rama principal (curva orgánica), arranca en el borde del tronco
     const dxT = xCat - xRoot, dyT = y - cy, lenT = Math.hypot(dxT, dyT) || 1;
@@ -228,9 +271,11 @@ function render() {
     if (open) mk('path', {d, class:'branch draw', stroke: color, 'stroke-width': 2});
 
     // nodo de categoría
-    const g = mk('g', {class:'node', title: cat.label});
-    mk('circle', {class:'kk', cx:xCat, cy:y, r:24, fill:'#101826', stroke:color, 'stroke-width': open?2.4:1.6}, g);
-    mk('text', {x:xCat, y:y+4, fill:color, 'font-size':10.5, 'text-anchor':'middle', 'font-weight':700}, g)
+    const g = mk('g', {class:'node'});
+    tip(g, `${cat.label} · ${cat.count}`);
+    mk('circle', {class:'kk', cx:xCat, cy:y, r:rC, fill:'#101826', stroke:color, 'stroke-width': open?2.4:1.6}, g);
+    mk('text', {x:xCat, y:y+(rC < 16 ? 3 : 4), fill:color, 'font-size': rC < 16 ? 8 : 10.5,
+      'text-anchor':'middle', 'font-weight':700}, g)
       .textContent = cat.count;
     const onCatClick = () => {
       state.cat = open ? null : cat.slug;
@@ -238,8 +283,9 @@ function render() {
       if (state.selected && toolBySlug[state.selected].cat !== state.cat) state.selected = null;
       render();
     };
-    LABELS.push({x: xCat+30, y: y-9, text: cat.label, strong: open,
-      size: 12, dim: '#98a2b3', halo: 3, onClick: onCatClick});
+    if (spread >= LABEL_MIN || open)
+      LABELS.push({x: xCat+rC+6, y: rC < 16 ? y+4 : y-9, text: cat.label, strong: open,
+        size: 12, dim: '#98a2b3', halo: 3, onClick: onCatClick});
     g.addEventListener('click', onCatClick);
 
     if (!open) return;
@@ -254,36 +300,39 @@ function render() {
       if (bot0 > H - 40) sh -= bot0 - (H - 40);
       if (top0 + sh < 86) sh += 86 - (top0 + sh);
       const yS = k => y + (k - (ns-1)/2) * spreadS + sh;
+      const rS = Math.max(6, Math.min(14, spreadS / 2 - 1));
 
       // nervios (salida radial del hub) primero; etiquetas al final (z-order global)
       subs.forEach((s, k) => {
         const yy = yS(k);
         const ax = xSub-xCat, ay = yy-y, al = Math.hypot(ax, ay) || 1;
-        nerve(xCat+26*ax/al, y+26*ay/al, xSub-16, yy, `rgba(${hex2rgb(color)},0.5)`, 1.3, 16);
+        nerve(xCat+(rC+2)*ax/al, y+(rC+2)*ay/al, xSub-rS-2, yy, `rgba(${hex2rgb(color)},0.5)`, 1.3, 16);
       });
       subs.forEach((s, k) => {
         const yy = yS(k);
         const openS = state.sub === s.slug;
-        const sg = mk('g', {class:'node', title: s.label});
-        mk('circle', {class:'kk', cx:xSub, cy:yy, r:14, fill:'#101826', stroke:color, 'stroke-width': openS?2:1.4}, sg);
-        mk('text', {x:xSub, y:yy+3.5, fill:color, 'font-size':8.5, 'text-anchor':'middle', 'font-weight':700}, sg)
+        const sg = mk('g', {class:'node'});
+        tip(sg, `${s.label} · ${s.count}`);
+        mk('circle', {class:'kk', cx:xSub, cy:yy, r:rS, fill:'#101826', stroke:color, 'stroke-width': openS?2:1.4}, sg);
+        if (rS >= 10) mk('text', {x:xSub, y:yy+3.5, fill:color, 'font-size':8.5, 'text-anchor':'middle', 'font-weight':700}, sg)
           .textContent = s.count;
         const onClick = () => {
           state.sub = openS ? null : s.slug;
           if (state.selected && toolBySlug[state.selected].sub !== state.sub) state.selected = null;
           render();
         };
-        LABELS.push({x: xSub+26, y: yy+3.5, text: short(s.label, compact ? 20 : 28),
-          strong: openS, size: 10.5, dim: '#9aa7ba', halo: 3.5, onClick});
+        if (spreadS >= LABEL_MIN || openS)
+          LABELS.push({x: xSub+rS+12, y: yy+3.5, text: short(s.label, compact ? 20 : 28),
+            strong: openS, size: 10.5, dim: '#9aa7ba', halo: 3.5, onClick});
         sg.addEventListener('click', onClick);
         if (!openS) return;
-        const tl = D.tools.filter(t => t.sub === s.slug);
-        drawLeaves(tl, xSub+14, yy, xLeaf, color);
+        const tl = D.tools.filter(t => t.cat === cat.slug && t.sub === s.slug);
+        drawLeaves(tl, xSub+rS, yy, xLeaf, color);
       });
     } else {
       // categoría plana (≤ umbral): herramientas directas
       const tl = D.tools.filter(t => t.cat === cat.slug);
-      drawLeaves(tl, xCat+26, y, xSub, color);
+      drawLeaves(tl, xCat+rC+2, y, xSub, color);
     }
   });
 
@@ -328,7 +377,7 @@ function openPanel(t) {
   panel.classList.add('is-open');
   panel.setAttribute('aria-hidden','false');
   const cat = catBySlug[t.cat];
-  const sub = t.sub ? (cat.subs.find(s => s.slug === t.sub) || null) : null;
+  const sub = t.sub && cat ? ((cat.subs || []).find(s => s.slug === t.sub) || null) : null;
   const years = t.until ? `${t.year} – ${t.until}` : `desde ${t.year}`;
   const path = [cat ? cat.label : t.cat, sub ? sub.label : null].filter(Boolean).join(' → ');
   pinner.innerHTML = `
@@ -375,7 +424,7 @@ function runSearch(q) {
   res.forEach(t => {
     const b = document.createElement('button');
     const cat = catBySlug[t.cat];
-    const sub = t.sub ? (cat.subs.find(s => s.slug === t.sub) || null) : null;
+    const sub = t.sub && cat ? ((cat.subs || []).find(s => s.slug === t.sub) || null) : null;
     b.innerHTML = `${t.name}<span>${[cat ? cat.label : t.cat, sub ? sub.label : null].filter(Boolean).join(' → ')} · ${t.year}</span>`;
     b.addEventListener('click', () => { ddEl.classList.remove('is-open'); qEl.value=''; selectTool(t.slug); });
     ddEl.appendChild(b);
@@ -395,10 +444,10 @@ document.addEventListener('keydown', e => {
 
 /* ---------- arranque ---------- */
 render();
-const qs = new URLSearchParams(location.search);
 const dt = qs.get('tool'), dc = qs.get('cat'), ds = qs.get('sub');
 if (dt && toolBySlug[dt]) selectTool(dt);
 else if (dc && catBySlug[dc]) { state.cat = dc; if (ds) state.sub = ds; render(); }
+}
 })();
 </script>
 </body>
