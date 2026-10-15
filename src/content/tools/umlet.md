@@ -1,7 +1,7 @@
 ---
 name: "UMLet"
 slug: "umlet"
-year: 2016
+year: 2001
 category: "tool"
 tags: ["uml", "diagramas", "java", "open-source", "eclipse"]
 context: "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2."
@@ -30,4 +30,4 @@ UMLet publicó su v0.1 el **25 de enero de 2001**, llegó a la 1.0 el **21 de ju
 
 El zip conservado es **byte-idéntico al archivo oficial** que publica el proyecto — `umlet-standalone-14.2.zip`, sha256 verificado — y se redistribuye bajo **GPLv3**.
 
-> **Nota de fechas**: la versión 14.2 es de **principios de 2016** (archivos internos de febrero–abril; el paquete portátil de la comunidad actualizó a 14.2 en mayo de 2016).
+> **Nota de fechas**: la versión 14.2 es de **principios de 2016** (archivos internos de febrero–abril; el paquete portátil de la comunidad actualizó a 14.2 en mayo de 2016). El primer uso registrado (2001) es una **estimación** apoyada en el debut del proyecto (v0.1: 25 de enero de 2001).

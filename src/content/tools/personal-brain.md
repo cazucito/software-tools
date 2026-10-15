@@ -1,7 +1,7 @@
 ---
 name: "PersonalBrain"
 slug: "personal-brain"
-year: 2004
+year: 1998
 category: "tool"
 tags: ["mapas-mentales", "conocimiento", "bases-de-conocimiento", "windows"]
 context: "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain."
@@ -25,7 +25,7 @@ PersonalBrain proponía una metáfora distinta a la del mapa mental clásico: en
 
 PersonalBrain nació en **TheBrain Technologies** (Los Ángeles) a finales de los años 90. La versión **3.02** — la conservada aquí — se publicó el **4 de marzo de 2004**, tras la beta de 3.0 (diciembre de 2002): trajo integración con Outlook, nuevos índices de búsqueda y brains «hasta 32 veces más grandes» que en versiones previas. Con los años la compañía acortó el nombre del producto a **TheBrain**, que sigue publicándose en `thebrain.com`.
 
-> **Nota de fechas**: la fecha 2004-03-04 es **real** (aparece en el histórico de versiones distribuido con el producto); la guía incluida corresponde a la era 2.0 (septiembre de 2001).
+> **Nota de fechas**: la fecha 2004-03-04 es **real** (aparece en el histórico de versiones distribuido con el producto); la guía incluida corresponde a la era 2.0 (septiembre de 2001). El primer uso registrado (1998) es una **estimación** (la línea nace a finales de los 90).
 
 ## Presencia en esta colección
 

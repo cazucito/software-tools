@@ -1,7 +1,7 @@
 ---
 name: "Axon Idea Processor"
 slug: "axon-idea-processor"
-year: 2004
+year: 1998
 category: "tool"
 tags: ["ideas", "mapas-mentales", "prolog", "visualización", "shareware", "windows"]
 context: "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004."
@@ -28,4 +28,4 @@ Axon se distribuía en dos ediciones: **Lite** (freeware, redistribuible sin mod
 
 Se conserva la **edición 2004** completa — 362 archivos, 5.1 MB — con el ejecutable `axon2004.exe`, el manual de ayuda (`main04.hlp`), la carpeta del manual *Getting Started* y las plantillas de ejemplo (`Mindmap.xon`, `brainstorm.xon`, `simulate_inventory.xon`…).
 
-> **Nota de fechas**: la edición (2004) se identifica por el binario y el manual incluidos — dato **real**. El año de primer uso registrado es una **estimación** a partir de la edición conservada.
+> **Nota de fechas**: la edición (2004) se identifica por el binario y el manual incluidos — dato **real**. El año de primer uso registrado (1998) es una **estimación** dentro de la ventana de uso declarada (1996–2004).

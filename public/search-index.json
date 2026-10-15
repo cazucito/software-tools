@@ -15,21 +15,6 @@
     "context": "Asistente personal de IA open source: corre en tu propia máquina y usa tus apps de mensajería como interfaz. Lo usé desde su publicación hasta el 22 de abril de 2026."
   },
   {
-    "name": "MindManager",
-    "slug": "mindmanager",
-    "year": 2020,
-    "decade": "2020s",
-    "category": "tool",
-    "tags": [
-      "mapas-mentales",
-      "gestión",
-      "productividad",
-      "windows",
-      "comercial"
-    ],
-    "context": "El estándar corporativo de los mapas mentales (Mindjet, hoy Corel): planear y presentar información en mapas interactivos. Edición 2020."
-  },
-  {
     "name": "DataGrip",
     "slug": "datagrip",
     "year": 2018,
@@ -71,21 +56,6 @@
       "windows"
     ],
     "context": "Wireframes de baja fidelidad con estética de boceto dibujado a mano, hoy «Balsamiq Wireframes». Se conserva el instalador de escritorio 3.5.14."
-  },
-  {
-    "name": "UMLet",
-    "slug": "umlet",
-    "year": 2016,
-    "decade": "2010s",
-    "category": "tool",
-    "tags": [
-      "uml",
-      "diagramas",
-      "java",
-      "open-source",
-      "eclipse"
-    ],
-    "context": "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2."
   },
   {
     "name": "Kubernetes",
@@ -233,22 +203,6 @@
     "context": "El heredero de Norton Ghost en mis rutinas de respaldo. Imágenes de disco y restauración confiable, con interfaz moderna."
   },
   {
-    "name": "Axon Idea Processor",
-    "slug": "axon-idea-processor",
-    "year": 2004,
-    "decade": "2000s",
-    "category": "tool",
-    "tags": [
-      "ideas",
-      "mapas-mentales",
-      "prolog",
-      "visualización",
-      "shareware",
-      "windows"
-    ],
-    "context": "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004."
-  },
-  {
     "name": "Mozilla Firefox",
     "slug": "mozilla-firefox",
     "year": 2004,
@@ -262,20 +216,6 @@
       "open-source"
     ],
     "context": "El navegador que rescató la web del monopolio de Internet Explorer. Extensiones, tabs, y el espíritu open source. Mi navegador principal durante más de una década."
-  },
-  {
-    "name": "PersonalBrain",
-    "slug": "personal-brain",
-    "year": 2004,
-    "decade": "2000s",
-    "category": "tool",
-    "tags": [
-      "mapas-mentales",
-      "conocimiento",
-      "bases-de-conocimiento",
-      "windows"
-    ],
-    "context": "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain."
   },
   {
     "name": "GEL",
@@ -335,6 +275,21 @@
       "plugins"
     ],
     "context": "Mi IDE de Java durante 8 años. De lo mejor del software libre, aunque eventualmente el peso de los plugins y la lentitud me hicieron buscar alternativas."
+  },
+  {
+    "name": "UMLet",
+    "slug": "umlet",
+    "year": 2001,
+    "decade": "2000s",
+    "category": "tool",
+    "tags": [
+      "uml",
+      "diagramas",
+      "java",
+      "open-source",
+      "eclipse"
+    ],
+    "context": "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2."
   },
   {
     "name": "Multisim",
@@ -410,6 +365,22 @@
     "context": "La revolución de la virtualización x86. Correr Windows dentro de Windows, o Linux dentro de Windows, sin reiniciar. Cambió mi forma de probar software y sistemas operativos."
   },
   {
+    "name": "Axon Idea Processor",
+    "slug": "axon-idea-processor",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "ideas",
+      "mapas-mentales",
+      "prolog",
+      "visualización",
+      "shareware",
+      "windows"
+    ],
+    "context": "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004."
+  },
+  {
     "name": "Internet Explorer",
     "slug": "internet-explorer",
     "year": 1998,
@@ -453,6 +424,21 @@
     "context": "El relevo de Eudora en mi escritorio. Outlook juntó correo, calendario y contactos en una sola aplicación."
   },
   {
+    "name": "MindManager",
+    "slug": "mindmanager",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "mapas-mentales",
+      "gestión",
+      "productividad",
+      "windows",
+      "comercial"
+    ],
+    "context": "El estándar corporativo de los mapas mentales (Mindjet, hoy Corel): planear y presentar información en mapas interactivos. Edición 2020."
+  },
+  {
     "name": "Microsoft Access",
     "slug": "ms-access",
     "year": 1998,
@@ -465,6 +451,20 @@
       "desktop"
     ],
     "context": "La base de datos de escritorio de Office. Rápida para prototipos y formularios, compañera natural de Visual Basic."
+  },
+  {
+    "name": "PersonalBrain",
+    "slug": "personal-brain",
+    "year": 1998,
+    "decade": "1990s",
+    "category": "tool",
+    "tags": [
+      "mapas-mentales",
+      "conocimiento",
+      "bases-de-conocimiento",
+      "windows"
+    ],
+    "context": "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain."
   },
   {
     "name": "Visual Basic 6.0",

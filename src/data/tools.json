@@ -22,31 +22,6 @@
       "published": true
     },
     {
-      "name": "MindManager",
-      "slug": "mindmanager",
-      "year": 2020,
-      "decade": "2020s",
-      "category": "tool",
-      "tags": [
-        "mapas-mentales",
-        "gestión",
-        "productividad",
-        "windows",
-        "comercial"
-      ],
-      "image": null,
-      "context": "El estándar corporativo de los mapas mentales (Mindjet, hoy Corel): planear y presentar información en mapas interactivos. Edición 2020.",
-      "usedUntil": null,
-      "successor": null,
-      "successorSlug": null,
-      "related": [
-        "axon-idea-processor",
-        "personal-brain",
-        "thebrain-8"
-      ],
-      "published": true
-    },
-    {
       "name": "DataGrip",
       "slug": "datagrip",
       "year": 2018,
@@ -113,30 +88,6 @@
       "successorSlug": null,
       "related": [
         "umlet"
-      ],
-      "published": true
-    },
-    {
-      "name": "UMLet",
-      "slug": "umlet",
-      "year": 2016,
-      "decade": "2010s",
-      "category": "tool",
-      "tags": [
-        "uml",
-        "diagramas",
-        "java",
-        "open-source",
-        "eclipse"
-      ],
-      "image": null,
-      "context": "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2.",
-      "usedUntil": null,
-      "successor": null,
-      "successorSlug": null,
-      "related": [
-        "balsamiq-mockups",
-        "eclipse"
       ],
       "published": true
     },
@@ -383,31 +334,6 @@
       "published": true
     },
     {
-      "name": "Axon Idea Processor",
-      "slug": "axon-idea-processor",
-      "year": 2004,
-      "decade": "2000s",
-      "category": "tool",
-      "tags": [
-        "ideas",
-        "mapas-mentales",
-        "prolog",
-        "visualización",
-        "shareware",
-        "windows"
-      ],
-      "image": null,
-      "context": "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004.",
-      "usedUntil": null,
-      "successor": null,
-      "successorSlug": null,
-      "related": [
-        "mindmanager",
-        "thebrain-8"
-      ],
-      "published": true
-    },
-    {
       "name": "Mozilla Firefox",
       "slug": "mozilla-firefox",
       "year": 2004,
@@ -429,29 +355,6 @@
         "netscape-navigator",
         "internet-explorer",
         "google-chrome"
-      ],
-      "published": true
-    },
-    {
-      "name": "PersonalBrain",
-      "slug": "personal-brain",
-      "year": 2004,
-      "decade": "2000s",
-      "category": "tool",
-      "tags": [
-        "mapas-mentales",
-        "conocimiento",
-        "bases-de-conocimiento",
-        "windows"
-      ],
-      "image": null,
-      "context": "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain.",
-      "usedUntil": null,
-      "successor": "TheBrain 8",
-      "successorSlug": "thebrain-8",
-      "related": [
-        "thebrain-8",
-        "mindmanager"
       ],
       "published": true
     },
@@ -552,6 +455,30 @@
         "visual-studio",
         "intellij-idea",
         "umlet"
+      ],
+      "published": true
+    },
+    {
+      "name": "UMLet",
+      "slug": "umlet",
+      "year": 2001,
+      "decade": "2000s",
+      "category": "tool",
+      "tags": [
+        "uml",
+        "diagramas",
+        "java",
+        "open-source",
+        "eclipse"
+      ],
+      "image": null,
+      "context": "Editor UML minimalista y open source: diagramas de clases, secuencia y actividad con edición textual, rápido y sin distracciones. Stand-alone 14.2.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "balsamiq-mockups",
+        "eclipse"
       ],
       "published": true
     },
@@ -681,6 +608,31 @@
       "published": true
     },
     {
+      "name": "Axon Idea Processor",
+      "slug": "axon-idea-processor",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "ideas",
+        "mapas-mentales",
+        "prolog",
+        "visualización",
+        "shareware",
+        "windows"
+      ],
+      "image": null,
+      "context": "Procesador de ideas en 3-D escrito en Prolog por Axon Research (Singapur): mapas mentales y conceptuales con color, forma y profundidad. Edición 2004.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "mindmanager",
+        "thebrain-8"
+      ],
+      "published": true
+    },
+    {
       "name": "Internet Explorer",
       "slug": "internet-explorer",
       "year": 1998,
@@ -755,6 +707,31 @@
       "published": true
     },
     {
+      "name": "MindManager",
+      "slug": "mindmanager",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "mapas-mentales",
+        "gestión",
+        "productividad",
+        "windows",
+        "comercial"
+      ],
+      "image": null,
+      "context": "El estándar corporativo de los mapas mentales (Mindjet, hoy Corel): planear y presentar información en mapas interactivos. Edición 2020.",
+      "usedUntil": null,
+      "successor": null,
+      "successorSlug": null,
+      "related": [
+        "axon-idea-processor",
+        "personal-brain",
+        "thebrain-8"
+      ],
+      "published": true
+    },
+    {
       "name": "Microsoft Access",
       "slug": "ms-access",
       "year": 1998,
@@ -775,6 +752,29 @@
         "visual-basic-6",
         "microsoft-excel",
         "oracle-database"
+      ],
+      "published": true
+    },
+    {
+      "name": "PersonalBrain",
+      "slug": "personal-brain",
+      "year": 1998,
+      "decade": "1990s",
+      "category": "tool",
+      "tags": [
+        "mapas-mentales",
+        "conocimiento",
+        "bases-de-conocimiento",
+        "windows"
+      ],
+      "image": null,
+      "context": "El «brain» como base de conocimiento personal: pensamientos en red con foco dinámico. La herramienta de TheBrain Technologies antes de llamarse TheBrain.",
+      "usedUntil": null,
+      "successor": "TheBrain 8",
+      "successorSlug": "thebrain-8",
+      "related": [
+        "thebrain-8",
+        "mindmanager"
       ],
       "published": true
     },
@@ -2495,6 +2495,7 @@
   },
   "timeline": {
     "1990s": [
+      "axon-idea-processor",
       "bannermania",
       "borland-cpp",
       "borland-pascal-7",
@@ -2511,12 +2512,14 @@
       "matlab",
       "microsoft-excel",
       "microsoft-outlook",
+      "mindmanager",
       "ms-access",
       "ms-dos-5-1",
       "netscape-navigator",
       "nombre-de-la-herramienta",
       "norton-commander",
       "norton-ghost",
+      "personal-brain",
       "pkzip",
       "qbasic",
       "turbo-c",
@@ -2529,7 +2532,6 @@
     ],
     "2000s": [
       "acronis-true-image",
-      "axon-idea-processor",
       "eclipse",
       "gel",
       "intellij-idea",
@@ -2538,8 +2540,8 @@
       "netbeans",
       "oracle-database",
       "oracle-sql-developer",
-      "personal-brain",
       "system-mechanic",
+      "umlet",
       "visual-basic-net",
       "visual-studio"
     ],
@@ -2552,12 +2554,10 @@
       "kubernetes",
       "sublime-text",
       "thebrain-8",
-      "umlet",
       "virtualbox",
       "visual-studio-code"
     ],
     "2020s": [
-      "mindmanager",
       "openclaw"
     ]
   },
@@ -2634,7 +2634,7 @@
     ]
   },
   "meta": {
-    "generatedAt": "2026-10-15T16:03:18.958Z",
+    "generatedAt": "2026-10-15T16:23:15.429Z",
     "totalTools": 58,
     "totalPublished": 58
   }
