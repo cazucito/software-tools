@@ -109,6 +109,8 @@ def plan_taxonomy(tax, tools):
     """
     cat_of = dict(tools)
     cat_slugs = set(cat_of.values())
+    for k in sorted(set(tax['category_colors']) - cat_slugs):
+        print(f'AVISO: category_colors «{k}» no coincide con ninguna categoría del catálogo (se ignora)')
     for k in sorted(set(tax['category_labels']) - cat_slugs):
         print(f'AVISO: category_labels «{k}» no coincide con ninguna categoría del catálogo (se ignora)')
     assigned = {}
@@ -167,44 +169,10 @@ def parse_md(path):
     return fm, body
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument('--source', default='content/tools')
-    ap.add_argument('--db', default='app/data/catalog.sqlite')
-    ap.add_argument('--taxonomy', default='content/taxonomy.json')
-    args = ap.parse_args()
-
-    files = sorted(glob.glob(os.path.join(args.source, '*.md')))
-    if not files:
-        print(f'ERROR: sin archivos en {args.source}', file=sys.stderr)
-        sys.exit(1)
-
-    # Fase 1 (sin escribir): leer fichas y validar la taxonomía contra ellas.
-    records = []
-    for f in files:
-        if os.path.basename(f).startswith('_'):
-            continue
-        fm, body = parse_md(f)
-        slug = (fm.get('slug') or '').strip()
-        if not slug or slug in SKIP_SLUGS:
-            continue
-        records.append((slug, fm, body))
-    tax = load_taxonomy(args.taxonomy)
-    family_of, families, unclassified = plan_taxonomy(
-        tax, [(slug, fm.get('category', '')) for slug, fm, _ in records])
-
-    # Fase 2: reconstruir la BD.
-    os.makedirs(os.path.dirname(args.db), exist_ok=True)
-    con = sqlite3.connect(args.db)
-    con.executescript(SCHEMA)
-    for table, column, ctype in ADD_COLUMNS:
-        cols = [r[1] for r in con.execute(f'PRAGMA table_info({table})')]
-        if column not in cols:
-            con.execute(f'ALTER TABLE {table} ADD COLUMN {column} {ctype}')
+def rebuild(con, records, tax, family_of, families, source):
+    """Vacía y repuebla las tablas del catálogo dentro de la transacción abierta por el llamador."""
     for t in CLEAR_ORDER:
         con.execute(f'DELETE FROM {t}')
-    con.commit()
-
     now = datetime.now(timezone.utc).isoformat(timespec='seconds')
     n = 0
     for slug, fm, body in records:
@@ -242,8 +210,52 @@ def main():
                         (cslug, fslug, flabel, pos))
     con.execute("INSERT OR REPLACE INTO schema_meta(key, value) VALUES ('spec_version', '3.0-draft')")
     con.execute("INSERT OR REPLACE INTO schema_meta(key, value) VALUES ('imported_at', ?)", (now,))
-    con.execute("INSERT OR REPLACE INTO schema_meta(key, value) VALUES ('source_dir', ?)", (args.source,))
-    con.commit()
+    con.execute("INSERT OR REPLACE INTO schema_meta(key, value) VALUES ('source_dir', ?)", (source,))
+    return n
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--source', default='content/tools')
+    ap.add_argument('--db', default='app/data/catalog.sqlite')
+    ap.add_argument('--taxonomy', default='content/taxonomy.json')
+    args = ap.parse_args()
+
+    files = sorted(glob.glob(os.path.join(args.source, '*.md')))
+    if not files:
+        print(f'ERROR: sin archivos en {args.source}', file=sys.stderr)
+        sys.exit(1)
+
+    # Fase 1 (sin escribir): leer fichas y validar la taxonomía contra ellas.
+    records = []
+    for f in files:
+        if os.path.basename(f).startswith('_'):
+            continue
+        fm, body = parse_md(f)
+        slug = (fm.get('slug') or '').strip()
+        if not slug or slug in SKIP_SLUGS:
+            continue
+        records.append((slug, fm, body))
+    tax = load_taxonomy(args.taxonomy)
+    family_of, families, unclassified = plan_taxonomy(
+        tax, [(slug, fm.get('category', '')) for slug, fm, _ in records])
+
+    # Fase 2: reconstruir la BD.
+    os.makedirs(os.path.dirname(args.db), exist_ok=True)
+    # autocommit manual: el vaciado y la repoblación son UNA transacción (nunca un catálogo vacío).
+    con = sqlite3.connect(args.db, isolation_level=None)
+    con.executescript(SCHEMA)
+    for table, column, ctype in ADD_COLUMNS:
+        cols = [r[1] for r in con.execute(f'PRAGMA table_info({table})')]
+        if column not in cols:
+            con.execute(f'ALTER TABLE {table} ADD COLUMN {column} {ctype}')
+    con.execute('BEGIN IMMEDIATE')
+    try:
+        n = rebuild(con, records, tax, family_of, families, args.source)
+        con.execute('COMMIT')
+    except BaseException:
+        con.execute('ROLLBACK')
+        raise
 
     counts = {}
     for t in ('tools', 'tags', 'tool_tags', 'tool_relations', 'categories', 'families', 'tool_i18n', 'tools_fts'):

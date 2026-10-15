@@ -11,6 +11,7 @@ Salida: reporte en stdout + archivo en ops/reports/ · exit 0 = paridad OK.
 import argparse
 import glob
 import hashlib
+import json
 import os
 import re
 import sqlite3
@@ -43,6 +44,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--source', default='content/tools')
     ap.add_argument('--db', default='app/data/catalog.sqlite')
+    ap.add_argument('--taxonomy', default='content/taxonomy.json')
     ap.add_argument('--report', default='ops/reports/2026-10-05-paridad.md')
     args = ap.parse_args()
 
@@ -133,9 +135,54 @@ def main():
     if fts_count != len(db):
         errs.append(f'tools_fts filas={fts_count} ≠ tools={len(db)}')
 
+    # 7) familias y categorías (mapa): la BD debe reflejar content/taxonomy.json
+    with open(args.taxonomy, encoding='utf-8') as fh:
+        tax = json.load(fh)
+    threshold = tax['threshold']
+    cat_count = {}
+    for m in md.values():
+        cat_count[m['fm'].get('category', '')] = cat_count.get(m['fm'].get('category', ''), 0) + 1
+    exp_fam_of, exp_fams = {}, set()
+    for cslug, n_tools in cat_count.items():
+        if n_tools <= threshold:
+            continue
+        for f in tax['families'].get(cslug, []):
+            exp_fams.add((cslug, f['slug']))
+            for t in f['tools']:
+                exp_fam_of[t] = f['slug']
+        for t, m in md.items():
+            if m['fm'].get('category', '') == cslug and t not in exp_fam_of:
+                exp_fam_of[t] = 'sin-clasificar'
+                exp_fams.add((cslug, 'sin-clasificar'))
+    db_fams = {(c, s): n for c, s, n in con.execute(
+        'SELECT f.category, f.slug, (SELECT COUNT(*) FROM tools t WHERE t.category=f.category AND t.family=f.slug) FROM families f')}
+    fam_rows = con.execute('SELECT COUNT(*) FROM families').fetchone()[0]
+    if fam_rows != len(db_fams):
+        errs.append(f'families: {fam_rows} filas pero {len(db_fams)} claves distintas')
+    if set(db_fams) != exp_fams:
+        errs.append(f'families: esperadas≠BD solo-esperadas={sorted(exp_fams - set(db_fams))} solo-BD={sorted(set(db_fams) - exp_fams)}')
+    empty_fams = sorted(k for k, n in db_fams.items() if n == 0)
+    if empty_fams:
+        errs.append(f'families sin herramientas: {empty_fams}')
+    db_family_of = {r[0]: r[1] for r in con.execute('SELECT slug, family FROM tools')}
+    for slug in sorted(db_family_of):
+        if db_family_of[slug] != exp_fam_of.get(slug):
+            errs.append(f'{slug}: family={db_family_of[slug]!r} esperada={exp_fam_of.get(slug)!r}')
+    fam_assigned = sum(db_fams.values())
+    if fam_assigned != len(exp_fam_of):
+        errs.append(f'herramientas con familia: BD={fam_assigned} esperadas={len(exp_fam_of)}')
+    bad_cats = [r[0] for r in con.execute(
+        "SELECT slug FROM categories WHERE COALESCE(TRIM(label_es),'')='' OR COALESCE(TRIM(color),'')=''")]
+    if bad_cats:
+        errs.append(f'categories sin label_es/color: {bad_cats}')
+    n_cats = con.execute('SELECT COUNT(*) FROM categories').fetchone()[0]
+    if n_cats != len(cat_count):
+        errs.append(f'categories: BD={n_cats} ≠ categorías en fichas={len(cat_count)}')
+    fam_summary = ', '.join(f'{c}/{s}={n}' for (c, s), n in sorted(db_fams.items()))
+
     con.close()
 
-    # 7) reporte
+    # 8) reporte
     ok = not errs
     L = []
     L.append('# Reporte de paridad — Markdown ↔ catalog.sqlite')
@@ -148,6 +195,8 @@ def main():
     L.append(f'- Referencias `related` sin resolver: {len(dangling_rel)} {dangling_rel if dangling_rel else "(ninguna)"}')
     L.append(f'- `successorSlug` sin resolver: {len(dangling_succ)} {dangling_succ} — esperados (versiones siguientes → `next_version`)')
     L.append(f'- Asimetrías de `related`: {asym} (esperado 0)')
+    L.append(f'- Familias: **{fam_rows}** filas (esperadas {len(exp_fams)}; umbral >{threshold}) · herramientas con familia: {fam_assigned} · categorías con `label_es`/`color`: {n_cats - len(bad_cats)}/{n_cats}')
+    L.append(f'- Herramientas por familia: {fam_summary}')
     L.append(f'- Consultas FTS de prueba: ' + ', '.join(f'«{k}»={v}' for k, v in fts_tests.items()))
     L.append('')
     if errs:
@@ -166,6 +215,8 @@ def main():
     open(args.report, 'w', encoding='utf-8').write(report)
 
     print(report[:1200])
+    print(f'\nFAMILIAS: filas={fam_rows} esperadas={len(exp_fams)} (umbral >{threshold}) · con familia={fam_assigned} · '
+          f'categorías con label_es+color={n_cats - len(bad_cats)}/{n_cats}')
     print(f'\n[... reporte completo en {args.report}]')
     print(f'\nRESULTADO: {"PARIDAD OK" if ok else "ERRORES: " + str(len(errs))}')
     sys.exit(0 if ok else 1)

@@ -6,7 +6,9 @@
 - Verifica tamaño local == tamaño remoto por archivo.
 - Excluye: config.local.php (secretos vivos), ops.sqlite (datos operativos),
   downloads/ (archivos del dueño) y assets/tools/ (subidos desde el admin).
-- El catálogo solo se sube con --catalog (evita pisar ediciones vivas del admin).
+- El catálogo solo se sube con --catalog (evita pisar ediciones vivas del admin); cuando se
+  pide, sube ANTES que el código (la home consulta `families` y las columnas nuevas de
+  categorías: nunca debe observarse código nuevo con BD vieja).
 """
 import argparse
 import json
@@ -117,6 +119,14 @@ def main():
 
     ensure_dir(ftp, REMOTE)
 
+    # ---- base de datos (solo con bandera; SIEMPRE antes del código) ----
+    if args.catalog:
+        local_sqlite, remote_sqlite = SQLITE
+        ensure_dir(ftp, f'{REMOTE}/data')
+        with open(os.path.join(ROOT, local_sqlite), 'rb') as fh:
+            ftp.storbinary(f'STOR {REMOTE}/{remote_sqlite}', fh)
+        results.append((f'{REMOTE}/{remote_sqlite}', os.path.getsize(os.path.join(ROOT, local_sqlite)), ftp.size(f'{REMOTE}/{remote_sqlite}')))
+
     # ---- árboles de la app ----
     for local_base, remote_base in TREES:
         local_root = os.path.join(ROOT, local_base)
@@ -135,14 +145,6 @@ def main():
                 with open(lp, 'rb') as fh:
                     ftp.storbinary(f'STOR {rp}', fh)
                 results.append((rp, os.path.getsize(lp), ftp.size(rp)))
-
-    # ---- base de datos (solo con bandera) ----
-    if args.catalog:
-        local_sqlite, remote_sqlite = SQLITE
-        ensure_dir(ftp, f'{REMOTE}/data')
-        with open(os.path.join(ROOT, local_sqlite), 'rb') as fh:
-            ftp.storbinary(f'STOR {REMOTE}/{remote_sqlite}', fh)
-        results.append((f'{REMOTE}/{remote_sqlite}', os.path.getsize(os.path.join(ROOT, local_sqlite)), ftp.size(f'{REMOTE}/{remote_sqlite}')))
 
     # ---- .htaccess de protección de data/ y downloads/ ----
     for sub in ('data', 'downloads'):
