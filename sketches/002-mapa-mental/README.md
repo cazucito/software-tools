@@ -50,8 +50,8 @@ google-chrome --headless=new --window-size=1440,900 --virtual-time-budget=5000 \
   --screenshot=out.png "http://127.0.0.1:8097/a-plex/?tool=umlet"
 ```
 
-Pendiente (al aprobar una física): producción es `app/server/views/modes/mapa.php` + assets
-del modo, sustituyendo el selector de modalidades; las páginas `/tools/<slug>` se conservan.
+Hecho (ADR-012): la física dendrita pasó a producción como la home (`app/server/views/mapa.php`
++ `app/public/assets/js/mapa.js`); esta maqueta queda como banco de pruebas del motor.
 - `?data=../stress-data.js` — carga otro conjunto de datos (mismo origen). El
   fixture sintético (14 categorías, 173 herramientas, familia de 40, categoría
   plana de 25) se regenera con `python3 tools/make_stress_data.py`.

@@ -5,7 +5,7 @@ import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 fixed = []
-for path in sorted(glob.glob(os.path.join(ROOT, 'src/content/tools', '*.md'))):
+for path in sorted(glob.glob(os.path.join(ROOT, 'content/tools', '*.md'))):
     with open(path, 'rb') as fh:
         data = fh.read()
     if not data.endswith(b'\n'):

@@ -205,13 +205,13 @@ echo "== 7. Export a Markdown (round-trip) =="
 # Regenera el catálogo desde las fuentes: el test de edición pudo reordenar tags.
 (cd "$ROOT" && python3 ops/tools/import_catalog.py) >/dev/null 2>&1 || true
 curl -s -b "$JAR" -o "$TMP/export-figlet.md" "$BASE/index.php?p=admin/export/figlet"
-if diff -u "$ROOT/src/content/tools/figlet.md" "$TMP/export-figlet.md" > "$TMP/diff.txt" 2>&1; then
+if diff -u "$ROOT/content/tools/figlet.md" "$TMP/export-figlet.md" > "$TMP/diff.txt" 2>&1; then
   ok "round-trip figlet: byte a byte idéntico"
 else
   fail "round-trip figlet difiere"; head -20 "$TMP/diff.txt"
 fi
 curl -s -b "$JAR" -o "$TMP/export-eudora.md" "$BASE/index.php?p=admin/export/eudora"
-if diff -u "$ROOT/src/content/tools/eudora.md" "$TMP/export-eudora.md" > /dev/null 2>&1; then
+if diff -u "$ROOT/content/tools/eudora.md" "$TMP/export-eudora.md" > /dev/null 2>&1; then
   ok "round-trip eudora: byte a byte idéntico"
 else
   fail "round-trip eudora difiere"

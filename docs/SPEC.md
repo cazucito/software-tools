@@ -1,7 +1,7 @@
 # Especificación — software-tools v3
 
 **Versión:** 3.0 (borrador de implementación) · **Fecha:** 2026-10-05
-**Estado:** vigente. Sustituye a la especificación v2 (era Astro/GitHub Pages — preservada en la historia de git y en el tag `v2.0.0`).
+**Estado:** vigente. Sustituye a la especificación v2 (era del sitio estático en GitHub Pages — preservada en la historia de git y en el tag `v2.0.0`).
 **Documentos rectores:** [ADRs 005–009](adr/) · [Plan v3 v1.3](plans/2026-10-05-v3-propuesta-arquitectura.md).
 
 ---
@@ -43,10 +43,10 @@ software-tools/
 └── AGENTS.md · README.md
 ```
 
-**Transición:** durante la v3 en curso, las fichas permanecen en `src/content/tools/` (donde el sitio v2 las lee). `content/` y el retiro del código Astro se ejecutan en la reestructura final (Fase 5–7). El importador acepta `--source`.
+**Contenido autorado:** `content/tools/*.md` (fichas) y `content/taxonomy.json` (familias del mapa, [ADR-012](adr/012-ui-unica-mapa.md)). El importador acepta `--source` y `--taxonomy`.
 
 **Flujo de datos:**
-`src/content/tools/*.md` (git = fuente) → `ops/tools/import_catalog.py` → `app/data/catalog.sqlite` → app (lectura). Los **datos operativos** (comentarios, descargas, claves, assets, ediciones del admin) viven aparte en `app/data/ops.sqlite`, que se auto-inicializa y **nunca lo toca el importador ni el deploy** ([ADR-009](adr/009-datos-operativos.md)); **export a Markdown** para volcar al repo ([ADR-008](adr/008-admin.md)).
+`content/tools/*.md` + `content/taxonomy.json` (git = fuente) → `ops/tools/import_catalog.py` → `app/data/catalog.sqlite` → app (lectura). Los **datos operativos** (comentarios, descargas, claves, assets, ediciones del admin) viven aparte en `app/data/ops.sqlite`, que se auto-inicializa y **nunca lo toca el importador ni el deploy** ([ADR-009](adr/009-datos-operativos.md)); **export a Markdown** para volcar al repo ([ADR-008](adr/008-admin.md)).
 
 ## 4. Modelo de datos (SQLite)
 
@@ -152,7 +152,7 @@ Subida PHP 2 MB → subida directa ≤1.5 MB; archivos grandes por FTP; ejecuci�
 ## 10. Criterios de aceptación globales (gate previo al deploy, Fase 7)
 
 - [ ] **Paridad 48/48** verificada (`ops/reports/`, checksum por ficha) — nada del contenido v2 se pierde.
-- [ ] 3 modalidades funcionando (desktop + móvil, reduced-motion, sin JS).
+- [x] Home = mapa dendrita funcionando (desktop + móvil, reduced-motion, sin JS vía `<noscript>`) — ADR-012; sustituye a las 3 modalidades.
 - [ ] Búsqueda, índices, comentarios, descargas con clave y admin según §6.
 - [ ] i18n operativa (ES completo; EN tras revisión).
 - [ ] SEO ✓; **URLs de v2 intactas**.

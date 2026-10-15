@@ -5,7 +5,7 @@ Herramientas de pensamiento visual y diagramación conservadas en
 /mnt/thoth/incoming/_diagram: Axon Idea Processor, Balsamiq Mockups,
 MindManager, PersonalBrain, TheBrain 8, UMLet y System Mechanic.
 
-- Escribe src/content/tools/<slug>.md (frontmatter + cuerpo) en español.
+- Escribe content/tools/<slug>.md (frontmatter + cuerpo) en español.
 - Aborta sin escribir NADA si algún slug ya existe (seguridad anti-pisado).
 - Los años de primer uso son BORRADORES inferidos de la edición conservada
   (pendientes de revisión del dueño); las notas de fecha en cada ficha
@@ -15,7 +15,7 @@ MindManager, PersonalBrain, TheBrain 8, UMLet y System Mechanic.
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]  # ops/tools/ → raíz del repo
-OUT_DIR = ROOT / 'src' / 'content' / 'tools'
+OUT_DIR = ROOT / 'content' / 'tools'
 
 FICHAS = []
 

@@ -1,17 +1,3 @@
-# build output
-dist/
-.output/
-.astro/
-
-# dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
 # environment variables
 .env
 .env.production
@@ -28,11 +14,11 @@ pnpm-debug.log*
 # OS
 Thumbs.db
 
-# v3 — base de datos generada (no se commitea; se reconstruye con ops/tools/import_catalog.py)
+# base de datos generada (no se commitea; se reconstruye con ops/tools/import_catalog.py)
 app/data/*.sqlite
 app/data/*.sqlite-*
 
-# v3 — configuración local con secretos (override de config.php)
+# configuración local con secretos (override de config.php)
 app/server/config.local.php
 
 # Python

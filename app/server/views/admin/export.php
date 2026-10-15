@@ -6,7 +6,7 @@ if (!defined('ST_APP')) {
 ?>
 <h1 class="ad-title">Export a Markdown</h1>
 <p class="ad-note">
-  Descarga las fichas editadas y llévalas al repo (<code>src/content/tools/</code>) — así el Markdown
+  Descarga las fichas editadas y llévalas al repo (<code>content/tools/</code>) — así el Markdown
   vuelve a ser la fuente y la próxima importación no perderá nada. El export reproduce el formato
   canónico (round-trip verificado contra las fuentes).
 </p>

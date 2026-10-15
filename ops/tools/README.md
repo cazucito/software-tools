@@ -1,7 +1,7 @@
 # ops/tools/ — importación y verificación
 
 - **`import_catalog.py`** — importador Markdown → SQLite.
-  `python3 ops/tools/import_catalog.py [--source src/content/tools] [--db app/data/catalog.sqlite] [--taxonomy content/taxonomy.json]`
+  `python3 ops/tools/import_catalog.py [--source content/tools] [--db app/data/catalog.sqlite] [--taxonomy content/taxonomy.json]`
   Idempotente: recrea el contenido de la BD en cada corrida.
 - **`verify_parity.py`** — verificación de que nada se perdió entre la fuente (Markdown) y el espejo (SQLite): campos por ficha, checksums, referencias, simetría de `related`, FTS.
   `python3 ops/tools/verify_parity.py` → reporte a `ops/reports/`.

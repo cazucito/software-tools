@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Importador Markdown → catalog.sqlite (software-tools v3).
 
-Fuente de autoría: src/content/tools/*.md (frontmatter YAML + cuerpo Markdown)
+Fuente de autoría: content/tools/*.md (frontmatter YAML + cuerpo Markdown)
 y content/taxonomy.json (umbral, etiquetas/colores de categoría, familias).
 Genera: app/data/catalog.sqlite (artefacto derivado; NO se commitea). Todo lo que
 el mapa necesita (familias, etiqueta y color de categoría) queda en la BD: PHP
@@ -15,7 +15,7 @@ Reglas de la taxonomía (idénticas al generador de la maqueta 002):
     categoría equivocada, familias vacías o colores inválidos.
 
 Uso (desde la raíz del repo):
-    python3 ops/tools/import_catalog.py [--source src/content/tools] [--db app/data/catalog.sqlite]
+    python3 ops/tools/import_catalog.py [--source content/tools] [--db app/data/catalog.sqlite]
                                         [--taxonomy content/taxonomy.json]
 """
 import argparse
@@ -169,7 +169,7 @@ def parse_md(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--source', default='src/content/tools')
+    ap.add_argument('--source', default='content/tools')
     ap.add_argument('--db', default='app/data/catalog.sqlite')
     ap.add_argument('--taxonomy', default='content/taxonomy.json')
     args = ap.parse_args()

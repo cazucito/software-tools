@@ -1,7 +1,7 @@
 # app/data/ — datos generados
 
 - `catalog.sqlite` — **artefacto derivado** (no se commitea; ignorado por git).
-  - Lo genera: `python3 ops/tools/import_catalog.py` (fuente: `src/content/tools/*.md`).
+  - Lo genera: `python3 ops/tools/import_catalog.py` (fuente: `content/tools/*.md`).
   - Lo valida: `python3 ops/tools/verify_parity.py` → reporte en `ops/reports/`.
   - Esquema completo: [SPEC v3 §4](../../docs/SPEC.md).
 

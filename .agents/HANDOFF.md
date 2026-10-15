@@ -15,7 +15,7 @@ ST_BASE=https://software-tools.pcabrera.com ST_ADMIN_PASS=... python3 ops/tools/
 
 # v3 en local (Docker php:8.1 + SQLite)
 docker run --rm -d --name st-proto -p 127.0.0.1:8091:8091 -v "$PWD":/srv -w /srv php:8.1-cli php -S 0.0.0.0:8091 -t app/public
-# → http://127.0.0.1:8091/index.php?modo=linea
+# → http://127.0.0.1:8091/  (home = mapa dendrita; ?static desactiva animaciones)
 
 # E2E local (borrar ops.sqlite antes por el rate-limit de login)
 rm -f app/data/ops.sqlite && bash ops/tests/e2e.sh     # esperar 66/66 (default dev-admin-2026:

@@ -8,7 +8,7 @@ if (!defined('ST_APP')) {
 
 /**
  * Exportación a Markdown (ADR-008): reconstruye el formato canónico de las
- * fichas (src/content/tools/*.md) a partir de la base de datos.
+ * fichas (content/tools/*.md) a partir de la base de datos.
  * Con las fuentes sin editar, el export debe reproducirlas prácticamente
  * idénticas (round-trip); verificado por ops/tools/check_export.py.
  */

@@ -5,7 +5,7 @@ Comprueba que NADA se perdió en la importación y que la BD es fiel a las fuent
 campos por ficha, conteos, checksums normalizados, referencias y simetría.
 
 Uso (desde la raíz del repo):
-    python3 ops/tools/verify_parity.py [--source src/content/tools] [--db app/data/catalog.sqlite]
+    python3 ops/tools/verify_parity.py [--source content/tools] [--db app/data/catalog.sqlite]
 Salida: reporte en stdout + archivo en ops/reports/ · exit 0 = paridad OK.
 """
 import argparse
@@ -41,7 +41,7 @@ def sha12(s):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--source', default='src/content/tools')
+    ap.add_argument('--source', default='content/tools')
     ap.add_argument('--db', default='app/data/catalog.sqlite')
     ap.add_argument('--report', default='ops/reports/2026-10-05-paridad.md')
     args = ap.parse_args()
