@@ -2,7 +2,7 @@
 
 ## Estado
 
-**v3 EN PRODUCCIÓN en la raíz** `https://software-tools.pcabrera.com/` (2026-10-05): URLs limpias, indexable, admin en `/admin`. `/proto/` sigue vivo como sandbox noindex. E2E **66/66**. Fase 8 (ADR-011, 2026-10-07): descargas = Sitio oficial (público) + Colección privada tras **contraseña general** (`thoth-descargas-2026` en prod; cookie 2 h); la ficha de NetBeans es el piloto (44 archivos). Pendientes del dueño: unpublish de GitHub Pages (Settings → Pages; kaelaxiom no tiene admin); decidir mirror físico de `downloads/` (6.8 GB) — hoy el respaldo activo es el inventario con sha256.
+**v3 EN PRODUCCIÓN en la raíz** `https://software-tools.pcabrera.com/` (2026-10-05): URLs limpias, indexable, admin en `/admin` (pass de producción rotada 2026-10-15 → BWS `H_SOFTWARE_TOOLS_ADMIN_PASS`; `app_secret` en `H_SOFTWARE_TOOLS_APP_SECRET`). `/proto/` sigue vivo como sandbox noindex. E2E **66/66**. Catálogo: **57 fichas** (lote `_diagram` 2026-10-15: Axon, Balsamiq, MindManager, PersonalBrain, TheBrain 8, UMLet, System Mechanic — años borrador pendientes de tu revisión). Descargas: Sitio oficial (público) + Colección privada tras **contraseña general** (`thoth-descargas-2026`; cookie 2 h) — **78 filas** (netbeans 46, gel 18, +7 nuevas ×2) y 7 binarios nuevos (371 MB). GitHub Pages: **retirado** por el dueño (2026-10-15). Pendiente del dueño: revisar los años borrador; decidir mirror físico de `downloads/` (~7.2 GB) — el respaldo activo es el inventario con sha256.
 
 ## Recetas
 
@@ -18,7 +18,8 @@ docker run --rm -d --name st-proto -p 127.0.0.1:8091:8091 -v "$PWD":/srv -w /srv
 # → http://127.0.0.1:8091/index.php?modo=linea
 
 # E2E local (borrar ops.sqlite antes por el rate-limit de login)
-rm -f app/data/ops.sqlite && E2E_ADMIN_PASS=... bash ops/tests/e2e.sh     # esperar 66/66
+rm -f app/data/ops.sqlite && bash ops/tests/e2e.sh     # esperar 66/66 (default dev-admin-2026:
+# el hash dev de app/server/config.local.php DEBE validar esa pass o el login falla en cascada)
 
 # Desplegar (credenciales BWS en runtime; NUNCA sube secretos ni datos vivos)
 python3 ops/deploy/deploy.py                     # sandbox /proto/
@@ -38,4 +39,7 @@ python3 ops/deploy/deploy.py --root --catalog    # producción (raíz); renombra
 - Round-trip: fichas con newline final (`ops/tools/fix_trailing_newlines.py`); tags/related por rowid (orden Markdown).
 - El login renderiza el token CSRF dos veces (login + logout del layout): al extraer con grep usar `head -1`.
 - Arte (ADR-010): `st_tool_art()` (server) y `window.stArt(t, icons)` (JS); mapa `icons` = `Ops::iconMap()`; monogramas por década en `scale.css`; zoom por década en Cinta (marcadores) y Línea (`.st-dec-nav`).
-- GitHub Pages sigue publicado (v2 en cazucito.github.io) hasta que el dueño haga unpublish; `pages-build-deployment` es workflow de sistema: no se puede desactivar por API.
+- GitHub Pages: **retirado por el dueño** (2026-10-15; la URL responde 404). `pages-build-deployment` es workflow de sistema.
+- **Nombres de archivo servidos**: solo `[A-Za-z0-9._-]`. Comas/paréntesis los rechaza `safeRel` (registro admin) y los espacios (%20) los bloquea el WAF del hosting (403 con HTML del proveedor, distinguible del `403` plano de la app). Renombrar ANTES de subir/registrar.
+- **Catálogo al servidor**: STOR a `data/catalog.sqlite.uploading` + verificar tamaño + RENAME; `deploy.py --catalog` STOREA directo a `data/catalog.sqlite` — evitarlo o asumir el riesgo de truncado.
+- Bucket `dlkey` (unlock de descargas): 5 intentos/600 s por ip (los bloqueados NO se registran — no gastan ventana). Para verificar el streamer: UN unlock y muchas lecturas.

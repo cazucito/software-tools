@@ -1,7 +1,55 @@
 {
-  "generated_at": "2026-10-07T18:25:41",
+  "generated_at": "2026-10-15T10:10:18",
   "base_url": "https://software-tools.pcabrera.com",
   "tools": {
+    "axon-idea-processor": [
+      {
+        "filename": "Axon_Idea_2004.zip",
+        "version": "2004",
+        "variant": "Edición 2004 (distribución completa)",
+        "year": "2004",
+        "visibility": "clave",
+        "size": "2.3 MB",
+        "sha256": "36015ee6a8d8d5ba7e738545d3af409bb97365dd15f636249b7a24d7c1c33315",
+        "license": "Shareware — Axon Research (Lite freeware / Plus de pago)",
+        "source_url": ""
+      },
+      {
+        "filename": "axon-idea-r3.2.oficial.link",
+        "version": "R3.2",
+        "variant": "Edición R3.2 Lite (Internet Archive)",
+        "year": "2000",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Freeware (Lite) — Internet Archive",
+        "source_url": "https://archive.org/download/axon3-2_zip/axon3-2.zip"
+      }
+    ],
+    "balsamiq-mockups": [
+      {
+        "filename": "Balsamiq_Mockups_3.5.14.exe",
+        "version": "3.5.14",
+        "variant": "Instalador Windows (escritorio)",
+        "year": "2017",
+        "visibility": "clave",
+        "size": "14.4 MB",
+        "sha256": "86f9b638718eff54d63942b803b017aae9dc1c5307b17590f23a59c04d1ecd43",
+        "license": "Comercial — Balsamiq SRL (prueba de 14 días)",
+        "source_url": ""
+      },
+      {
+        "filename": "balsamiq-mockups.oficial.link",
+        "version": "",
+        "variant": "Builds oficiales (archivo Balsamiq)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial (archivo oficial) — Balsamiq",
+        "source_url": "https://balsamiq.com/product/desktop/archives/"
+      }
+    ],
     "gel": [
       {
         "filename": "Gel86a.zip",
@@ -200,6 +248,30 @@
         "sha256": "39f1335b49b5e46aa97d28c7963831b8113060e39a4013c15bc564294f7df7f6",
         "license": "GEL plug-in — freeware",
         "source_url": ""
+      }
+    ],
+    "mindmanager": [
+      {
+        "filename": "MindManager.msi",
+        "version": "2020",
+        "variant": "Instalador Windows (MSI)",
+        "year": "2020",
+        "visibility": "clave",
+        "size": "305.4 MB",
+        "sha256": "3bf27b8c6a9e1807811a66a58cb1659631b38f13cbe06dd65126f02abb927212",
+        "license": "Comercial — Corel Corporation (Mindjet)",
+        "source_url": ""
+      },
+      {
+        "filename": "mindmanager.oficial.link",
+        "version": "",
+        "variant": "Sitio oficial",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — Corel Corporation",
+        "source_url": "https://www.mindmanager.com/"
       }
     ],
     "netbeans": [
@@ -707,6 +779,102 @@
         "size": "12.8 MB",
         "sha256": "93e8b1b7e725d40b066971ff18c73f611c994e90173f9419a40645056a967069",
         "license": "NetBeans UML beta (Sun, 2007-01) — módulos GPL/CPL",
+        "source_url": ""
+      }
+    ],
+    "personal-brain": [
+      {
+        "filename": "Personal_Brain_3.02.zip",
+        "version": "3.02",
+        "variant": "Distribución completa (zip)",
+        "year": "2004",
+        "visibility": "clave",
+        "size": "10.8 MB",
+        "sha256": "15d1e276a154d00f369bdbd4c67844370ffc40754d22ae2a84bc70caa30e344c",
+        "license": "Comercial — TheBrain Technologies",
+        "source_url": ""
+      },
+      {
+        "filename": "personal-brain.oficial.link",
+        "version": "",
+        "variant": "Sitio oficial de la línea (TheBrain)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — TheBrain Technologies",
+        "source_url": "https://www.thebrain.com/"
+      }
+    ],
+    "system-mechanic": [
+      {
+        "filename": "System_Mechanic_3.2d_-_Feb_8_00.exe",
+        "version": "3.2d",
+        "variant": "Instalador Windows (16-bit)",
+        "year": "2000",
+        "visibility": "clave",
+        "size": "1.4 MB",
+        "sha256": "70ce1005e4232506ec9862abb804806265c4da0129f0cabf986a661a56bcabb1",
+        "license": "Comercial — iolo technologies",
+        "source_url": ""
+      },
+      {
+        "filename": "system-mechanic.oficial.link",
+        "version": "",
+        "variant": "Sitio oficial (iolo)",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — iolo technologies",
+        "source_url": "https://www.iolo.com/"
+      }
+    ],
+    "thebrain-8": [
+      {
+        "filename": "TheBrain_windows_8_0_1_3.exe",
+        "version": "8.0.1.3",
+        "variant": "Instalador Windows",
+        "year": "2013",
+        "visibility": "clave",
+        "size": "28.5 MB",
+        "sha256": "e8470647332dfe331deee41a5522fda565f630ab79ae3d5b9a387f9ed48d3050",
+        "license": "Comercial — TheBrain Technologies",
+        "source_url": ""
+      },
+      {
+        "filename": "thebrain-8.oficial.link",
+        "version": "",
+        "variant": "Sitio oficial",
+        "year": "",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "Comercial — TheBrain Technologies",
+        "source_url": "https://www.thebrain.com/"
+      }
+    ],
+    "umlet": [
+      {
+        "filename": "umlet-14.2.oficial.link",
+        "version": "14.2",
+        "variant": "Descarga oficial (umlet.com)",
+        "year": "2016",
+        "visibility": "enlace",
+        "size": "1 B",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "license": "GPLv3 — open source (umlet.com)",
+        "source_url": "https://umlet.com/download/umlet_14_2/umlet-standalone-14.2.zip"
+      },
+      {
+        "filename": "umlet-standalone-14.2.zip",
+        "version": "14.2",
+        "variant": "Stand-alone (zip)",
+        "year": "2016",
+        "visibility": "clave",
+        "size": "8.2 MB",
+        "sha256": "dc09538d04cb899218f3bdfdb5205f60359cff68cb1428d1228c6d91743d8cb9",
+        "license": "GPLv3 — open source (umlet/umlet)",
         "source_url": ""
       }
     ]
